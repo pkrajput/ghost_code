@@ -1,0 +1,450 @@
+% Working NIER manuscript. Deliberately not compressed to a submission page limit.
+% Bibliography is inline; the overview figure is in figures/.
+% Compile from this paper/ directory so relative figure paths resolve.
+% Evidence: ../results_handoff.md and
+% ../ghostcheck/results/20261007_final_files_v1/ (completed 2026-10-07).
+% Writing reference: Program-Bindings-Inside-Code-Models-FSE2027-v9.pdf.
+% Style: concrete SE activity -> operational question -> experiment -> numbers
+% and exceptions -> bounded implication. Explain a procedure before naming it.
+% Important implementation clarifications checked during drafting:
+% (1) dense uses max over chunks; lexical uses whole-file TF-IDF;
+% (2) superseded output is recorded, not required for helper nomination;
+%     22/62 eligible helpers have superseded output, 40/62 do not;
+% (3) the final oracle is also the selection oracle;
+% (4) FeatureBench contributes endpoint/capture evidence, no positive helpers.
+\documentclass[10pt,twocolumn]{article}
+\usepackage[letterpaper,margin=0.75in,columnsep=0.25in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,array,tabularx}
+\usepackage{graphicx}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\setlength{\emergencystretch}{1.5em}
+\newcommand{\tool}{\textsc{Ghostcheck}}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\rqanswer}[1]{\par\smallskip\noindent\textbf{#1}\par\smallskip}
+\title{Ghost Code in Passing Agent Solutions}
+\author{Anonymous Author(s)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A coding agent can write a script to modify a source file, revise the resulting implementation, and leave the script in its workspace after the task is complete. The final solution may pass its tests even when running that script again would break it. We study these retained editing helpers in recorded agent solutions and ask whether they cause regressions on reuse, interfere with source retrieval, and admit whole-file cleanup under the task's existing tests. We reconstruct final workspaces from SWE-bench and FeatureBench and admit only solutions that pass the applicable benchmark checks on two fresh evaluations. Among 88 eligible SWE-bench solutions, 40 retain 62 nominated helpers. Deliberately re-executing the helpers causes seven reproducible regressions in five solutions across three tasks; restoring the original final workspace restores the passing result. Removing the helpers recovers a relevant file into the first five lexical retrieval results in three of the 16 solutions whose source index changes. The dense retriever shows no relevant-file recovery at the measured top-five or top-ten budgets. A deterministic cleanup procedure removes all 62 helpers in 40 jointly validated deletion sets while preserving the same task checks. The 25 eligible FeatureBench endpoints yield no nominated residual helpers within their more limited captured file population. These emerging results identify a concrete risk in the tools agents leave behind and motivate treating their disposition as part of task completion. Cleanup requires oracle execution, but no additional generative-model calls; its guarantee remains relative to the supplied checks.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+A developer reviewing a coding agent's work needs to know whether the requested change works. Benchmarks such as SWE-bench and FeatureBench answer this question through executable checks for issue resolution and feature development~\cite{swebench,featurebench}. An agent can satisfy those checks after several attempts at the implementation. During those attempts, it may create scripts that replace source text, insert classes, or apply a proposed fix. Some of these scripts remain in the final workspace. Their continued presence raises a second question: what can the tools used to produce the solution still do to it?
+
+Consider a recorded repair of Django's JSON-field lookup implementation. The agent leaves a script named \code{/tmp/patch2.py} after producing a passing solution. The script inserts a class definition that the agent has subsequently replaced with another implementation. When we execute the retained script on the final workspace, the older definition becomes active again and a required JSON lookup test fails. Restoring the final workspace restores the passing result. Deleting the script also leaves that result intact. The file is unnecessary for the tested solution, yet it retains the ability to damage that solution.
+
+This distinction matters because a workspace serves more than one purpose. Tests exercise the product through selected entry points. A developer or a later agent can also execute a script directly, and a source retriever can return its contents as context. A file outside the product's tested execution paths can therefore remain available through other operations. Passing tests establish the behavior they check; they do not establish the consequences of every operation on the surrounding workspace.
+
+Recent work has begun to examine what agents leave behind. TRIM reduces residual edits by minimizing agent trajectories, while work on deletion avoidance studies code retained despite a requested removal~\cite{trim,deletion}. These results establish a substantial overlap with automated cleanup. Our focus is the behavior of retained, separately executable editing helpers after a solution already passes. We measure that behavior through a declared reuse operation, examine a separate retrieval effect, and connect both to an auditable deletion procedure. The contribution rests on the observed effects and their evidence, rather than a new claim that test-guided deletion is possible.
+
+We use \emph{ghost code} as an informal name for this retained task machinery. Our measured unit is more precise: a whole, agent-introduced helper file that survives at the final endpoint. We establish its editing role from the recorded trace and source, test its removability against the task oracle, and measure harm separately. This separates three propositions that should not be conflated: the file helped construct the solution, the tests do not require its continued presence, and a specified use of it causes harm. A passing deletion check establishes only the second. The term also differs from ghost code used for specification and proof in verification languages~\cite{dafny}.
+
+Figure~\ref{fig:overview} follows an editing helper from its creation to the passing final workspace and the three interventions we study. Reuse tests the helper's effect on product behavior; retrieval tests its competition with relevant source; cleanup tests whether its removal preserves the task checks. The study addresses three research questions.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/ghost_code_overview_v6.pdf}
+\caption{Study overview. An agent can leave editing helpers in a final workspace that passes the task checks. RQ1 deliberately reuses a retained helper and evaluates the resulting workspace, with full-workspace restoration controls. RQ2 compares source retrieval with and without indexed helpers; the ranking example illustrates possible displacement, not a positive result for both retrievers. RQ3 removes nominated whole files and validates the combined cleanup against the same task checks. For the seven harmful witnesses, we also repeat the reuse attempt after cleanup. External temporary files are included only where captured and are outside the repository retrieval index.}
+\label{fig:overview}
+\end{figure*}
+
+\begin{description}
+\item[RQ1.] Can retained editing helpers cause a reproducible regression when reused on a passing final solution? This tests a concrete failure mechanism, with the final solution serving as its own control.
+\item[RQ2.] Can retained helpers displace relevant source files from a bounded retrieval result? This examines an effect that does not require executing the helper.
+\item[RQ3.] Can whole-file cleanup remove the helpers while preserving the task oracle, and what validation does it require? This tests a mitigation with an explicit acceptance condition.
+\end{description}
+
+We reconstruct final workspaces from existing recordings and reproduce passing outcomes for 88 SWE-bench and 25 FeatureBench solutions. The SWE-bench cohort contains 62 nominated helpers in 40 solutions. Seven helpers cause reproducible regressions on deliberate reuse. Lexical retrieval exhibits relevant-file recovery after removal in a small subset of solutions; the dense retriever does not recover relevant files into the measured budgets. All 62 helpers can be removed individually and in jointly checked cleanup sets. FeatureBench contributes a limited negative observation: none of its captured new source files supports a residual-helper nomination. Its capture omissions prevent a broader absence claim.
+
+The paper contributes an operational separation of retention, oracle-relative redundancy, and exposure harm; controlled witnesses linking retained helpers to regressions and retrieval displacement; and a deterministic cleanup prototype with per-file evidence and measured validation cost. The resulting research direction is to make the disposition of an agent's temporary tools an explicit part of delivering its solution.
+
+\section{A Passing Fix and Its Retained Tool}
+\label{sec:example}
+
+The motivating case comes from task \code{django__django-13346}, solved by MiniMax M2.5 in the recorded study. The relevant product file is \code{django/db/models/fields/json.py}. The final implementation defines \code{KeyTransformIn} using a \code{batch_process_rhs} method. The retained \code{patch2.py} instead contains an earlier implementation based on \code{resolve_expression_parameter} and \code{process_rhs}.
+
+The helper locates \code{class KeyTransformLt}, inserts its class definition immediately before it, and adds a lookup registration. It does not check whether a newer \code{KeyTransformIn} definition is already present. On the final source, the insertion puts a second definition after the working one. Python binds the class name to the later definition, which is then registered as the lookup implementation. Thus the script can finish successfully while replacing the behavior that made the final solution pass.
+
+The exposure trial confirms this consequence. The helper exits with status zero, but the existing \code{test_key_in} check in \code{model_fields.test_jsonfield.TestQuerying} changes from pass to fail. The recorded source differences show the added definition and registration. A second fresh exposure reproduces the regression. Two full-workspace restorations and a no-op exposure pass. Deleting the helper without changing the final product implementation also preserves the required checks.
+
+This example explains why neither a suspicious filename nor a count of removable bytes is sufficient evidence. The relevant facts are the retained file's executable content, its relationship to the product source, and the outcome of a specific operation on a known passing state. The same example also fixes the scope of the result. The file is outside the repository, so it can support a workspace-reuse result but cannot support an effect in a repository-only retrieval index. We retain this distinction throughout the study.
+
+\section{Scope and Experimental Design}
+\label{sec:design}
+
+\subsection{Final Workspaces and Fixed Oracles}
+
+Let $F$ denote the recorded final workspace of a complete task chain, including captured repository and external files. Let $O$ denote the task's fixed evaluation procedure and required check identities. A valid evaluation returns an outcome vector $v_O(F)$. We admit $F$ only when two fresh reconstructions satisfy the required checks and return identical vectors. The oracle's existing policy determines which checks are required; an empty execution cannot qualify a solution.
+
+For a retained file $f$, we call it \emph{oracle-redundant at $F$} when deleting that whole file preserves the reference outcome vector:
+\begin{equation}
+v_O(F\setminus\{f\})=v_O(F).
+\label{eq:redundant}
+\end{equation}
+Both sides must be valid evaluations. A missing check, newly skipped required check, or evaluation error cannot establish preservation. Equation~\ref{eq:redundant} concerns the specified oracle and endpoint; it does not establish that $f$ has no possible future use. We use the same oracle for eligibility, exposure measurement, deletion selection, and final cleanup checks. Repeated execution checks stability, not independence from that selection criterion.
+
+The starting point for file origin is the state before the entire task chain. For a resumed run, the start of the final session may already contain files created earlier by the agent. We therefore recover the original starting point and the actual terminal endpoint rather than comparing two convenient checkpoints. Intermediate files and effects on the agent's conversation are outside this study. All deletions operate on complete files; functions or statements within product files are not candidates.
+
+\subsection{Recorded Runs and Eligibility}
+
+Table~\ref{tab:cohort} distinguishes existing recordings from new evaluation trials. The SWE-bench archive contains 240 runs: 12 model configurations on 20 SWE-bench Verified tasks spanning eight repositories. The original campaign used mini-SWE-agent 2.4.6 with a common task prompt and bounded execution. The models include releases from DeepSeek, MiniMax, Qwen, and Llama; Appendix~\ref{app:models} gives their coverage. The tasks form a repository-balanced exploratory sample, not a random sample of all benchmark issues.
+
+We attempt replay of all 90 records with a recorded passing evaluation. Eighty-eight pass twice. Two pinned matplotlib images cannot be unpacked because their ownership mappings exceed the available rootless container configuration; no tests execute for those two records. The remaining 150 archived records lack a qualifying recorded pass and are not replayed. We do not count them as newly observed failures.
+
+\begin{table}[t]
+\centering
+\caption{Run accounting. Each entry counts recorded task/model runs, not test executions. Only the final row enters the intervention population.}
+\label{tab:cohort}
+\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Stage & SWE-bench & FeatureBench \\
+\midrule
+Recorded runs & 240 & 320 \\
+Excluded before replay & 150 & 252 \\
+Replay attempted & 90 & 68 \\
+Valid final failure & 0 & 40 \\
+Unavailable or invalid & 2 & 3 \\
+\textbf{Eligible final solutions} & \textbf{88} & \textbf{25} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The FeatureBench archive contains 320 runs from 80 tasks and four model configurations: DeepSeek V4 Flash, GLM 4.7 Flash, Gemini 3.7 Flash, and MiniMax M3. We recover the complete-chain starting point and exact final artifact for 68 runs. Fifty-three require importing the starting point from an earlier bundle because a resumed repository history had reset. The other 252 lack a final bundle (207), usable terminal commit (6), or original starting point (39). Of the 68 attempted replays, 25 pass twice, 40 produce valid failures, and three have invalid collection or import evaluations. Those invalid evaluations do not establish either a pass or a substantive task failure. A separately recorded thinking condition is not pooled into this study.
+
+SWE-bench replay uses the archived evaluation script, required fail-to-pass and pass-to-pass check identities, and pinned container image. FeatureBench replay uses the archived evaluator and level-specific test restoration. Parser compatibility changes and a FeatureBench networking correction are recorded in the research ledger. Historical FeatureBench image digests were unavailable; the replay records the resolved image digests, so historical environment equivalence is not established. These reconstruction limits are part of the evidence rather than reasons to substitute an earlier passing state.
+
+\subsection{Inventory and Helper Nomination}
+\label{sec:nomination}
+
+We first inventory captured source paths that are new relative to the original starting point. The eligible endpoints contain 1,713 such paths. Excluding 1,411 pytest temporary artifacts and six build or dependency products leaves 296 paths: 201 SWE-bench repository files, 83 SWE-bench external temporary files, and 12 FeatureBench repository files. Thirty-three SWE-bench paths have unresolved origin. Consequently, 296 is an inventory count, not a count of established ghosts or agent-authored files.
+
+The executable nomination screen identifies a narrower population. It finds recorded standalone Python invocations in actions that also change tracked Python source, checks that the helper path was absent at the original starting point, and requires the executed content version to survive at the final endpoint. It then looks for explicit source-writing operations in the helper. A filename such as \code{fix.py} contributes no evidence by itself. Source co-change supports nomination, while the subsequent controlled exposure establishes any claimed harmful effect.
+
+The screen finds 65 retained trace-cochange files. One diagnostic lacks an explicit rewriting role and is excluded. The frozen set contains 64 helpers, two of which belong to unavailable environments. The remaining 62 occur in 40 eligible SWE-bench solutions. Twenty-two have an associated source output that was later revised; 40 do not. We therefore study both superseded attempts and retained scripts that produced the final implementation. The latter can also be unnecessary at the endpoint or unsafe to repeat. Supersession is recorded evidence, not a prerequisite imposed retrospectively on the cohort.
+
+For FeatureBench, review of the 12 captured new source files identifies nine active package or installation files and three task-relevant diagnostic tests, with no supported residual-helper nomination. Git bundles may omit ignored files and external scratch space, so this review covers a narrower artifact population than the SWE-bench capture. It does not establish that the feature-development runs contain no residual files outside that population.
+
+\subsection{RQ1: Controlled Helper Reuse}
+\label{sec:exposure}
+
+For each nominated helper, we reconstruct the passing final workspace and execute the Python invocation extracted from its recorded action, preserving its arguments and working directory. The intervention executes the retained content; it does not recreate an earlier version through the surrounding shell command. We then run the same task oracle and record product-source changes, command output, and check outcomes.
+
+A positive witness requires either a required check changing from pass to fail with a product-source change, or attributable syntax damage to previously valid product source that blocks the required suite. The second case is reported separately: it is evidence that reuse breaks the product, although it does not yield a complete vector of failing assertions. Unrelated environment errors, missing scripts, and unexplained collection failures are not regression witnesses.
+
+Every positive exposure is repeated from a fresh reconstruction. We also evaluate two restorations of the entire original final workspace and a no-op command in the same working directory. A witness must reproduce, and all restoration and no-op controls must preserve the passing reference. Restoring only the helper would be insufficient because the intervention modifies product files.
+
+This design estimates a conditional effect: what happens if the retained helper is executed on this final state? The invocation occurred during construction, but its reuse at the final endpoint is deliberate. We do not estimate the probability that a developer or subsequent agent would choose it naturally.
+
+\subsection{RQ2: Retrieval with and without the Helpers}
+\label{sec:retrieval}
+
+We build a source index for each of the 40 cleanup solutions. It includes repository source and tests, including eligible untracked files, while respecting ignore rules and excluding dependency, build, and cache directories. External temporary files are outside this index. The query is the original task statement. Relevant files are implementation-localization targets anchored in the reference patch; for xarray 3677, review also includes \code{xarray/core/merge.py}, which appears in the task traceback and implements merge dispatch. These judgments are fixed before the new rankings and do not purport to enumerate every useful context file.
+
+The dense retriever uses the local \code{paraphrase-multilingual-MiniLM-L12-v2} sentence encoder with pinned weights and configuration. Source chunks contain 80 lines with 20-line overlap. The encoder truncates inputs at 128 tokens, normalizes vectors, and runs on the CPU with deterministic operations. We rank files by their maximum chunk cosine similarity to the query. The lexical comparator uses whole-file TF--IDF cosine similarity, with sublinear term frequency and inverse document frequencies fixed from the complete corpus. Ties are broken by path in both retrievers.
+
+We compare the original ranking with a ranking that excludes the accepted helper files. The vectors and scores of surviving files stay fixed. This isolates competition from the removed entries. It does not simulate changes to surviving embeddings, approximate-neighbor search, or corpus statistics after a full index rebuild. The dense encoder is a reproducible sentence model rather than a reconstruction of a deployed IDE's code retriever.
+
+The primary event is \emph{relevant-file recovery}: a judged relevant file moves from outside the first $k$ results into those results, for $k\in\{5,10\}$. We also measure Recall@$k$, the fraction of judged relevant files within that budget. This distinguishes crossing a retrieval boundary from a rank improvement that leaves the file outside it.
+
+With scores fixed, a surviving file moves up by exactly the number of removed files previously ahead of it. That identity is an implementation check, not an empirical discovery. The empirical questions are whether nominated helpers occupy those positions and whether removing them recovers a relevant file at the declared budget. Reinstating the same entries must restore the original ranking. We also remove size- and language-matched nonresidual entries where reviewed matches exist. Matching is incomplete and is reported with the results.
+
+\subsection{RQ3: Deterministic Whole-File Cleanup}
+\label{sec:cleanup}
+
+\tool{} takes a final endpoint, an explicit list of nominated files, and an oracle that reports outcomes for stable check identities. It first establishes the passing reference twice. It visits candidates in ascending path order, reconstructing the endpoint for each trial and deleting the current candidate together with all previously accepted candidates. A deletion is accepted only if the required outcome vector is preserved. After the traversal, two fresh evaluations must confirm the entire accepted deletion set before the tool emits its patch and evidence record.
+
+Separately, we delete each helper individually to measure Equation~\ref{eq:redundant}. Individual checks do not justify applying their union: two alternative files could each be individually removable while deleting both breaks the product. The cumulative procedure tests this interaction directly. A single greedy traversal gives a reproducible result for fixed inputs and oracle outcomes; it does not claim a globally smallest workspace or a one-minimal result under arbitrary candidate interactions.
+
+The benchmark adapters reconstruct captured files in fresh containers and keep repository deletion patches separate from external temporary-file deletions. The reusable Git prototype supports nominated committed regular files in a clean repository; support for captured untracked and external files resides in the experimental adapters. The oracle is supplied by the caller, and its required tests are outside the deletion candidates. No model is asked to decide which candidate passed validation.
+
+\subsection{Controls and Analysis}
+
+Synthetic controls cover harmful and benign helpers, required files accessed dynamically, interacting deletion candidates, disappearing checks, and known retrieval displacement and null cases. All 16 control tests pass. A deliberately faulty outcome comparator triggers three expected failures, showing that the controls can reject a broken acceptance rule. An internal evidence audit passes 161 checks of outcome, coverage, and patch consistency.
+
+The analysis is exploratory. Previous aggregate findings and screened witnesses were known before this experiment batch; the nominations and retrieval judgments were frozen before their new evaluations, not preregistered before all contact with the data. Adjudication was performed by one assistant without independent reviewer agreement. We report descriptive counts at file, run, and task levels. Multiple files or model runs on the same task are not independent task replications, and the cohort does not support a causal comparison of models or task duration.
+
+\section{Results}
+\label{sec:results}
+
+\subsection{RQ1: Reuse Breaks Five Passing Solutions}
+
+Seven of the 62 helper exposures produce reproducible regressions, in five solutions across three tasks (Table~\ref{tab:witnesses}). The other 55 preserve the required outcome vector. Six positive exposures corrupt product syntax and prevent the required suite from running successfully. The seventh is the Django lookup failure described in Section~\ref{sec:example}, where product syntax remains valid and a required check fails. All seven repeat, and every corresponding restoration and no-op trial passes.
+
+\begin{table*}[t]
+\centering
+\caption{Reproduced helper-reuse witnesses. Each row is a retained file version in a recorded run. Multiple rows can share a run or task. ``Syntax'' denotes newly invalid product source that blocks the required suite.}
+\label{tab:witnesses}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Task & Recorded model & Retained helper & Effect on the product \\
+\midrule
+Astropy 7671 & DeepSeek V3.1 Terminus & \code{fix_minversion.py} & Syntax in \code{astropy/utils/introspection.py} \\
+Django 13346 & DeepSeek V3.1 Terminus & \code{add_in_lookup.py} & Syntax in \code{django/db/models/fields/json.py} \\
+Django 13346 & MiniMax M2.1 & \code{/tmp/patch.py} & Syntax in the same JSON-field implementation \\
+Django 13346 & MiniMax M2.5 & \code{/tmp/patch.py} & Syntax in the same JSON-field implementation \\
+Django 13346 & MiniMax M2.5 & \code{/tmp/patch2.py} & Required \code{test_key_in} check fails \\
+xarray 3677 & DeepSeek V3.2 & \code{apply_fix.py} & Syntax in \code{xarray/core/merge.py} \\
+xarray 3677 & DeepSeek V3.2 & \code{fix_final.py} & Syntax in \code{xarray/core/merge.py} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Four witnesses are repository files and three are external temporary files. The separation matters for deployment: retaining a working directory can retain the first group, while retaining the broader execution workspace can also retain the second. The experiment establishes neither that these files entered a submitted patch nor that anyone would necessarily execute them again.
+
+The observed fraction is 7/62 tested helpers, or 5/40 solutions with nominated helpers. The five affected solutions are also 5/88 eligible SWE-bench solutions. These denominators describe different populations. The small number of underlying tasks, targeted helper detector, and selected passing cohort preclude treating any fraction as a general rate of harmful agent code.
+
+\rqanswer{RQ1. Retained helpers can break an otherwise passing solution under a recorded invocation applied at the final endpoint. Seven witnesses reproduce across five solutions and three tasks, with passing restoration controls.}
+
+\subsection{RQ2: Lexical Recovery, No Dense Budget Recovery}
+
+Only 16 of the 40 measured solutions have accepted deletions inside the source index. The other 24 remove external temporary files only, so their repository rankings are unchanged. Table~\ref{tab:retrieval} reports both the number measured and the number receiving an actual index intervention.
+
+\begin{table}[t]
+\centering
+\caption{Relevant-file recovery after helper removal. Recall changes are absolute fractions averaged over the 16 changed indexes. The two recovery rows need not contain the same runs.}
+\label{tab:retrieval}
+\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Measure & Dense & Lexical \\
+\midrule
+Solutions measured & 40 & 40 \\
+Indexes changed & 16 & 16 \\
+Runs with top-five recovery & 0 & 3 \\
+Runs with top-ten recovery & 0 & 1 \\
+Mean $\Delta$Recall@5 & 0 & 0.15625 \\
+Mean $\Delta$Recall@10 & 0 & 0.0625 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Lexical retrieval recovers a relevant file into the first five results in three runs: Astropy 7671 with DeepSeek V3.1 Terminus, xarray 3677 with DeepSeek V3.2, and SymPy 23262 with DeepSeek V3.1 Terminus. A fourth run, pytest 5262 with DeepSeek V3.1 Terminus, exhibits top-ten recovery. The three top-five recoveries were already within the original top ten, so they are not additional top-ten recoveries.
+
+The xarray case provides a direct link between the two experiments. Before removal, lexical retrieval places \code{fix_final.py} fourth and the relevant \code{xarray/core/merge.py} sixth. After helper removal, \code{merge.py} becomes fifth. Both \code{fix_final.py} and \code{apply_fix.py}, which appeared seventh, independently cause syntax regressions when executed on the final solution. The same retained files thus have an observed reuse hazard and compete with product source in lexical retrieval. The matched-removal control is incomplete for this run, so it does not establish a comparative effect against an equally sized alternative deletion set.
+
+Dense retrieval shows no relevant-file recovery at five or ten in any measured solution, although some reciprocal ranks improve. In the xarray example, its first ten files remain unchanged. This is a substantive limit on the retrieval result: the experiment does not demonstrate a dense-retrieval budget benefit from cleanup. It also does not demonstrate that surviving embeddings change, since they are explicitly held fixed.
+
+Restoration and surviving-vector checks pass in all 40 solutions. Complete size- and language-matched removal controls are available for only three runs with actual index changes; none recovers a relevant file at either budget. Recall@5 never decreases, as expected when fixed-score filtering removes none of the judged relevant files. That monotonicity is a property of the intervention and relevance set, not a separate demonstration of general retrieval quality. Averaged over all 40 measured solutions, the lexical Recall@5 and Recall@10 increases are 0.0625 and 0.025, respectively; including unchanged indexes explains the smaller means.
+
+\rqanswer{RQ2. Retained helpers displace relevant files across lexical retrieval budgets in four observed runs. The measured dense retriever yields no top-five or top-ten recovery. These are localization effects under a fixed index, not measured downstream coding failures.}
+
+\subsection{RQ3: All Nominated Helpers Admit Joint Cleanup}
+
+All 62 eligible helpers satisfy the individual deletion test. The cumulative traversal also accepts all 62, producing 40 deletion sets, each of which passes two final evaluations with the reference outcome vector. The cleanup removes 105,125 bytes: 27 repository files and 35 external temporary files. The result applies to the nominated cohort; the remaining inventory was neither indiscriminately deleted nor certified necessary.
+
+After cleanup, we attempt each of the seven previously harmful invocations again. The corresponding executable file is absent, and the required checks still pass. This verifies that the deleted artifact cannot produce the recorded effect through that path. The positive evidence of harm remains the earlier pass-to-regression trial; a missing-script error by itself would not establish it.
+
+For $n$ candidates in a solution, the cleanup procedure uses $n+4$ oracle calls: two for eligibility, $n$ cumulative trials, and two final repeats. Reusing the eligibility trials already available in this study, the 40 cleanup sets require $62+2(40)=142$ additional calls. Their summed trial duration, including setup, is 1,609.225 seconds, approximately 26.8 minutes. The 62 individual-deletion checks are separate scientific measurements and additional to this cleanup cost.
+
+Across eligibility, exposures, restorations, individual deletions, and cleanup, the primary result tree contains 572 trial records with a summed duration of 12,206.875 seconds, approximately 203.4 minutes. This includes the two image-setup failures and is a sum across concurrent trials, not elapsed study time. Debug attempts and local embedding computation are additional. The experiment requires no new coding-agent solutions or paid generation calls, but oracle execution has a measurable machine cost.
+
+\rqanswer{RQ3. Deterministic whole-file deletion removes all 62 nominated helpers in 40 jointly passing sets. The accepted result preserves the supplied task checks; its validation cost is explicit, and it requires no additional generative inference.}
+
+\section{Discussion and Research Direction}
+\label{sec:discussion}
+
+\subsection{The Lifecycle of an Agent's Tools}
+
+The central observation is that a helper can complete its construction role while retaining an executable effect. A patching script need not be idempotent: applying an insertion twice can be wrong even when the first application was useful. Finding such behavior does not establish a defect in the script's original use. It establishes a reason to distinguish a construction tool from a maintained part of the delivered workspace.
+
+This suggests a practical extension to agent completion. Alongside a product patch and test result, the agent environment could report the files it created as tools, their recorded targets, and a disposition for each: retain as a maintained utility, archive as provenance, or remove from the active workspace. A cleanup component could then test nominated removals and attach the resulting patch and per-check evidence. The proposed workflow uses the origin information already available during execution to make the final workspace reviewable.
+
+Our prototype implements the validation part of this workflow. It does not infer every file's intended lifetime, and a weak oracle cannot supply that missing intent. The distinction between nomination and acceptance is therefore useful: recorded construction role explains why a file is considered, while the oracle supplies a reproducible check on the proposed removal. A general tool will need to combine these sources without presenting an untested utility as disposable merely because the product tests do not invoke it.
+
+\subsection{How Much Harm Has Been Established?}
+
+The functional witnesses are direct interventions on real recorded solutions. They show that the damage is possible through a concrete retained executable and disappears when the original workspace is restored. They do not show that a later developer or agent encounters that executable. The next empirical question is exposure frequency: whether workspace persistence, search, or a follow-up task actually leads to reuse. A practitioner study could measure that transition and the usefulness of a file-disposition report. No practitioner outcome is claimed here.
+
+The retrieval result identifies a different transition: a retained helper occupies a position that would otherwise be available to a relevant implementation file. Its importance depends on the retrieval budget, query, encoder, and subsequent use of the result. Our positive observations are lexical, and the dense null result prevents a general claim about embedding-based IDE retrieval. Code-specific encoders, realistic follow-up queries, and downstream task outcomes would test whether the effect extends beyond this controlled localization setting.
+
+The FeatureBench result also limits the argument. We recover and validate 25 passing final solutions, but find no nominated residual helpers among their captured new files. Much of the original archive cannot be reconstructed to the required endpoint, and Git bundles omit some of the artifact classes exposed by the SWE-bench capture. The present evidence therefore supports a demonstrated mechanism in repair workspaces and a limited extension of the inventory protocol to feature development. It does not establish that longer tasks produce more ghosts.
+
+\subsection{What Determinism Provides}
+
+The cleanup procedure gives a repeatable decision rule: a fixed candidate order, a declared oracle, fresh reconstructions, stable check identities, and a patch linked to its trial records. These properties make the acceptance decision inspectable. They do not make the tests complete or eliminate nondeterminism in the software under test. The two eligibility and final repeats are finite checks of observed stability.
+
+A prompt asking an agent to remove unnecessary files could also produce a successful cleanup. We have not evaluated that baseline and make no claim of superior removal quality or total cost. The demonstrated property is narrower: once files are nominated, selection and validation can proceed without another generative-model call. This procedure could equally serve as a validation layer for candidates proposed by an agent, a static analyzer, or a developer.
+
+Whole-file granularity keeps the intervention and patch easy to inspect. It leaves mixed-purpose files, redundant objects within product source, and temporary artifacts that vanish before the endpoint unmeasured. Changes to abstract syntax, control flow, or data flow could explain additional mechanisms, but a graph difference alone would not establish a harmful outcome. The present witnesses use observed source changes and the existing task checks to make that connection directly.
+
+\section{Threats to Validity}
+\label{sec:threats}
+
+\paragraph{Construct validity.}
+Oracle-relative redundancy is weaker than universal uselessness. A retained helper may document a repair or support a future activity that the task checks do not cover. We therefore state its construction role, removal result, and measured exposure separately. The reuse intervention intentionally executes files whose original purpose may have been one-shot editing. Its result is conditional on that operation. Six witnesses involve product syntax damage, so they should not be interpreted as seven independent assertion-level failures.
+
+\paragraph{Internal validity.}
+Fresh reconstruction, source hashes, restoration controls, and repeated exposures reduce carryover and attribution errors. They cannot recover bytes absent from the original capture or establish equivalence to an unrecorded historical environment. Parser changes and the FeatureBench environment correction are documented, and invalid evaluations are separated from substantive failures. Synthetic controls and the internal audit check the measurement implementation; they are not independent replication. The same task oracle selects and validates cleanup, so the resulting pass is not held-out evidence.
+
+\paragraph{Selection and generalizability.}
+The study conditions on passing final solutions and recoverable artifacts. The SWE-bench sample is small and repository-balanced, and the helper detector favors explicit standalone Python editing scripts. Inline commands, other languages, mixed-purpose files, and uncaptured scratch space can escape it. FeatureBench has substantial artifact loss and narrower capture. Models and harnesses differ between datasets. These limits rule out population prevalence, model capability rankings, and causal conclusions about task horizon.
+
+\paragraph{Retrieval validity.}
+Queries are the original problem statements, rather than observed follow-up IDE interactions. Relevance judgments identify implementation targets and omit other potentially helpful context. The single dense encoder is a multilingual sentence model with a 128-token input limit, so the full text of an 80-line chunk or long task statement may not be represented. Whole-file lexical scoring and chunk-based dense scoring also differ beyond their representation type. Fixed-score filtering isolates candidate competition but omits reindexing effects. Matched controls are complete in only three changed indexes. We therefore report recovery events without claiming that one retriever is generally better or that developer performance improves.
+
+\paragraph{Analysis validity.}
+Prior observations informed the exploratory design, and one assistant adjudicated roles and relevance. File-level counts share tasks, models, and workspaces. We retain those denominators and avoid confirmatory significance claims. The apparent perfect cleanup rate concerns 62 deliberately nominated construction helpers, not arbitrary agent-created source. It is evidence of feasibility for that cohort, rather than an estimate of a general detector's precision or recall.
+
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Residual agent edits.}
+TRIM is the closest work: it minimizes agent trajectories through groups of edit sequences, files, and individual edits, using execution feedback~\cite{trim}. It also evaluates minimized repairs with a separate oracle. Our procedure has no corresponding independent validation claim. We focus on surviving helper executables, including files outside the submitted product patch, and measure the effect of reusing them on the accepted endpoint. The difference is the artifact population and harm experiment, not deterministic deletion or file granularity alone. Ebrahimi et al. study deletion avoidance when intended changes require removing existing code~\cite{deletion}. Our files are newly introduced construction tools. SlopCodeBench measures structural erosion and verbosity under iterative feature extension~\cite{slopcode}; our endpoint study does not measure deterioration over a trajectory.
+
+\paragraph{Program reduction and stale-code removal.}
+Property-guided debloating, exemplified by Chisel, already uses executable checks to decide which parts of a program can be removed~\cite{chisel}. Industrial cleanup systems such as Piranha and SCARF combine domain-specific evidence about stale flags or unused assets with removal workflows~\cite{piranha,scarf}. Knip's unused-file analysis similarly depends on the declared project files and entry points~\cite{knip}. These precedents motivate explicit scope and evidence for a deletion. The agent setting adds a useful source of evidence: a trace of the tool's creation, invocation, and output during construction of the solution.
+
+\paragraph{Code retrieval.}
+Repoformer studies selective retrieval because retrieved context can be unhelpful or harmful to code completion~\cite{repoformer}. ExecRetrieval evaluates functional discrimination between correct implementations and controlled buggy distractors~\cite{execretrieval}. Our distractors are files retained by recorded agents, and the intervention removes whole files from their final source indexes. The observed lexical displacement complements these questions, while our dense null result and absence of downstream generation limit the conclusion.
+
+\section{Conclusion}
+
+A passing agent solution can retain an editing script that breaks the solution when executed again. We reproduce seven such cases across five SWE-bench solutions and three tasks, with restoration controls that recover the original passing result. The same population yields a small lexical retrieval effect and no relevant-file recovery at the measured dense retrieval budgets. Whole-file cleanup removes all 62 nominated helpers while preserving the fixed task checks in 40 jointly validated sets. The emerging opportunity is to give the tools created during agent work an explicit lifecycle: record their origin, decide which belong in the final workspace, and attach executable evidence to their removal.
+
+\section*{Data Availability}
+
+The study artifacts are retained in a versioned local experiment package containing endpoint and exclusion manifests, source hashes, frozen nominations, recorded invocations, raw oracle outputs, restoration trials, cleanup patches, retrieval queries and judgments, model configuration and weight hashes, per-file rankings, and the research ledger. The package distinguishes original recordings from replay trials and preserves superseded development attempts separately. It also records missing FeatureBench inputs and the two unavailable SWE-bench environments. These materials support auditing the reported outcomes within the limits of the captured data.
+
+\noindent\emph{Draft status: the public artifact deposit and persistent identifier are pending. This statement describes the retained package and does not assert that a public replication archive has already been released.}
+
+\begin{thebibliography}{99}
+\small
+
+\bibitem{swebench}
+Carlos E. Jimenez, John Yang, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, and Karthik Narasimhan.
+\newblock SWE-bench: Can Language Models Resolve Real-World GitHub Issues?
+\newblock In \emph{ICLR}, 2024.
+\newblock \url{https://arxiv.org/abs/2310.06770}.
+
+\bibitem{featurebench}
+Qixing Zhou, Jiacheng Zhang, Haiyang Wang, Rui Hao, Jiahe Wang, Minghao Han, Yuxue Yang, Shuzhe Wu, Feiyang Pan, Lue Fan, Dandan Tu, and Zhaoxiang Zhang.
+\newblock FeatureBench: Benchmarking Agentic Coding for Complex Feature Development.
+\newblock In \emph{ICLR}, 2026.
+\newblock \url{https://arxiv.org/abs/2602.10975}.
+
+\bibitem{trim}
+Alex Mathai, Shobini Iyer, Aleksandr Nogikh, Petros Maniatis, Franjo Ivancic, Junfeng Yang, and Baishakhi Ray.
+\newblock TRIM: Reducing AI-Generated CodeSlop via Agent Trajectory Minimization.
+\newblock arXiv preprint arXiv:2607.18161, 2026.
+\newblock \url{https://arxiv.org/abs/2607.18161}.
+
+\bibitem{deletion}
+Amir M. Ebrahimi, Mohammed Mehedi Hasan, Aaditya Bhatia, Gopi Krishnan Rajbahadur, and Ahmed E. Hassan.
+\newblock To Add Is Machine, To Delete Is Human: Measuring and Mitigating Deletion Avoidance in LLM Code Editing.
+\newblock arXiv preprint arXiv:2607.28887, 2026.
+\newblock \url{https://arxiv.org/abs/2607.28887}.
+
+\bibitem{slopcode}
+Gabriel Orlanski, Devjeet Roy, Alexander Yun, Changho Shin, Alex Gu, Albert Ge, Dyah Adila, Nicholas Roberts, Frederic Sala, and Aws Albarghouthi.
+\newblock SlopCodeBench: Benchmarking How Coding Agents Degrade Over Long-Horizon Iterative Tasks.
+\newblock arXiv:2603.24755, version 2, 2026.
+\newblock \url{https://arxiv.org/abs/2603.24755}.
+
+\bibitem{chisel}
+Kihong Heo, Woosuk Lee, Pardis Pashakhanloo, and Mayur Naik.
+\newblock Effective Program Debloating via Reinforcement Learning.
+\newblock In \emph{ACM SIGSAC Conference on Computer and Communications Security}, 2018.
+\newblock \url{https://doi.org/10.1145/3243734.3243838}.
+
+\bibitem{piranha}
+Murali Krishna Ramanathan, Lazaro Clapp, Rajkishore Barik, and Manu Sridharan.
+\newblock Piranha: Reducing Feature Flag Debt at Uber.
+\newblock In \emph{ICSE, Software Engineering in Practice}, 2020.
+\newblock \url{https://doi.org/10.1145/3377813.3381350}.
+
+\bibitem{scarf}
+Will Shackleton, Katriel Cohn-Gordon, Peter C. Rigby, Rui Abreu, James Gill, Nachiappan Nagappan, Karim Nakad, Ioannis Papagiannis, Luke Petre, Giorgi Megreli, Patrick Riggs, and James Saindon.
+\newblock Dead Code Removal at Meta: Automatically Deleting Millions of Lines of Code and Petabytes of Deprecated Data.
+\newblock In \emph{ESEC/FSE}, 2023.
+\newblock \url{https://yia.nnis.gr/publications/fse2023.pdf}.
+
+\bibitem{knip}
+The Knip Project.
+\newblock Configuring Project Files.
+\newblock \url{https://knip.dev/guides/configuring-project-files}. Accessed October 2026.
+
+\bibitem{repoformer}
+Di Wu, Wasi Uddin Ahmad, Dejiao Zhang, Murali Krishna Ramanathan, and Xiaofei Ma.
+\newblock Repoformer: Selective Retrieval for Repository-Level Code Completion.
+\newblock In \emph{ICML}, 2024.
+\newblock \url{https://arxiv.org/abs/2403.10059}.
+
+\bibitem{execretrieval}
+Aaryan Kapoor and Md Abdullah Al Hafiz Khan.
+\newblock ExecRetrieval: Measuring the Functional-Correctness Gap in Code-Embedding Retrieval.
+\newblock arXiv:2609.01865, 2026. Accepted to EMNLP 2026.
+\newblock \url{https://arxiv.org/abs/2609.01865}.
+
+\bibitem{dafny}
+The Dafny Project.
+\newblock Dafny Reference Manual.
+\newblock \url{https://dafny.org/dafny/DafnyRef/DafnyRef}. Accessed October 2026.
+
+\end{thebibliography}
+
+\appendix
+\section{Recorded Model Coverage}
+\label{app:models}
+
+Tables~\ref{tab:swe-models} and~\ref{tab:fb-models} retain the model-level accounting behind the cohort. These are configuration labels from the recordings. Coverage is conditional on completion, artifact availability, and the reproduced passing gate; it is not a comparison of model capability. The original SWE-bench campaign used 20 common tasks and a common scaffold. The FeatureBench archive used 80 tasks across its four configurations, with resumed sessions grouped into complete task chains.
+
+\begin{table}[h]
+\centering
+\caption{SWE-bench coverage by recorded model.}
+\label{tab:swe-models}
+\footnotesize
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Model & Recorded & Tried & Eligible \\
+\midrule
+DeepSeek Chat V3 0324 & 20 & 1 & 1 \\
+DeepSeek V3.1 Terminus & 20 & 12 & 12 \\
+DeepSeek V3.2 & 20 & 8 & 8 \\
+Llama 3.1 70B Instruct & 20 & 0 & 0 \\
+Llama 3.3 70B Instruct & 20 & 1 & 1 \\
+Llama 4 Maverick & 20 & 0 & 0 \\
+MiniMax M2 & 20 & 15 & 15 \\
+MiniMax M2.1 & 20 & 13 & 13 \\
+MiniMax M2.5 & 20 & 15 & 14 \\
+Qwen3 Coder Next & 20 & 5 & 5 \\
+Qwen3.5 122B A10B & 20 & 10 & 9 \\
+Qwen3.5 35B A3B & 20 & 10 & 10 \\
+\midrule
+Total & 240 & 90 & 88 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{FeatureBench coverage by recorded model.}
+\label{tab:fb-models}
+\footnotesize
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Model & Recorded & Tried & Eligible \\
+\midrule
+DeepSeek V4 Flash & 80 & 12 & 7 \\
+GLM 4.7 Flash & 80 & 8 & 2 \\
+Gemini 3.7 Flash & 80 & 37 & 10 \\
+MiniMax M3 & 80 & 11 & 6 \\
+\midrule
+Total & 320 & 68 & 25 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

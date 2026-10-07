@@ -1,0 +1,25 @@
+# Publish only the paper and repository documentation from this large workspace.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/paper/
+
+# LaTeX build products and editor files.
+/paper/*.aux
+/paper/*.log
+/paper/*.out
+/paper/*.toc
+/paper/*.lof
+/paper/*.lot
+/paper/*.fls
+/paper/*.fdb_latexmk
+/paper/*.synctex.gz
+/paper/*.pdf
+/paper/*.bbl
+/paper/*.blg
+/paper/*.xdv
+/paper/*.nav
+/paper/*.snm
+**/.DS_Store
+**/*~
