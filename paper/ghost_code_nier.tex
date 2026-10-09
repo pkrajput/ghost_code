@@ -1,10 +1,13 @@
 % ICSE NIER: four pages of main text, fifth page references only.
 % Evidence: structural_study/DISCOVERY_REPORT.md and results/discovery_validation.json.
-% No figure, paid generation, or new subject execution accompanies this revision.
+% Narrative: TRACER (recording architecture) -> static analysis of recorded
+% code trajectories (one aspect of TRACER) -> ghost-script study (application).
+% Figure: figures/ghost_code_overview_v6.pdf (restored from commit 70792ee).
 \RequirePackage[T1]{fontenc}
 \documentclass[10pt,conference]{IEEEtran}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs,array,tabularx}
+\usepackage{graphicx}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
 \newcommand{\code}[1]{{\urlstyle{tt}\nolinkurl{#1}}}
@@ -15,7 +18,7 @@
 \maketitle
 
 \begin{abstract}
-Coding agents can leave behind scripts that constructed a repair but are no longer needed by the evaluated task. We study these ghost scripts through static analysis of recorded trajectories. Abstract syntax trees (ASTs) identify source-writing behavior, while invocations and code versions establish construction relationships. Parsing embedded source reveals whether retained implementations match the final product or have been superseded. We introduce \tracer{} (Trace-based Runtime Analysis for Code Evolution Review), an agent-independent architecture linking recorded reasoning to symbol changes, revisions, and a decision ledger. Across 88 passing mini-SWE-agent runs on SWE-bench, the analysis finds 65 source-writing candidates among 1,662 Python file occurrences. History corroborates 62 helpers, recovering an existing positive reference set whose saved deletion checks establish task-level redundancy. Of 25 helpers with embedded definitions linked to product code, 20 retain current implementations and five retain superseded ones. Efficiency and security analysis are future applications of the broader architecture.
+Coding agents can leave behind scripts that constructed a repair but are no longer needed by the evaluated task. We introduce \tracer{} (Trace-based Runtime Analysis for Code Evolution Review), an agent-independent architecture that records how such scripts arise: it links recorded reasoning to symbol changes, preserves revisions, and derives a decision ledger. Static analysis of recorded code trajectories is one aspect of this architecture. Abstract syntax trees (ASTs) identify source-writing behavior, while recorded invocations and code versions establish construction relationships; parsing embedded source reveals whether retained implementations match the final product or have been superseded. We apply this aspect in a study of ghost scripts, retained construction helpers whose separate deletion evidence establishes task-level redundancy. Across 88 passing mini-SWE-agent runs on SWE-bench, the analysis finds 65 source-writing candidates among 1,662 Python file occurrences. History corroborates 62 helpers, recovering an existing positive reference set. Of 25 helpers with embedded definitions linked to product code, 20 retain current implementations and five retain superseded ones. Efficiency and security analysis are future aspects of the architecture.
 \end{abstract}
 \begin{IEEEkeywords}
 coding agents, static analysis, software provenance, code evolution
@@ -26,28 +29,23 @@ After a coding agent repairs a method, the script that rewrote it may remain. It
 
 Agents such as SWE-agent and OpenHands edit and execute code~\cite{sweagent,openhands,codeact}, producing programs that construct other programs. A lack of repository callers cannot distinguish a discarded script from a maintained shell-invoked utility. Ordinary ASTs also treat embedded implementations as string data. Understanding these artifacts requires their development context.
 
-Our idea is to analyze trajectories as histories of code construction. Static analysis identifies source writes; recorded invocations and workspace versions associate them with product changes. Parsing embedded source and following corresponding definitions then establishes implementation currency. We call a retained construction helper a \emph{ghost script} when separate deletion evidence shows that it is redundant under a fixed task oracle.
+Reconstructing such context after development becomes a software archaeology task. We therefore first introduce \tracer{}, \emph{Trace-based Runtime Analysis for Code Evolution Review}, an agent-independent architecture that records development as it occurs. It links prompts and recorded reasoning to individual file and symbol changes through Git diffs, preserves revisions, and derives a decision ledger. The tool supports analyses of how code came to be; its recording layer is independent of the agent and of any particular analysis.
 
-Reconstructing such context after development becomes a software archaeology task. \tracer{}, \emph{Trace-based Runtime Analysis for Code Evolution Review}, records it as development occurs. This agent-independent architecture links prompts and recorded reasoning to individual file and symbol changes through Git diffs, preserves revisions, and derives a decision ledger. The tool supports analyses of how code came to be; the mini-SWE-agent integration and AST study on SWE-bench~\cite{swebench} are one application.
+Second, we develop one aspect of this architecture in depth: static analysis of recorded code trajectories. The analysis identifies source writes; recorded invocations and workspace versions associate them with product changes. Parsing embedded source and following corresponding definitions then establish implementation currency.
 
-We present \tracer{}'s architecture and a static analysis of its recorded history for identifying construction helpers and characterizing their code. Across 88 passing runs, the analysis recovers 62 reference helpers with saved deletion evidence. Five of 25 helpers linked to product definitions retain superseded implementations. These results establish retrospective feasibility for this application; broader tool benefits remain to be evaluated.
+Third, we apply this aspect to study ghost scripts. We call a retained construction helper a \emph{ghost script} when separate deletion evidence shows that it is redundant under a fixed task oracle. Across 88 passing mini-SWE-agent runs on SWE-bench~\cite{swebench}, the analysis recovers 62 reference helpers with saved deletion evidence. Five of 25 helpers linked to product definitions retain superseded implementations. These results establish retrospective feasibility for this application; broader tool benefits remain to be evaluated. Figure~\ref{fig:overview} outlines this workflow from recording to study.
 
-\section{What Survives an Agent Session?}
-\label{sec:concept}
-In the recorded repair of \code{django__django-13346} by MiniMax M2.5, the agent invokes \code{/tmp/patch2.py} to write a \code{KeyTransformIn} class into \code{django/db/models/fields/json.py}. Later actions replace it. At the passing endpoint, the product uses \code{batch_process_rhs}, while the retained script's \code{new_class} string contains the earlier \code{resolve_expression_parameter} and \code{process_rhs} methods.
-
-The helper's ordinary AST exposes writing operations but no executable class or function definitions. Parsing its string data reveals the class. Linking it to the invocation and subsequent product versions distinguishes a retained construction attempt from the endpoint implementation.
-
-We distinguish three properties. \emph{Construction role} associates a surviving helper with a source-writing action. \emph{Currency} describes whether a linked implementation matches the endpoint, has been superseded, or cannot be resolved. \emph{Task-level redundancy} requires deletion evidence. For final workspace $F$, helper $h$, and the outcome vector $v_O$ of fixed oracle $O$, the latter is
-\begin{equation}
-v_O(F\setminus\{h\})=v_O(F).
-\label{eq:redundancy}
-\end{equation}
-Both evaluations must be valid, contain the required checks, and use the same oracle. The equality does not establish that $h$ has no future maintenance value. It also does not follow from AST similarity, a missing caller, or absence of later execution.
+% TODO(author): confirm the caption wording against the final overview figure.
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/ghost_code_overview_v6.pdf}
+\caption{Study overview. \tracer{} records agent trajectories as development steps linked to code changes; static analysis of the recorded trajectories identifies retained construction helpers and their embedded implementations; saved deletion evidence separates ghost scripts from needed helpers.}
+\label{fig:overview}
+\end{figure}
 
 \section{TRACER Architecture}
 \label{sec:tracer}
-\tracer{} separates agent adapters, code-linked recording, and downstream analyses. Its unit is a development step with an identifier, prompt, recorded reasoning, raw events, author, and before/after version references. The adapter contract is independent of the agent or model. Existing interfaces accept OpenHands events and explicit human edits; another agent requires an adapter to the same step format.
+\tracer{} separates agent adapters, code-linked recording, and downstream analyses. Its unit is a development step with an identifier, prompt, recorded reasoning, raw events, author, and before/after version references. The adapter contract is independent of the agent or model. Existing interfaces accept OpenHands events and explicit human edits; another agent requires an adapter to the same step format. Downstream analyses are separate aspects of the architecture: this paper develops static analysis of recorded code trajectories (Section~\ref{sec:static}), while development-efficiency and security analyses remain future aspects (Section~\ref{sec:future}).
 
 \subsection{Linking Reasoning to Symbol Changes}
 The structural index comes from the separate \code{codebase-memory-mcp} project~\cite{codebasememory}. \tracer{} reads its code graph, including qualified symbol names, source spans, and relationships. For each Git revision range, changed line ranges are mapped to the innermost overlapping symbols. Live AST extraction resolves new symbols and changed spans; re-indexing and reconciliation update their graph identities. Unresolved ranges fall back to file-level links.
@@ -62,9 +60,9 @@ The decision ledger is derived from recorded revisions without an LLM. For each 
 \subsection{Reusable History and Analysis Interfaces}
 File/symbol history queries, version navigation, and review bundles expose diffs with their recorded reasoning and ledger entries. The panel connects code structure to the step timeline. The intended release separates this general \tracer{} tool from agent connectors and study-specific analyses. Determinism concerns deriving records and reconstructing captured versions from stored evidence, not repeating model outputs or guaranteeing complete runtime capture.
 
-\section{AST Analysis of Retained Helpers}
-\label{sec:method}
-This application has two stages, identifying construction helpers and characterizing their retained code. Both consume recorded evidence offline; deletion outcomes are joined afterward.
+\section{Static Analysis of Recorded Code Trajectories}
+\label{sec:static}
+This aspect of \tracer{} applies static analysis to trajectories that the recording layer has captured, without rerunning the agent. It has two stages, identifying construction helpers and characterizing their retained code (Section~\ref{sec:ghost}). Both consume recorded evidence offline; deletion outcomes are joined afterward. We instantiate the stages on the mini-SWE-agent integration used in our study.
 
 \subsection{Connecting mini-SWE-agent}
 The study adapter records commands, exit codes, raw and model-visible output, and model requests/responses. Git-anchored, content-addressed snapshots preserve initial and post-action workspaces, including untracked files and bounded temporary-file captures. It exports the \tracer{} step shape using snapshot identifiers instead of per-action Git commits. The AST analysis consumes these records directly. It evaluates neither CoT explanations nor the general decision ledger; helper links and definition currency are derived by the analysis below.
@@ -80,6 +78,20 @@ Shell parsing locates direct Python-script invocations, separates commands from 
 The static write destination must match a repository Python file changed between the action's snapshots. A \emph{history-supported construction relationship} retains the helper version, read origin, write site, target versions, and event identifier. Compound actions establish interval association rather than isolated causation.
 
 The target need not have two parseable, different ASTs. A helper may change comments, introduce a syntax error, or repair an invalid intermediate file. We record target parse status and AST fingerprints separately from byte changes. Helper revisions receive their own AST transitions so that a role observed for an earlier version is not silently attributed to its final bytes.
+
+\section{Studying Ghost Scripts}
+\label{sec:ghost}
+\subsection{What Survives an Agent Session?}
+In the recorded repair of \code{django__django-13346} by MiniMax M2.5, the agent invokes \code{/tmp/patch2.py} to write a \code{KeyTransformIn} class into \code{django/db/models/fields/json.py}. Later actions replace it. At the passing endpoint, the product uses \code{batch_process_rhs}, while the retained script's \code{new_class} string contains the earlier \code{resolve_expression_parameter} and \code{process_rhs} methods.
+
+The helper's ordinary AST exposes writing operations but no executable class or function definitions. Parsing its string data reveals the class. Linking it to the invocation and subsequent product versions distinguishes a retained construction attempt from the endpoint implementation.
+
+We distinguish three properties. \emph{Construction role} associates a surviving helper with a source-writing action. \emph{Currency} describes whether a linked implementation matches the endpoint, has been superseded, or cannot be resolved. \emph{Task-level redundancy} requires deletion evidence. For final workspace $F$, helper $h$, and the outcome vector $v_O$ of fixed oracle $O$, the latter is
+\begin{equation}
+v_O(F\setminus\{h\})=v_O(F).
+\label{eq:redundancy}
+\end{equation}
+Both evaluations must be valid, contain the required checks, and use the same oracle. The equality does not establish that $h$ has no future maintenance value. It also does not follow from AST similarity, a missing caller, or absence of later execution.
 
 \subsection{Following Embedded Implementations}
 After discovery, a separate characterization stage extracts string literals containing source definitions. An artificial statement wrapper permits indented fragments without changing whitespace inside multiline string values. We fingerprint functions, classes, and asynchronous functions using location-free AST serialization, preserving names, literals, operators, decorators, and docstrings.
@@ -181,6 +193,7 @@ The study is retrospective and conditions on passing, reconstructable runs from 
 The inventory covers captured new files, not every repository symbol; temporary capture is incomplete. Results concern workspaces, including external temporary files, rather than necessarily submitted patches. Bounded AST and shell analyses miss indirect invocation, reflection, complex APIs, and dynamic paths. Snapshot intervals can contain multiple operations or conceal changes undone within an action. Exact embedded matching misses transformed fragments, while named-definition tracking leaves moves and duplicates unresolved. Assistant inspection and unit tests establish inspectability and internal consistency, not independent empirical validation. Finally, the same task oracle defines eligibility and redundancy; passing deletion checks does not establish general removal safety or future usefulness.
 
 \section{Future Plans}
+\label{sec:future}
 We will release \tracer{} with separate adapter and analysis packages, then evaluate a frozen helper detector on independently labeled sessions. Maintained generators should be included when comparing precision, recall, and abstention against AST-only screening.
 
 \paragraph{Development efficiency}
@@ -193,56 +206,79 @@ History could support review of security-relevant changes, such as the removal a
 An end-of-session stage could nominate helpers, archive their history, and remove them under a retention policy with validation. Evaluation must include indispensable helpers and measure incorrect removal, task success, and overhead. These interventions remain unevaluated.
 
 \section{Conclusion}
-\tracer{} preserves development history for later analyses. This AST application recovers 62 reference helpers with saved redundancy evidence and distinguishes current from superseded implementations. Efficiency and security studies are future applications of the broader architecture.
+\tracer{} records development history for later analyses. Static analysis of recorded trajectories is one of its aspects; instantiated as the ghost-script study, it recovers 62 reference helpers with saved redundancy evidence and distinguishes current from superseded implementations. Efficiency and security studies are further future aspects of the architecture.
 
 \section*{Artifact Availability}
 The release will separate \tracer{} core, the mini-SWE-agent adapter, and AST analyses, with model configurations and reproduction evidence. Packaging and public deposition remain pending.
 
 \clearpage
 \begin{thebibliography}{22}
+
 \bibitem{sweagent}
-J.~Yang, C.~E. Jimenez, A.~Wettig, K.~Lieret, S.~Yao, K.~Narasimhan, and O.~Press, \textquotedblleft SWE-agent: Agent-computer interfaces enable automated software engineering,\textquotedblright\ in \emph{NeurIPS}, 2024. [Online]. Available: \url{https://arxiv.org/abs/2405.15793}
+J.~Yang, C.~E. Jimenez, A.~Wettig, K.~Lieret, S.~Yao, K.~Narasimhan, and O.~Press, ``SWE-agent: Agent-computer interfaces enable automated software engineering,'' in \emph{Adv. Neural Inf. Process. Syst.} (NeurIPS), 2024, pp. 50528--50652, doi: 10.52202/079017-1601. [Online]. Available: \url{https://arxiv.org/abs/2405.15793}
+
 \bibitem{openhands}
-X.~Wang \emph{et al.}, \textquotedblleft OpenHands: An open platform for AI software developers as generalist agents,\textquotedblright\ in \emph{ICLR}, 2025. [Online]. Available: \url{https://openreview.net/forum?id=OJd3ayDDoF}
+X.~Wang \emph{et al.}, ``OpenHands: An open platform for AI software developers as generalist agents,'' in \emph{Proc. Int. Conf. Learn. Represent. (ICLR)}, 2025. [Online]. Available: \url{https://openreview.net/forum?id=OJd3ayDDoF}
+
 \bibitem{codeact}
-X.~Wang, Y.~Chen, L.~Yuan, Y.~Zhang, Y.~Li, H.~Peng, and H.~Ji, \textquotedblleft Executable code actions elicit better LLM agents,\textquotedblright\ in \emph{ICML}, 2024. [Online]. Available: \url{https://proceedings.mlr.press/v235/wang24h.html}
+X.~Wang, Y.~Chen, L.~Yuan, Y.~Zhang, Y.~Li, H.~Peng, and H.~Ji, ``Executable code actions elicit better LLM agents,'' in \emph{Proc. 41st Int. Conf. Mach. Learn. (ICML)}, 2024, pp. 50208--50232. [Online]. Available: \url{https://proceedings.mlr.press/v235/wang24h.html}
+
 \bibitem{swebench}
-C.~E. Jimenez, J.~Yang, A.~Wettig, S.~Yao, K.~Pei, O.~Press, and K.~Narasimhan, \textquotedblleft SWE-bench: Can language models resolve real-world GitHub issues?\textquotedblright\ in \emph{ICLR}, 2024. [Online]. Available: \url{https://arxiv.org/abs/2310.06770}
+C.~E. Jimenez, J.~Yang, A.~Wettig, S.~Yao, K.~Pei, O.~Press, and K.~Narasimhan, ``SWE-bench: Can language models resolve real-world GitHub issues?'' in \emph{Proc. Int. Conf. Learn. Represent. (ICLR)}, 2024. [Online]. Available: \url{https://arxiv.org/abs/2310.06770}
+
 \bibitem{codebasememory}
-DeusData, \textquotedblleft codebase-memory-mcp,\textquotedblright\ software repository. [Online]. Available: \url{https://github.com/DeusData/codebase-memory-mcp}. Accessed: Oct. 9, 2026.
+M.~Vogel, F.~Meyer-Eschenbach, S.~Kohler, E.~Gr\"unewald, and F.~Balzer, ``Codebase-Memory: Tree-sitter-based knowledge graphs for LLM code exploration via MCP,'' arXiv preprint arXiv:2603.27277, 2026. [Online]. Available: \url{https://github.com/DeusData/codebase-memory-mcp}
+
 \bibitem{mini}
-The SWE-agent Team, \textquotedblleft mini-SWE-agent documentation.\textquotedblright\ [Online]. Available: \url{https://mini-swe-agent.com/latest/}. Accessed: Oct. 9, 2026.
+The SWE-agent Team, ``mini-SWE-agent documentation.'' [Online]. Available: \url{https://mini-swe-agent.com/latest/}. Accessed: Oct. 9, 2026.
+
 \bibitem{repocoder}
-F.~Zhang \emph{et al.}, \textquotedblleft RepoCoder: Repository-level code completion through iterative retrieval and generation,\textquotedblright\ in \emph{EMNLP}, 2023. [Online]. Available: \url{https://aclanthology.org/2023.emnlp-main.151/}
+F.~Zhang, B.~Chen, Y.~Zhang, J.~Keung, Y.~Liu, D.~Zan, Y.~Mao, J.-G. Lou, and W.~Chen, ``RepoCoder: Repository-level code completion through iterative retrieval and generation,'' in \emph{Proc. Conf. Empirical Methods Natural Language Process. (EMNLP)}, 2023, pp. 2471--2484, doi: 10.18653/v1/2023.emnlp-main.151.
+
 \bibitem{repoformer}
-D.~Wu, W.~U. Ahmad, D.~Zhang, M.~K. Ramanathan, and X.~Ma, \textquotedblleft Repoformer: Selective retrieval for repository-level code completion,\textquotedblright\ in \emph{ICML}, 2024. [Online]. Available: \url{https://proceedings.mlr.press/v235/wu24a.html}
+D.~Wu, W.~U. Ahmad, D.~Zhang, M.~K. Ramanathan, and X.~Ma, ``Repoformer: Selective retrieval for repository-level code completion,'' in \emph{Proc. 41st Int. Conf. Mach. Learn. (ICML)}, 2024, pp. 53270--53290. [Online]. Available: \url{https://proceedings.mlr.press/v235/wu24a.html}
+
 \bibitem{gitai}
-Git AI, \textquotedblleft Agent blame: See which AI agent wrote every line of code.\textquotedblright\ [Online]. Available: \url{https://usegitai.com/agent-blame}. Accessed: Oct. 9, 2026.
+Git AI, ``Agent blame: See which AI agent wrote every line of code.'' [Online]. Available: \url{https://usegitai.com/agent-blame}. Accessed: Oct. 9, 2026.
+
 \bibitem{changedistiller}
-B.~Fluri, M.~W\"ursch, M.~Pinzger, and H.~C. Gall, \textquotedblleft Change distilling: Tree differencing for fine-grained source code change extraction,\textquotedblright\ \emph{IEEE Trans. Softw. Eng.}, vol.~33, no.~11, pp. 725--743, 2007.
+B.~Fluri, M.~W\"ursch, M.~Pinzger, and H.~C. Gall, ``Change distilling: Tree differencing for fine-grained source code change extraction,'' \emph{IEEE Trans. Softw. Eng.}, vol.~33, no.~11, pp. 725--743, Nov. 2007, doi: 10.1109/TSE.2007.70731.
+
 \bibitem{gumtree}
-J.-R.~Falleri, F.~Morandat, X.~Blanc, M.~Martinez, and M.~Monperrus, \textquotedblleft Fine-grained and accurate source code differencing,\textquotedblright\ in \emph{ASE}, 2014, pp. 313--324, doi: 10.1145/2642937.2642982.
+J.-R.~Falleri, F.~Morandat, X.~Blanc, M.~Martinez, and M.~Monperrus, ``Fine-grained and accurate source code differencing,'' in \emph{Proc. 29th IEEE/ACM Int. Conf. Automated Softw. Eng. (ASE)}, 2014, pp. 313--324, doi: 10.1145/2642937.2642982.
+
 \bibitem{gumtree2024}
-J.-R.~Falleri and M.~Martinez, \textquotedblleft Fine-grained, accurate and scalable source differencing,\textquotedblright\ in \emph{ICSE}, 2024, Art. 231, doi: 10.1145/3597503.3639148.
+J.-R.~Falleri and M.~Martinez, ``Fine-grained, accurate and scalable source differencing,'' in \emph{Proc. 46th IEEE/ACM Int. Conf. Softw. Eng. (ICSE)}, 2024, pp. 1--12, doi: 10.1145/3597503.3639148.
+
 \bibitem{genealogy}
-M.~Kim, V.~Sazawal, D.~Notkin, and G.~C. Murphy, \textquotedblleft An empirical study of code clone genealogies,\textquotedblright\ in \emph{ESEC/FSE}, 2005, pp. 187--196, doi: 10.1145/1081706.1081737.
+M.~Kim, V.~Sazawal, D.~Notkin, and G.~Murphy, ``An empirical study of code clone genealogies,'' in \emph{Proc. 10th Eur. Softw. Eng. Conf. and 13th ACM SIGSOFT Int. Symp. Foundations Softw. Eng. (ESEC/FSE)}, 2005, pp. 187--196, doi: 10.1145/1081706.1081737.
+
 \bibitem{aigenealogy}
-D.~Sousa, I.~Uchoa, M.~Paixao, C.~Ragkhitwetsagul, and T.~L. Matos, \textquotedblleft An empirical study of code clone genealogies in human-AI collaborative development,\textquotedblright\ in \emph{MSR}, 2026, pp. 979--983, doi: 10.1145/3793302.3793613.
+D.~Sousa, I.~Uchoa, M.~Paixao, C.~Ragkhitwetsagul, and T.~L. Matos, ``An empirical study of code clone genealogies in human-AI collaborative development,'' in \emph{Proc. 23rd Int. Conf. Mining Softw. Repositories (MSR)}, 2026, pp. 979--983, doi: 10.1145/3793302.3793613.
+
 \bibitem{prov}
-Y.~Gil and S.~Miles, Eds., \textquotedblleft PROV model primer,\textquotedblright\ W3C Working Group Note, 2013. [Online]. Available: \url{https://www.w3.org/TR/prov-primer/}
+Y.~Gil and S.~Miles, Eds., ``PROV model primer,'' W3C Working Group Note, Apr. 2013. [Online]. Available: \url{https://www.w3.org/TR/prov-primer/}
+
 \bibitem{noworkflow}
-L.~Murta, V.~Braganholo, F.~Chirigati, D.~Koop, and J.~Freire, \textquotedblleft noWorkflow: Capturing and analyzing provenance of scripts,\textquotedblright\ in \emph{IPAW 2014}, LNCS, vol.~8628. Springer, 2015, pp. 71--83. [Online]. Available: \url{https://braganholo.github.io/papers/murta2014-ipaw.pdf}
+L.~Murta, V.~Braganholo, F.~Chirigati, D.~Koop, and J.~Freire, ``noWorkflow: Capturing and analyzing provenance of scripts,'' in \emph{Provenance and Annotation of Data and Processes (IPAW)}, LNCS, vol.~8628. Springer, 2015, pp. 71--83, doi: 10.1007/978-3-319-16462-5\_6.
+
 \bibitem{yesworkflow}
-T.~McPhillips \emph{et al.}, \textquotedblleft YesWorkflow: A user-oriented, language-independent tool for recovering workflow information from scripts,\textquotedblright\ \emph{Int. J. Digital Curation}, vol.~10, no.~1, pp. 298--313, 2015, doi: 10.2218/ijdc.v10i1.370.
+T.~McPhillips \emph{et al.}, ``YesWorkflow: A user-oriented, language-independent tool for recovering workflow information from scripts,'' \emph{Int. J. Digital Curation}, vol.~10, no.~1, pp. 298--313, 2015, doi: 10.2218/ijdc.v10i1.370.
+
 \bibitem{reprozip}
-F.~Chirigati, D.~Shasha, and J.~Freire, \textquotedblleft ReproZip: Using provenance to support computational reproducibility,\textquotedblright\ in \emph{TaPP}, 2013. [Online]. Available: \url{https://www.usenix.org/conference/tapp13/technical-sessions/presentation/chirigati}
+F.~Chirigati, D.~Shasha, and J.~Freire, ``ReproZip: Using provenance to support computational reproducibility,'' in \emph{Proc. 5th USENIX Workshop Theory and Practice of Provenance (TaPP)}, 2013. [Online]. Available: \url{https://www.usenix.org/conference/tapp13/technical-sessions/presentation/chirigati}
+
 \bibitem{dd}
-A.~Zeller and R.~Hildebrandt, \textquotedblleft Simplifying and isolating failure-inducing input,\textquotedblright\ \emph{IEEE Trans. Softw. Eng.}, vol.~28, no.~2, pp. 183--200, 2002.
+A.~Zeller and R.~Hildebrandt, ``Simplifying and isolating failure-inducing input,'' \emph{IEEE Trans. Softw. Eng.}, vol.~28, no.~2, pp. 183--200, Feb. 2002, doi: 10.1109/32.988498.
+
 \bibitem{perses}
-C.~Sun, Y.~Li, Q.~Zhang, T.~Gu, and Z.~Su, \textquotedblleft Perses: Syntax-guided program reduction,\textquotedblright\ in \emph{ICSE}, 2018, pp. 361--371, doi: 10.1145/3180155.3180236.
+C.~Sun, Y.~Li, Q.~Zhang, T.~Gu, and Z.~Su, ``Perses: Syntax-guided program reduction,'' in \emph{Proc. 40th Int. Conf. Softw. Eng. (ICSE)}, 2018, pp. 361--371, doi: 10.1145/3180155.3180236.
+
 \bibitem{chisel}
-K.~Heo, W.~Lee, P.~Pashakhanloo, and M.~Naik, \textquotedblleft Effective program debloating via reinforcement learning,\textquotedblright\ in \emph{ACM CCS}, 2018, pp. 380--394, doi: 10.1145/3243734.3243838.
+K.~Heo, W.~Lee, P.~Pashakhanloo, and M.~Naik, ``Effective program debloating via reinforcement learning,'' in \emph{Proc. ACM SIGSAC Conf. Comput. Commun. Secur. (CCS)}, 2018, pp. 380--394, doi: 10.1145/3243734.3243838.
+
 \bibitem{trim}
-A.~Mathai, S.~Iyer, A.~Nogikh, P.~Maniatis, F.~Ivancic, J.~Yang, and B.~Ray, \textquotedblleft TRIM: Reducing AI-generated CodeSlop via agent trajectory minimization,\textquotedblright\ arXiv preprint arXiv:2607.18161, 2026.
+A.~Mathai, S.~Iyer, A.~Nogikh, P.~Maniatis, F.~Ivancic, J.~Yang, and B.~Ray, ``TRIM: Reducing AI-generated CodeSlop via agent trajectory minimization,'' arXiv preprint arXiv:2607.18161, 2026.
+
 \end{thebibliography}
 \end{document}
