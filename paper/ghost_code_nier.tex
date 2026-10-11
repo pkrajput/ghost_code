@@ -32,84 +32,67 @@ Linked histories could help developers review earlier repair attempts, subsequen
 
 \section{TRACER Architecture}
 \label{sec:tracer}
-\tracer{} separates agent adapters, code-linked recording, and downstream analyses. A step contains an identifier, prompt, recorded reasoning, raw events, author, and before/after versions. %TODO: Not existing, released artifact contains, 
-
-Existing interfaces accept OpenHands events and explicit human edits; other agents require an adapter to this format. This paper combines static trajectory analysis (Section~\ref{sec:static}) with a review of recorded agent explanations (Section~\ref{sec:language}). Evaluating benefits to downstream %TODO: not consumers, effects. That we promise to study also 
-
-consumers remains future work (Section~\ref{sec:future}).
+\tracer{} makes the development process available for later analysis by preserving the relationship between an action, the code it changes, and its recorded explanation. The architecture separates agent adapters, a recording core, and analysis modules. Each step associates the prompt and available reasoning with the action's before/after versions. The release package will include OpenHands and human-edit interfaces, the mini-SWE-agent connector used here, and the AST analysis. This separation allows new agents and research questions to use the same development record.
 
 \subsection{Linking Reasoning to Symbol Changes}
-The structural index builds on \code{codebase-memory-mcp} project~\cite{codebasememory}. \tracer{} reads its code graph, including qualified symbol names, source spans, and relationships. For each Git revision range, changed line ranges are mapped to the innermost overlapping symbols. Live AST extraction resolves new symbols and changed spans; re-indexing and reconciliation update their graph identities. Unresolved ranges fall back to file-level links. These links attach the step's prompt and recorded reasoning to its affected code. Provenance tags distinguish narration, tool-call thoughts, exposed chain of thought (CoT), and provider summaries when available. 
+A useful history must connect explanations to the code they concern. \tracer{} builds on the \code{codebase-memory-mcp} project~\cite{codebasememory}, whose structural index supplies symbol names, source spans, and relationships. Git diffs locate edits; AST information maps those edits to affected functions and classes, with file-level links when a symbol cannot be resolved. The resulting associations let an analyst follow a symbol's changes together with the explanations recorded at each step. Narration, tool-call thoughts, exposed CoT, and provider summaries retain their provenance.
 
-\subsection{Revisions and the Decision Ledger}
-The Git-backed driver checkpoints development steps, retaining intermediate attempts. A separate SQLite trace store holds steps, node links, signatures, and symbol co-change records. Per-version snapshots preserve structural changes. Development lineages retain fork points and merge visibility, while historical records remain inspectable after later edits. Optional reasoning embeddings support CoT search. The decision ledger is derived from recorded revisions without an LLM. For each step, it compares added line text with session-end removals through two Git diffs. Normalized-text overlap yields \emph{survived}, \emph{revised}, or \emph{abandoned} entries. Symbol entries additionally check whether linked definitions remain. Error observations followed by further actions generate \emph{error\_retry} entries. Records retain abandoned content and heuristic links to later surviving steps on the same symbol or file. These are reproducible development summaries, not correctness verdicts or ghost labels.
+\subsection{Preserving Attempts and Revisions}
+The Git-backed recorder retains intermediate states, including attempts later revised or abandoned. A decision ledger summarizes whether added code survives, changes, or disappears, while preserving access to its earlier versions. The ledger is derived from recorded changes without an LLM; its entries describe development history rather than code correctness. Branch histories retain alternative attempts, and optional embeddings support searches over recorded reasoning. These facilities make unsuccessful attempts available alongside the final implementation.
 
 \subsection{Reusable History and Analysis Interfaces}
-File/symbol history queries, version navigation, and review bundles expose diffs with their recorded reasoning and ledger entries. The panel connects code structure to the step timeline. The intended release separates this general \tracer{} tool from agent connectors and study-specific analyses. 
+File and symbol queries, version navigation, and review bundles expose the linked record through a timeline. Analyses can inspect how an artifact was produced and what happened to it later. The present study combines static analysis with recorded explanations; future evaluations will measure the effects of this evidence on review, subsequent agent actions, and development efficiency (Section~\ref{sec:future}).
 
 \section{Static Analysis of Recorded Code Trajectories}
 \label{sec:static}
-We analyze captured trajectories offline, identifying construction helpers and characterizing their retained code (Section~\ref{sec:ghost}). The application uses the mini-SWE-agent integration.
+Our first application asks whether development history can establish the role of scripts left after a coding task. The analysis follows their construction activity before examining the code they retain.
 
 \subsection{Connecting mini-SWE-agent}
-The study adapter records commands, exit codes, raw and model-visible output, and model requests/responses. Git-anchored, content-addressed snapshots preserve initial and post-action workspaces, including untracked files and bounded temporary-file captures. It exports the \tracer{} step shape using snapshot identifiers instead of per-action Git commits. The AST analysis consumes these records directly, helper links and definition currency are derived below. Recorded model responses provide the language evidence for the qualitative review. The general decision ledger is not evaluated in this study.
+The study connector records commands, observations, and model requests/responses. Git-anchored snapshots preserve the initial and post-action workspaces, including captured untracked and temporary files. This connector uses snapshots rather than a Git commit for every action. The records support both the AST analysis and inspection of the accompanying language; the general decision ledger is outside this evaluation.
 
 \subsection{Recovering Source-Writing Behavior}
-For each retained Python path, we analyze every captured version. Abstract values track constant paths, file handles, read origins, and transformations. Assignments propagate values through \code{open}, \code{pathlib} operations, string/regular-expression replacements, and selected list mutations. A source-writing candidate requires a resolved Python destination and records the written value's origins.
-
+We analyze the AST of each retained Python file across its captured versions. Following how a script reads, transforms, and writes source identifies candidates that can modify another Python file. This establishes a possible construction role even when replacement code appears only in strings or partial fragments.
 
 \subsection{Corroborating the Construction History}
-%TODO: This para needs to be short and simple...
+Recorded invocations connect candidate helpers to changes in their target files. We identify the invoked helper version and associate its write destination with the product changes in that action. The retained link connects the script to a concrete development step and supports following its output through later revisions.
 
 \section{Studying Ghost Scripts}
 \label{sec:ghost}
 \subsection{What Survives an Agent Session?}
-In \code{django__django-13346}, MiniMax M2.5 invokes \code{/tmp/patch2.py} to write \code{KeyTransformIn} into \code{django/db/models/fields/json.py}. Later actions replace it. The passing endpoint uses \code{batch_process_rhs}, while the script's \code{new_class} string retains the earlier \code{resolve_expression_parameter} and \code{process_rhs} methods.
+A retained script can preserve a repair attempt that has disappeared from the product. In Django task 13346, MiniMax M2.5 uses \code{/tmp/patch2.py} to insert a \code{KeyTransformIn} implementation into Django. The agent later changes the implementation, but the helper still contains the earlier class as a string. The final workspace therefore contains both the passing repair and a construction artifact representing an earlier attempt.
 
-The helper's ordinary AST exposes writing operations but no executable definitions. Parsing its strings and linking them to product versions identifies the retained construction attempt.
+The helper's ordinary AST exposes file-writing operations. Parsing its string data reveals the embedded implementation, and the trajectory connects that implementation to the product version it helped construct. This gives the surviving file a development context that its endpoint contents alone do not establish.
 
-We distinguish three properties. \emph{Construction role} associates a surviving helper with a source-writing action. \emph{Currency} describes whether a linked implementation matches the endpoint, has been superseded, or cannot be resolved. \emph{Task-level redundancy} requires deletion evidence. For final workspace $F$, helper $h$, and the outcome vector $v_O$ of fixed oracle $O$, the latter is
+We distinguish a helper's \emph{construction role}, the \emph{currency} of its retained implementation, and its \emph{task-level redundancy}. The first two concern how code was produced and revised. Redundancy requires separate deletion evidence. For final workspace $F$, helper $h$, and the outcome vector $v_O$ of fixed oracle $O$, we require
 \begin{equation}
 v_O(F\setminus\{h\})=v_O(F).
 \label{eq:redundancy}
 \end{equation}
-Both evaluations must be valid and complete under the same oracle. AST similarity or a missing caller cannot establish this equality, which also leaves future maintenance value unresolved.
+Both evaluations must be valid and complete under the same oracle. This establishes the helper's status for the completed task; its historical role and possible maintenance value remain separate questions.
 
 \subsection{Following Embedded Implementations}
-Characterization extracts string literals containing source definitions. A statement wrapper permits indented fragments without altering multiline string values. Location-free AST fingerprints preserve names, literals, operators, decorators, and docstrings in function and class definitions.
+We compare AST fingerprints of definitions embedded in helper strings with product definitions before and after the associated action. A match introduced by that action links the helper's payload to a produced implementation. Source inspection distinguishes replacement code from search patterns and unused proposals.
 
-Let $H$ be the AST fingerprint and $D_e(f,q)$ the definition at file $f$ and qualified name $q$ in state $e$. An embedded payload $p$ is a produced-version candidate when
-\begin{equation}
-H(p)=H(D_{e^+}(f,q)),\qquad
-H(p)\ne H(D_{e^-}(f,q)),
-\label{eq:link}
-\end{equation}
-where $e^-$ and $e^+$ denote the action's before/after states. The payload matches a definition observed after the action but absent or different before it. Known absence has a distinguished fingerprint; unavailable source is not absence. Whole-class matches subsume contained methods. Argument-use tags and source inspection distinguish replacement payloads from search patterns and unused literals.
-
-We follow definitions matched by Equation~\ref{eq:link} through later snapshots. Equal endpoint fingerprints indicate current correspondence; a unique different definition indicates supersession. Missing or renamed definitions, duplicates, and parse failures remain unresolved. Tracking definitions preserves reversions without confusing enclosing-file edits with definition changes.
+Following the linked definition through later snapshots shows whether the retained implementation matches the final code, has been superseded, or returns after a reversion. Tracking definitions also avoids treating an unrelated edit elsewhere in the file as a change to the embedded implementation. Helpers without a resolvable match retain their established construction role, while the correspondence of their contents remains unknown.
 
 \section{Exploratory Study}
 \label{sec:study}
 We ask \emph{RQ1: Can static analysis of agent trajectories identify retained construction helpers? RQ2: What do ghost scripts retain, and how does recorded agent language describe their role in the repair?}
 
 \paragraph{Population}
-The archive contains 240 runs using mini-SWE-agent 2.4.6~\cite{mini}, with 12 model configurations on 20 SWE-bench Verified tasks across eight repositories. The models are DeepSeek V3-0324, V3.1-Terminus, V3.2; MiniMax M2, M2.1, M2.5; Qwen3-Coder-Next, Qwen3.5-35B-A3B, Qwen3.5-122B-A10B; and Llama 3.1-70B-Instruct, 3.3-70B-Instruct, 4-Maverick. All used temperature 0.2 and the official agent templates; provider reasoning defaults were not controlled.
+The archive contains 240 mini-SWE-agent 2.4.6 runs~\cite{mini}, using 12 model configurations on 20 SWE-bench Verified tasks across eight repositories. The models are DeepSeek V3-0324, V3.1-Terminus, V3.2; MiniMax M2, M2.1, M2.5; Qwen3-Coder-Next, Qwen3.5-35B-A3B, Qwen3.5-122B-A10B; and Llama 3.1-70B-Instruct, 3.3-70B-Instruct, 4-Maverick. Runs used temperature 0.2 and official agent templates, with provider reasoning defaults uncontrolled.
 
-The cohort comprises 88 endpoints with matching passing check vectors across two saved evaluations. Ten configurations contribute; Llama 3.1 and Maverick contribute none. The exclusions are 149 recorded nonpassing runs, one invalid endpoint, and two unavailable replay environments. Exact model IDs and per-model counts accompany the artifact.
+We study 88 reconstructable endpoints with matching passing outcomes across two saved evaluations. The captured inventory includes 1,662 Python file occurrences across 56 of these runs; the remaining runs contribute no new-file entry. It includes repository and temporary workspace files, many generated by tests.
 
-The full captured inventory contains 1,695 $(\text{run},\text{path})$ occurrences across 56 eligible runs, including 1,411 pytest-temporary artifacts. The other 32 runs contribute no entry. Python analysis covers 1,662 files; 33 are unsupported. Eleven Python endpoints fail parsing, all test-generated.
-
-\paragraph{Reference and validation}
-Discovery discards prior nomination, origin, and deletion labels. We subsequently compare with 62 frozen positive references and join saved deletion results by run, path, and hash. These examples informed development, including invocation refinements after reference misses. The comparison measures retrospective recovery, not population precision or recall.
-
-No new agent runs or subject executions were performed. Hash and snapshot checks plus 26 local tests cover analysis boundaries and a synthetic archive without nomination inputs. Source inspections were Codex-assisted. The language review below adds author verification of selected interpretations; it is separate from the static detector validation.
+\paragraph{Evidence and validation}
+Discovery uses recorded code and actions, then compares its findings with 62 frozen reference helpers and their saved deletion results. These examples informed prototype development, so recovery is a retrospective check. No new agent runs or subject executions were performed. Source inspection was Codex-assisted; the language study adds author verification of selected interpretations.
 
 \subsection{RQ1: Identification and Historical Evidence}
-AST analysis finds 65 source-writing candidates. History corroborates 62 files across 40 runs: 27 repository files and 35 external temporary files (Table~\ref{tab:discovery}). These recover every reference helper and its nominated edit event. The AST-only stage already includes all 62 references; history adds evidence about actual construction intervals rather than increasing reference recall.
+AST analysis finds 65 source-writing candidates; history corroborates 62 across 40 runs, recovering every reference helper and its nominated edit event (Table~\ref{tab:discovery}). AST screening already includes all 62 references. The contribution of history is evidence about their use during development and the versions involved.
 
 \begin{table}[t]
 \centering
-\caption{Discovery over the full captured inventory. Counts are file occurrences; the reference comparison is retrospective.}
+\caption{Discovery over the captured inventory. Counts are file occurrences; reference recovery is retrospective.}
 \label{tab:discovery}
 \begin{tabular}{@{}lr@{}}
 \toprule
@@ -125,22 +108,14 @@ Additional AST candidates, deletion unknown & 3 \\
 \end{tabular}
 \end{table}
 
-The 62 helpers participate in 67 edit intervals. Literal creation establishes the invoked version in 54 intervals; 13 have equal before/after helper blobs. Every tracked read origin matches the write target. Three intervals involve older helper versions. Six helpers have multiple versions, contributing seven AST changes.
-
-Target transitions include 56 different parseable AST pairs, one byte change with an equal AST, and ten with an unparseable intermediate target. Construction roles remain observable when outputs are later repaired.
-
-The three additional candidates have unknown deletion status. Two, in Xarray 3677 and pytest 5262, are invoked but leave identical target blobs. The third, in Sphinx 8056, is a retained copy whose original is executed. They are not labeled non-ghosts.
-
-The initial prototype corroborated 58 references. Resolving four helpers rewritten and invoked within one action required matching quoted creation bodies to archived bytes. This refinement used the study data.
+The records include earlier helper versions and intermediate product code later repaired. These histories show why the surviving file alone may not represent the script that performed an edit. Three additional AST candidates remain unresolved: two invocations leave their targets unchanged, and one retained script is a copy of the version executed. Their deletion status is unknown.
 
 \subsection{RQ2: Nature of Retained Scripts}
-Characterization uses the recovered reference edit events and previously audited comparisons. Twenty-seven helpers contain parseable embedded definitions. Matching links 25 to product definitions across 20 runs and eight tasks. Of 37 unlinked helpers, 35 lack complete parseable definitions, one contains a partial replacement, and one an unused proposed class. Writing analysis still detects them.
-
-Three of 28 raw matches are excluded as pre-existing search patterns or unchanged methods. The 25 primary links use 18 string replacements, four regular-expression replacements, two list insertions, and one list-slice replacement. None of these helpers has executable function/class definitions; their implementations exist in string data.
+The retained helpers preserve different parts of the repair process. We link embedded definitions in 25 helpers to product code; 20 match the final implementation and five retain superseded versions (Table~\ref{tab:currency}). In all 25, the implementations occur as string data, with no executable function or class definitions in the helper itself. Their construction role becomes visible by connecting this data to changes in the product.
 
 \begin{table}[t]
 \centering
-\caption{Currency of the 62 history-supported helpers. All have separate saved evidence of task-oracle redundancy.}
+\caption{Correspondence of retained implementations to final code. All 62 helpers have separate task-oracle redundancy evidence.}
 \label{tab:currency}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
@@ -154,52 +129,49 @@ Total & 62 & 20 & 5 & 37 \\
 \end{tabular}
 \end{table}
 
-Twenty linked helpers match the endpoint; five retain superseded versions across five runs and three tasks (Table~\ref{tab:currency}). These precede changes to Django's \code{KeyTransformIn}, pytest's \code{EncodedFile.mode}, and SymPy tuple-printing logic. Differences remain after stripping docstrings, but do not establish incorrect behavior.
+The superseded implementations concern Django JSON lookups, pytest file-mode handling, and SymPy tuple printing. Two other histories return to an earlier implementation after intervening revisions. The 37 unlinked helpers also write source, but lack a complete matched definition; this limits what we can establish about their retained code.
 
-Two Django/Sphinx histories end current after supersession and reversion. Another Django edit changes the enclosing file without changing the class. Endpoint comparison and entity granularity matter.
-
-Saved individual deletion trials establish Equation~\ref{eq:redundancy} for all 62 helpers. Combined deletions preserve baseline vectors in 40 runs across two checks. The audit verifies evaluation validity, matching oracle identifiers, and complete required checks. The redundant set spans all currency categories. The three extra candidates lack deletion evidence; an indispensable-helper reference group is unavailable.
+Saved individual deletion trials preserve the fixed passing outcomes for all 62 helpers. Combined deletions also preserve outcomes in the 40 affected runs across two checks. Redundancy therefore spans current, superseded, and unlinked contents. It does not identify a single kind of development artifact.
 
 \subsection{Recorded Explanations and Human Verification}
 \label{sec:language}
-We link original assistant messages to helper actions through tool-call identifiers and retain surrounding revision statements. Quotations preserve their event and source field, distinguishing provider-exposed reasoning from assistant narration. At the reference construction action, 48 of the 62 helpers have nonblank recorded language; 14 do not. Surrounding text remains contextual evidence rather than a direct explanation of that action.
+Recorded language adds evidence about the activity surrounding these scripts. At the reference construction action, 48 helpers have nonblank narration or exposed reasoning; 14 do not. We link quotations to actions and preserve their source fields, distinguishing direct statements from surrounding context.
 
-Codex proposed interpretations of expressed purpose and any explicit retention rationale for all helpers. One author checked five purposively selected case interpretations against presented quotations and action/AST context, accepting all five. Selection covered current, superseded, and unlinked helpers, including a case without direct language. The cohort-wide annotations remain provisional; author verification is restricted to these five presented case readings. This author check establishes support for the presented readings, without estimating annotation accuracy or reasoning faithfulness.
+Codex proposed interpretations of expressed purpose and explicit retention rationale. One author checked five purposively selected case readings against presented quotations and action/AST context, accepting all five. The cases span current, superseded, and unlinked helpers and include missing direct language. Cohort-wide annotations remain provisional; author verification covers only these five readings.
 
-The reviewed cases illustrate different information supplied by language. In Django 13346, DeepSeek V3.1 explains that a \code{sed} command failed before creating \code{fix_syntax.py}, providing a reason for changing the editing method. MiniMax M2.5's Django reasoning and Qwen3-Coder-Next's SymPy narration describe problems corrected in later implementations. In Sphinx 8056, MiniMax M2.5 says ``Let me restore my fix'' before rerunning \code{/tmp/patch.py} during diagnosis. The helper was reused within the session even though endpoint deletion preserved passing outcomes. For Xarray 7393, preceding narration explains a dtype repair, while the helper's construction action itself has no recorded explanation. These readings contextualize the scripts' use without establishing why they remained after the task or whether they would help future repairs.
+The reviewed language explains changes in editing strategy and repair design. In Django, DeepSeek V3.1 describes a failed \code{sed} command before creating \code{fix_syntax.py}. MiniMax M2.5's Django reasoning and Qwen3-Coder-Next's SymPy narration explain revisions to earlier attempts. In Xarray, preceding narration describes the intended dtype repair even though the helper action has no direct explanation.
+
+The Sphinx case shows a further role. MiniMax M2.5 says ``Let me restore my fix'' before rerunning \code{/tmp/patch.py} during diagnosis. The helper is reused within the session, yet redundant at the passing endpoint. Together, language and code history explain this distinction. They do not establish why the agent left the file behind or whether it would help a later task.
 
 \section{Related Work}
-RepoCoder and Repoformer retrieve repository context~\cite{repocoder,repoformer}. Construction annotations could inform such retrieval. Git AI records agent authorship through checkpoints and Git metadata~\cite{gitai}; here we examine retained artifacts' roles and relationships to produced code.
+Repository-context approaches such as RepoCoder and Repoformer~\cite{repocoder,repoformer} motivate a downstream question: whether construction history helps select useful context. Git AI records agent authorship~\cite{gitai}; \tracer{} links actions and explanations to code evolution so that retained artifacts can be studied through their development roles.
 
-ChangeDistiller and GumTree extract changes through tree differencing~\cite{changedistiller,gumtree,gumtree2024}. Clone genealogy follows related fragments across versions~\cite{genealogy}, including in human--agent development~\cite{aigenealogy}. Our AST fingerprints connect source stored as a helper's data to a product definition and follow it through the repair history.
+ChangeDistiller and GumTree analyze structural changes~\cite{changedistiller,gumtree,gumtree2024}, while clone genealogy follows related code across versions~\cite{genealogy,aigenealogy}. Our application connects source embedded as a helper's data to product definitions and follows those definitions through a repair.
 
-Provenance research distinguishes entities, activities, and derivations~\cite{prov}. noWorkflow combines AST analysis and runtime information~\cite{noworkflow}, YesWorkflow exposes script workflows through annotations~\cite{yesworkflow}, and ReproZip captures execution dependencies~\cite{reprozip}. Our analysis uses existing action snapshots to interpret retained construction artifacts without instrumenting or rerunning them.
+Provenance systems establish a foundation for preserving relationships among artifacts and activities~\cite{prov,noworkflow,yesworkflow,reprozip}. We apply this perspective to coding-agent development, where actions, intermediate code, and recorded explanations can be captured together and reused for different SE analyses.
 
-Delta debugging isolates relevant input or changes~\cite{dd}, Perses uses syntax to guide reduction~\cite{perses}, and Chisel addresses program debloating~\cite{chisel}. TRIM minimizes agent-generated patches using trajectories and reports removal of scratch scripts~\cite{trim}. Here, construction provenance describes a helper's writing role and represented version. Separate deletion checks validate redundancy; automatic removal remains future work.
+Delta debugging and program-reduction techniques identify removable inputs or code~\cite{dd,perses,chisel}. TRIM minimizes agent-generated patches using trajectories~\cite{trim}. Our study examines what surviving helpers represent and how they were used; saved deletion checks establish task redundancy separately.
 
 \section{Threats to Validity}
-The retrospective study conditions on passing, reconstructable runs from one scaffold and a small task sample. Repeated tasks and models make files non-independent. Recovering 62 development examples does not establish general accuracy; unselected files lack independent non-helper labels.
+The study uses passing, reconstructable runs from one scaffold and a small task sample. Examples informed development, so reference recovery does not establish general detector accuracy. Captured files, especially temporary files, are incomplete and need not appear in the submitted patch. Bounded static analysis can miss dynamic behavior, while compound actions limit causal attribution. Unresolved definition links remain unknown.
 
-The inventory covers captured new files, not every repository symbol; temporary capture is incomplete. Results concern workspaces, including external temporary files, rather than necessarily submitted patches. Bounded AST and shell analyses miss indirect invocation, reflection, complex APIs, and dynamic paths. Snapshot intervals can contain multiple operations or conceal changes undone within an action. Exact embedded matching misses transformed fragments, while named-definition tracking leaves moves and duplicates unresolved. Assistant inspection and unit tests establish inspectability and internal consistency. The five language cases were selected after inspecting the results, and author judgments may be influenced by the proposed LLM interpretation; this is not an independent inter-rater study. Recorded explanations need not reflect faithful intent; an unstated retention rationale remains unknown. Finally, the same task oracle defines eligibility and redundancy; passing deletion checks does not establish general removal safety or future usefulness.
+The five language cases were selected after inspection. Author judgments may be influenced by the proposed LLM reading, and recorded explanations need not reflect faithful intent. Finally, the same fixed oracle defines passing outcomes and redundancy; deletion success does not establish safety for future tasks. These limits motivate broader evaluation of both the analyses and the effects of using recorded histories.
 
 \section{Future Plans}
 \label{sec:future}
-We will release \tracer{} with separate adapter and analysis packages, then evaluate a frozen helper detector on independently labeled sessions. Maintained generators should be included when comparing precision, recall, and abstention against AST-only screening. Controlled studies should compare review accuracy and agent task success using linked histories, final code, and unlinked logs. Ablations should isolate recorded reasoning's contribution.
+The broader research question is how access to development history changes subsequent SE work. We will compare linked histories with final code and unlinked logs in code review and agent task continuation, measuring review accuracy, task success, and effort. Ablations will distinguish the contribution of recorded language from that of code history alone.
 
-\paragraph{Development efficiency}
-Repeated AST states and unchanged invocation targets nominate work for inspection. Recorded duration and usage could quantify their cost. Independent labels must distinguish avoidable work from useful exploration and verification.
+\paragraph{Development efficiency and security}
+Repeated edits, reversions, and their recorded explanations offer evidence for studying development cost. Evaluation must distinguish useful diagnosis, as in the Sphinx case, from avoidable work. Security-focused studies could examine how reviewers use histories to locate the introduction and repair of security-relevant changes. Both directions concern the effects of making development evidence available.
 
-\paragraph{Security analysis}
-History could contextualize security-relevant changes, such as removing input validation. Independently adjudicated cases should compare reviewers' localization of introducing and corrective edits against final diffs and unlinked trajectories. Vulnerability and exploitability require separate evidence.
-
-\paragraph{Validated cleanup in mini-SWE-agent}
-An end-of-session stage could nominate helpers, archive their history, and remove them under a retention policy with validation. Evaluation must include indispensable helpers and measure incorrect removal, task success, and overhead. These interventions remain unevaluated.
+\paragraph{History-informed cleanup}
+We plan to connect helper detection to an end-of-session cleanup stage in mini-SWE-agent, preserving the development record while validating proposed removals. Evaluation will include indispensable helpers and independently labeled sessions, measuring incorrect removal, task success, and overhead. The distinction between historical usefulness and endpoint redundancy is central to this intervention.
 
 \section{Conclusion}
-\tracer{} preserves development as linked evidence for later inspection and reuse. Our static analysis recovers 62 reference helpers with saved redundancy evidence and distinguishes current from superseded implementations. The study connects construction history with recorded explanations of repair activity. Benefits to people or subsequent agents remain open research questions.
+\tracer{} makes captured development histories available as linked software evidence. The ghost-script study shows how static analysis and recorded explanations can establish construction roles and interpret surviving artifacts. This initial application motivates studying how access to development history changes software review, agent continuation, and maintenance.
 
 \section*{Artifact Availability}
-The release will separate \tracer{} core, the mini-SWE-agent adapter, and AST analyses, with model configurations and reproduction evidence. Packaging and public deposition remain pending.
+The planned release includes \tracer{} core, connectors, AST analyses, model configurations, and reproduction evidence. Public packaging and deposition are in preparation.
 
 \clearpage
 \begin{thebibliography}{22}
