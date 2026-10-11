@@ -32,39 +32,34 @@ Linked histories could help developers review earlier repair attempts, subsequen
 
 \section{TRACER Architecture}
 \label{sec:tracer}
-\tracer{} separates agent adapters, code-linked recording, and downstream analyses. A step contains an identifier, prompt, recorded reasoning, raw events, author, and before/after versions. Existing interfaces accept OpenHands events and explicit human edits; other agents require an adapter to this format. This paper combines static trajectory analysis (Section~\ref{sec:static}) with a review of recorded agent explanations (Section~\ref{sec:language}). Evaluating benefits to downstream consumers remains future work (Section~\ref{sec:future}).
+\tracer{} separates agent adapters, code-linked recording, and downstream analyses. A step contains an identifier, prompt, recorded reasoning, raw events, author, and before/after versions. %TODO: Not existing, released artifact contains, 
+
+Existing interfaces accept OpenHands events and explicit human edits; other agents require an adapter to this format. This paper combines static trajectory analysis (Section~\ref{sec:static}) with a review of recorded agent explanations (Section~\ref{sec:language}). Evaluating benefits to downstream %TODO: not consumers, effects. That we promise to study also 
+
+consumers remains future work (Section~\ref{sec:future}).
 
 \subsection{Linking Reasoning to Symbol Changes}
-The structural index comes from the separate \code{codebase-memory-mcp} project~\cite{codebasememory}. \tracer{} reads its code graph, including qualified symbol names, source spans, and relationships. For each Git revision range, changed line ranges are mapped to the innermost overlapping symbols. Live AST extraction resolves new symbols and changed spans; re-indexing and reconciliation update their graph identities. Unresolved ranges fall back to file-level links.
-
-These links attach the step's prompt and recorded reasoning to its affected code. Provenance tags distinguish narration, tool-call thoughts, exposed chain of thought (CoT), and provider summaries when available. A step touching several symbols links to each; the attachment does not establish a separate causal explanation for every edit. Unexposed reasoning is unavailable, and recorded text is not assumed faithful intent.
+The structural index builds on \code{codebase-memory-mcp} project~\cite{codebasememory}. \tracer{} reads its code graph, including qualified symbol names, source spans, and relationships. For each Git revision range, changed line ranges are mapped to the innermost overlapping symbols. Live AST extraction resolves new symbols and changed spans; re-indexing and reconciliation update their graph identities. Unresolved ranges fall back to file-level links. These links attach the step's prompt and recorded reasoning to its affected code. Provenance tags distinguish narration, tool-call thoughts, exposed chain of thought (CoT), and provider summaries when available. 
 
 \subsection{Revisions and the Decision Ledger}
-The Git-backed driver checkpoints development steps, retaining intermediate attempts. A separate SQLite trace store holds steps, node links, signatures, and symbol co-change records. Per-version snapshots preserve structural changes. Development lineages retain fork points and merge visibility, while historical records remain inspectable after later edits. Optional reasoning embeddings support search; they are not required for recording.
-
-The decision ledger is derived from recorded revisions without an LLM. For each step, it compares added line text with session-end removals through two Git diffs. Normalized-text overlap yields \emph{survived}, \emph{revised}, or \emph{abandoned} entries. Symbol entries additionally check whether linked definitions remain. Error observations followed by further actions generate \emph{error\_retry} entries. Records retain abandoned content and heuristic links to later surviving steps on the same symbol or file. These are reproducible development summaries, not correctness verdicts or ghost labels.
+The Git-backed driver checkpoints development steps, retaining intermediate attempts. A separate SQLite trace store holds steps, node links, signatures, and symbol co-change records. Per-version snapshots preserve structural changes. Development lineages retain fork points and merge visibility, while historical records remain inspectable after later edits. Optional reasoning embeddings support CoT search. The decision ledger is derived from recorded revisions without an LLM. For each step, it compares added line text with session-end removals through two Git diffs. Normalized-text overlap yields \emph{survived}, \emph{revised}, or \emph{abandoned} entries. Symbol entries additionally check whether linked definitions remain. Error observations followed by further actions generate \emph{error\_retry} entries. Records retain abandoned content and heuristic links to later surviving steps on the same symbol or file. These are reproducible development summaries, not correctness verdicts or ghost labels.
 
 \subsection{Reusable History and Analysis Interfaces}
-File/symbol history queries, version navigation, and review bundles expose diffs with their recorded reasoning and ledger entries. The panel connects code structure to the step timeline. The intended release separates this general \tracer{} tool from agent connectors and study-specific analyses. Determinism concerns deriving records and reconstructing captured versions from stored evidence, not repeating model outputs or guaranteeing complete runtime capture.
+File/symbol history queries, version navigation, and review bundles expose diffs with their recorded reasoning and ledger entries. The panel connects code structure to the step timeline. The intended release separates this general \tracer{} tool from agent connectors and study-specific analyses. 
 
 \section{Static Analysis of Recorded Code Trajectories}
 \label{sec:static}
-We analyze captured trajectories offline, identifying construction helpers and characterizing their retained code (Section~\ref{sec:ghost}). The application uses the mini-SWE-agent integration; deletion outcomes are joined separately.
+We analyze captured trajectories offline, identifying construction helpers and characterizing their retained code (Section~\ref{sec:ghost}). The application uses the mini-SWE-agent integration.
 
 \subsection{Connecting mini-SWE-agent}
-The study adapter records commands, exit codes, raw and model-visible output, and model requests/responses. Git-anchored, content-addressed snapshots preserve initial and post-action workspaces, including untracked files and bounded temporary-file captures. It exports the \tracer{} step shape using snapshot identifiers instead of per-action Git commits. The AST analysis consumes these records directly; helper links and definition currency are derived below. Recorded model responses provide the language evidence for the qualitative review. The general decision ledger is not evaluated in this study.
+The study adapter records commands, exit codes, raw and model-visible output, and model requests/responses. Git-anchored, content-addressed snapshots preserve initial and post-action workspaces, including untracked files and bounded temporary-file captures. It exports the \tracer{} step shape using snapshot identifiers instead of per-action Git commits. The AST analysis consumes these records directly, helper links and definition currency are derived below. Recorded model responses provide the language evidence for the qualitative review. The general decision ledger is not evaluated in this study.
 
 \subsection{Recovering Source-Writing Behavior}
-For each retained Python path, we analyze every captured version. Abstract values track constant paths, file handles, read origins, and transformations. Assignments propagate values through \code{open}, \code{pathlib} operations, string/regular-expression replacements, and selected list mutations. A source-writing candidate requires a resolved Python destination and records the written value's origins; filenames and complete embedded functions are not required.
+For each retained Python path, we analyze every captured version. Abstract values track constant paths, file handles, read origins, and transformations. Assignments propagate values through \code{open}, \code{pathlib} operations, string/regular-expression replacements, and selected list mutations. A source-writing candidate requires a resolved Python destination and records the written value's origins.
 
-This bounded possible-effect analysis joins branches, approximates loops once, and binds arguments for supported direct local calls. Deferred bodies are not assumed executed. Dynamic paths and unsupported flows remain unresolved. The analysis covers common helper idioms without a soundness guarantee for arbitrary Python.
 
 \subsection{Corroborating the Construction History}
-Shell parsing locates direct Python-script invocations, separates commands from heredoc bodies and quoted arguments, and resolves supported working-directory changes. The invoked version must have identical before/after bytes or match a quoted body written immediately before invocation.
-
-The static write destination must match a repository Python file changed between the action's snapshots. A \emph{history-supported construction relationship} retains the helper version, read origin, write site, target versions, and event identifier. Compound actions establish interval association rather than isolated causation.
-
-Targets may differ only in comments or include syntax errors. We record parse status and AST fingerprints separately from byte changes. Helper AST transitions preserve the distinction between earlier invoked versions and endpoint bytes.
+%TODO: This para needs to be short and simple...
 
 \section{Studying Ghost Scripts}
 \label{sec:ghost}
