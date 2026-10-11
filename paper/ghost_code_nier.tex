@@ -33,7 +33,7 @@ Linked histories could help developers review earlier repair attempts, subsequen
 
 \section{TRACER Architecture}
 \label{sec:tracer}
-\tracer{} makes the development process available for later analysis by preserving the relationship between an action, the code it changes, and its recorded explanation (Figure~\ref{fig:overview}). The architecture separates agent adapters, a recording core, and analysis modules. Each step associates the prompt and available reasoning with the action's before/after versions. The tool supports OpenHands and human-edit interfaces alongside the mini-SWE-agent connector used here. A review artifact accompanies the study (see \hyperref[sec:data]{Data Availability}). This separation allows new agents and research questions to use the same development record.
+\tracer{} makes the development process available for later analysis by preserving the relationship between an action, the code it changes, and its recorded explanation (Figure~\ref{fig:overview}). The architecture separates agent adapters, a recording core, and analysis modules. Each step associates the prompt and available reasoning with the action's before/after versions. The tool supports OpenHands and human-edit interfaces alongside the mini-SWE-agent connector used here. Code and experimental artifacts are described in \hyperref[sec:data]{Data Availability}. This separation allows new agents and research questions to use the same development record.
 
 \begin{figure*}[t]
 \centering
@@ -180,7 +180,7 @@ We plan to connect helper detection to an end-of-session cleanup stage in mini-S
 
 \section*{Data Availability}
 \label{sec:data}
-The review artifact provides \tracer{}, the mini-SWE-agent connector, AST/history analysis code, and synthetic examples at \url{https://anonymous.4open.science/r/ghost_code_artifact-B623/}. Original study trajectories, saved evaluation results, and language-review records are not included in this release.
+The code artifact provides \tracer{}, the mini-SWE-agent connector, AST/history analysis code, and synthetic examples at \url{https://anonymous.4open.science/r/ghost_code_artifact-B623/}. A separate experimental artifact contains the empirical trajectories, saved evaluation results, and language-review records. Its Zenodo deposit is in preparation under reserved DOI \href{https://doi.org/10.5281/zenodo.23296923}{10.5281/zenodo.23296923} and is not yet publicly available.
 
 \section*{Acknowledgments}
 OpenAI Codex assisted with drafting and revising text throughout the manuscript, implementing analysis scripts, inspecting source histories, and proposing interpretations of recorded agent language. The study distinguishes provisional annotations from the five author-verified case readings. Figure~\ref{fig:overview} was generated with PaperBanana using Nano Banana Pro.
