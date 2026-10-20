@@ -1,6 +1,8 @@
 # TRACER
 
-**Engineering Change-Informed Security Investigation and Persistent Repair for Coding Agents**
+**Securing Agent-Generated Code Through Development History**
+
+TRACER stands for **Trace-based Runtime Analysis for Continuous Evolution and Release**.
 
 Working manuscript for ICSE 2027 SEIP. TRACER connects static-analysis findings
 with symbol-level code evolution and separately recorded development rationale,
@@ -59,8 +61,14 @@ Git. The prepared manuscript was compiled with Tectonic 0.17.0.
 The manuscript reports the completed SusVibes study, including the shared
 345-attempt comparison across both investigators, the separate 354-attempt
 DeepSeek comparison, and the five-case computational-biology continuation
-study. Author names and affiliations still need to be filled in. Qualitative
-practitioner sign-off remains pending, as stated in the paper.
+study. The authors are Prateek Rajput, Shahzeb Khan, Jacques Klein, and
+Tegawendé F. Bissyandé, in that order. Shahzeb's email remains to be supplied.
+The Nostrum Biodiscovery co-author has reviewed the manuscript; the quantitative
+study remains researcher-run.
+
+[`EDITORIAL_REVIEW.md`](EDITORIAL_REVIEW.md) records the SEIP format check and
+provides the 48-reference citation review list. Page-limit editing remains
+deferred.
 
 This checkout contains the manuscript sources. The tool, raw trajectories,
 experiment environments, evaluation logs, and credentials are maintained

@@ -1,6 +1,8 @@
 \section{Lessons for SE Teams and Threats to Validity}
 \label{sec:threats}
 \subsection{Practical Lessons}
+\noindent\textbf{Relevance to industry.} Teams accepting coding-agent changes need a review step that fits existing pull-request and release workflows while preserving functional behavior. Industrial static-analysis experience emphasizes developer trust, actionable findings, and timely feedback~\cite{johnson,googleanalysis,infer}. \tracer{} addresses these needs by combining installed scanners with a bounded change-focused investigation, recording why a repair was accepted, and attaching a reusable boundary check to subsequent maintenance. For scientific-software teams such as Nostrum Biodiscovery, the studied checkpoints, structure files, archives, and output paths are concrete interfaces where feature and compatibility changes can invalidate earlier assumptions. A team can adopt the review bundle and repair note incrementally, then use its existing continuous-integration system to check later edits. This workflow supports secure-development practices for code review, executable testing, and retaining vulnerability knowledge~\cite{ssdf}. Our results provide component-level evidence and operational lessons for such adoption; production effectiveness remains to be measured.
+
 Security review benefits from making the path from available evidence to an accepted repair explicit.
 Scanner findings provide reproducible entry points, while change-informed planning exposes recently modified symbols that warrant investigation.
 The resulting review plan gives an investigator a bounded set of source contracts to examine instead of treating each warning as an isolated verdict.
@@ -23,8 +25,8 @@ Reference-patch overlap is a localization proxy whose precision depends on symbo
 Broad classes and formatting-only reference edits can overstate semantic localization, as the FirstUseAuthenticator review illustrates.
 Scanner-file overlap, scanner-symbol overlap, plan inclusion, supported diagnosis, and verified repair therefore describe different stages.
 Task-level security tests evaluate a specified property and its behavioral contract rather than an exhaustive vulnerability inventory.
-Consequently, a SecPass result cannot label unrelated scanner alerts as false positives or establish whole-repository security.
-Recorded ReAct rationale is observable development text and need not faithfully describe the model's internal reasoning or the implementation's actual behavior.
+Consequently, a SecPass result cannot label unrelated scanner alerts as false positives or establish whole-repository security. Test adequacy and patch overfitting remain established limits of test-based repair evaluation~\cite{repairsurvey,overfitting}.
+Recorded ReAct rationale is observable development text and need not faithfully describe the model's internal reasoning or the implementation's actual behavior~\cite{turpin,lanham}.
 Our outcome claims are bounded by the published functional/security tests, while the semantic reviews use source, reference patches, and assertions to explain particular failures.
 
 \emph{Internal validity and adaptive development.}
@@ -52,9 +54,10 @@ Memory plus Gate receives one feedback retry that No Memory does not, so the 3/5
 The separate archived SusVibes continuation cohort has 6/11 versus 2/11 joint successes and nine guarded fallbacks, reinforcing the need to distinguish preservation from successful feature delivery.
 Section~\ref{sec:practice} therefore concentrates on the domain workflow while the artifact retains both cohorts and their complete outcomes.
 The 15 semantic failure reviews are purposive, retrospective, and single-reviewer; their proportions and the domain-study gains require broader independent validation.
-Source and check hashes establish traceability rather than semantic correctness, and the release must document missing raw-history paths, input permissions, and the still-uncollected qualitative practitioner sign-off.
+Source and check hashes establish traceability rather than semantic correctness, and the release must document missing raw-history paths and input permissions. The industry co-author's manuscript review provides domain feedback, while an independent practitioner deployment and structured user evaluation remain future work.
 
 \section{Related Work}
+Repository-level benchmarks such as SWE-bench evaluate whether an agent resolves a real issue~\cite{swebench}, while CVEfixes collects vulnerability-fixing histories and Vul4J supplies reproducible vulnerabilities and triggering tests~\cite{cvefixes,vul4j}. These resources motivate distinguishing a recorded fix, executable evidence, and an archived development trajectory.
 SusVibes establishes the distinction between functional and security success for agent-generated repository implementations~\cite{susvibes,susvibesartifact}.
 Its released tasks and executable tests let us evaluate a conditional investigation-and-repair workflow on archived outputs from several generators.
 SWE-agent emphasizes the role of the agent-computer interface in repository navigation, editing, and testing~\cite{sweagent}.
@@ -63,15 +66,19 @@ ReAct provides the interleaved rationale/action format from which we extract the
 PAGENT combines static guidance with dynamic profiling and coverage feedback to construct vulnerability-triggering inputs~\cite{pagent}.
 \tracer{} adapts that guidance-and-feedback pattern into conditional Python checks within a source-bound investigation and repair protocol, with its own target-reachability and candidate-validation records.
 
+LLM-assisted analysis provides complementary ways to investigate current code. IRIS infers taint specifications and uses contextual analysis to filter candidate vulnerability paths~\cite{iris}; LLMDFA combines language-model reasoning with parsing and external feasibility checks~\cite{llmdfa}. RepoAudit uses an agent memory and validator to explore repository data flows on demand~\cite{repoaudit}. These approaches motivate grounding model judgments in program evidence, while our comparison asks what temporal edits and separately recorded development explanations add to a common current-source repair protocol.
+
 Historical information already supports several forms of security analysis, each operating on a different unit of evidence.
 ViolationTracker reconstructs histories of static-analysis violations across revisions~\cite{violationtracker}.
 CoLeFunDa uses function-change descriptions, augmentation, and learned representations to identify and explain silent vulnerability fixes~\cite{colefunda}.
-KNighter synthesizes specialized static checkers from historical patches~\cite{knighter}.
+KNighter synthesizes specialized static checkers from historical patches~\cite{knighter}, while FixMiner extracts reusable repair patterns from structured changes~\cite{fixminer}.
 GumTree supplies structural edit matching, which we use through a typed Python AST adapter to preserve relevant operations, guards, and calls in bounded summaries~\cite{gumtree,gumtree3}.
 Semgrep and CodeQL supply the scanner findings and analysis interfaces that anchor the current-source investigation~\cite{semgrep,codeql}.
 Our contribution brings these complementary evidence types into a workflow that keeps code evolution and recorded rationale separate, binds assessments to current source, and exposes the losses between review coverage and verified repair.
 
-Persistent security representations also provide useful context for the maintenance stage.
+Automated repair research distinguishes the patch search procedure from the oracle used to accept its output~\cite{repairsurvey,overfitting}. InferFix couples static analysis, retrieved fixes, and generation~\cite{inferfix}; ChatRepair uses conversational test feedback~\cite{chatrepair}; and RepairAgent gives an autonomous agent tools for code inspection, editing, and testing~\cite{repairagent}. Our recorded validation-slot and finalization failures concern this end-to-end acceptance process, including the distinction between an edit produced and a repair actually retained.
+
+Persistent security representations also provide useful context for the maintenance stage. Reflexion retains verbal feedback in an episodic memory, and Self-Refine iteratively improves an output using model-generated feedback~\cite{reflexion,selfrefine}. Our maintenance gate instead binds a repair invariant to independently owned executable checks and reports feedback-assisted acceptance separately from fallback preservation.
 POSTURA's released software design describes a persistent security graph with incremental commit reasoning~\cite{postura}.
 The exploratory \emph{Undoing the Fix} report studies deliberately elicited security regressions under an AI-control setting~\cite{undoingfix}.
 Our domain study instead asks a maintenance agent to implement benign feature extensions in previously repaired functions.
