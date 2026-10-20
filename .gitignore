@@ -1,25 +1,27 @@
-# Publish only the paper and repository documentation from this large workspace.
-/*
-!/.gitignore
-!/.gitattributes
-!/README.md
-!/paper/
+# Generated LaTeX outputs.
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.xdv
+/main.pdf
 
-# LaTeX build products and editor files.
-/paper/*.aux
-/paper/*.log
-/paper/*.out
-/paper/*.toc
-/paper/*.lof
-/paper/*.lot
-/paper/*.fls
-/paper/*.fdb_latexmk
-/paper/*.synctex.gz
-/paper/*.pdf
-/paper/*.bbl
-/paper/*.blg
-/paper/*.xdv
-/paper/*.nav
-/paper/*.snm
-**/.DS_Store
-**/*~
+# Local editor files and credentials.
+.DS_Store
+*~
+*.swp
+.env
+.env.*
+!.env.example
+__pycache__/
