@@ -159,7 +159,9 @@ All configurations share Semgrep CE 1.101.0 with Python rules at commit \code{49
 \section{Empirical Results on Coverage and Repair Outcomes}
 \label{sec:results}
 \subsection{RQ1. Evidence Available for Review}
-Stock SAST overlaps a reference file in 228/387 attempts (58.9\%), a primary reference symbol in 52/387 (13.4\%), and a symbol including flow positions in 63/387 (16.3\%). The planner includes a reference symbol in 366/387 plans (94.6\%) and its complete body in 329/387 (Table~\ref{tab:inventory}). Among 291 publisher-SecFail attempts, primary and flow-inclusive overlap are 41 and 50, while plan inclusion reaches 281. C0 therefore receives relevant context even when SAST is silent. Of 335 attempts without a primary reference-symbol warning, patch selection supplies a reference group in 317 and its complete body in 282, while functional requests mention the target in 307. This measures review opportunity, with file-only mappings kept separate from named symbols.
+Stock SAST overlaps a reference file in 228/387 attempts (58.9\%), a primary reference symbol in 52/387 (13.4\%), and a symbol including flow positions in 63/387 (16.3\%). The planner includes a reference symbol in 366/387 plans (94.6\%) and its complete body in 329/387 (Table~\ref{tab:inventory}). The coverage gap also persists among the 291 publisher-SecFail attempts, where primary and flow-inclusive overlaps are 41 and 50, while plan inclusion reaches 281. Thus the broader review scope reaches implementations that fail the security tests, not only the admitted population in aggregate.
+
+Patch selection and the functional request explain how C0 receives relevant context even when SAST is silent. Of 335 attempts without a primary reference-symbol warning, patch selection supplies a reference group in 317 and its complete body in 282, while functional requests mention the target in 307. The plan consequently supplies implementation context beyond reported warning locations. This remains a measure of review opportunity, with file-only mappings kept separate from named symbols.
 
 \rqfinding{RQ1 Finding}{Change-informed planning includes reference-relevant symbols in 94.6\% of review plans, compared with 13.4\% primary SAST symbol overlap. Diagnosis and repair remain subsequent steps.}
 
@@ -170,20 +172,23 @@ Stock SAST overlaps a reference file in 228/387 attempts (58.9\%), a primary ref
 \centering\footnotesize
 \input{tables/final_results}
 \end{table*}
-The shared cohort begins with 342 functional and 68 security passes among 345 attempts. DeepSeek C0--C3 reach 71/73/76/74 SecPass, while Gemini reaches 70/74/75/73 (Table~\ref{tab:results}). C2 ranks highest with both investigators, raising SecPass from 19.71\% to 22.03\% and 21.74\%, respectively, and adding five net passes over C0 in each campaign (1.45 percentage points). Functional passes remain 341/342/342/342 for DeepSeek and 341/340/341/340 for Gemini. The 354-attempt DeepSeek comparison preserves the exact ranking, with 72/74/77/75 SecPass from 69 original passes.
+We evaluate security gains alongside functional preservation because an intervention that breaks the requested feature is not a successful maintenance outcome. The shared cohort begins with 342 functional and 68 security passes among 345 attempts. DeepSeek C0--C3 reach 71/73/76/74 SecPass, while Gemini reaches 70/74/75/73 (Table~\ref{tab:results}). C2 ranks highest with both investigators, raising SecPass from 19.71\% to 22.03\% and 21.74\%, respectively, and adding five net passes over C0 in each campaign (1.45 percentage points). Functional passes remain 341/342/342/342 for DeepSeek and 341/340/341/340 for Gemini. The larger 354-attempt DeepSeek comparison preserves the exact ranking, with 72/74/77/75 SecPass from 69 original passes. Its functional counts are 349/350/350/350 against 350 original passes. The additional complete attempts therefore support the same ordering while keeping functional regressions visible.
 
 \rqfinding{RQ2 Finding}{C2 improves baseline SecPass by 8/345 cases with DeepSeek and 7/345 with Gemini. Corresponding functional losses are zero and one.}
 
 \subsection{RQ3. Context Bundles and Conversion Identity}
-DeepSeek C2 makes eight security conversions across six distinct tasks, while Gemini C2 makes seven across four. These are repairs to particular generated implementations, not fifteen independent discoveries. For C2 versus C0, task-cluster 95\% intervals are [0.00, 2.96] percentage points for DeepSeek and [$-0.32$, 3.86] for Gemini, with six wins and one loss in each paired comparison. C1 and C3 exchange positions between investigators, so adding both history channels does not consistently improve repair.
+Table~\ref{tab:results} separates the aggregate results by coding generator because one task can contribute several generated implementations. DeepSeek C2 makes eight security conversions across six distinct tasks, while Gemini C2 makes seven across four. These are repairs to particular generated implementations, not fifteen independent discoveries. For C2 versus C0, task-cluster 95\% intervals are [0.00, 2.96] percentage points for DeepSeek and [$-0.32$, 3.86] for Gemini, with six wins and one loss in each paired comparison. C1 and C3 exchange positions between investigators, so adding both history channels does not consistently improve repair.
 
-On the 110 previously protected attempts, 24 original security passes become 26/25/26/24 for DeepSeek and 25/27/27/25 for Gemini. C2 ties C0 for DeepSeek and exceeds it by two for Gemini. On the 235 development-exposed attempts, 44 original passes become 45/48/50/50 and 45/47/48/48, respectively. Table~\ref{tab:results} retains the generator and scanner-seeding breakdowns alongside these exposure strata.
+On the 110 previously protected attempts, 24 original security passes become 26/25/26/24 for DeepSeek and 25/27/27/25 for Gemini. C2 ties C0 for DeepSeek and exceeds it by two for Gemini. On the 235 development-exposed attempts, 44 original passes become 45/48/50/50 and 45/47/48/48, respectively. These strata show that the aggregate gain over C0 is concentrated more strongly in development-exposed tasks. Table~\ref{tab:results} also separates attempts with and without scanner alerts, preserving their distinct starting conditions.
 
 \rqfinding{RQ3 Finding}{The rationale-enabled bundle ranks highest with both investigators. Its protected-stratum gain over C0 is zero cases for DeepSeek and two for Gemini. Combined history does not improve on it.}
 
 \input{main_remaining}
-% Standard IEEEtran column balancing for the final reference page.
-\IEEEtriggeratref{32}
+% References begin on their own page after the ten-page main text.
+\clearpage
+% Keep each reference entry together and balance the final reference page.
+\newcommand{\BIBdecl}{\interlinepenalty=10000}
+\IEEEtriggeratref{42}
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 \end{document}

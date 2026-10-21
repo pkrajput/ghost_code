@@ -68,13 +68,15 @@ The Nostrum Biodiscovery co-author has reviewed the manuscript; the quantitative
 study remains researcher-run.
 
 [`EDITORIAL_REVIEW.md`](EDITORIAL_REVIEW.md) records the SEIP format check and
-provides the 49-reference citation review list. The final editorial build is
-exactly **10 pages including references**, with Figure 1 on page 2. All five
-research questions, five tables, and both figures are retained. The protected
-title, abstract, index terms, and introduction are unchanged.
+provides the 49-reference citation review list. The editorial build has
+**10 pages of main text and two pages of references**, with Figure 1 on page 2.
+Pages 1–4 are unchanged from the preceding revision. All five research questions,
+five tables, and both figures are retained. Section VIII now develops four
+discussion points and their practical implications.
 
-The [skill repository](https://github.com/pkrajput/TRACER_skill) includes the
-current manuscript PDF and compact outcome records. The
+The [skill repository](https://github.com/pkrajput/TRACER_skill) distributes the
+tool and compact outcome records. The manuscript is maintained separately in
+this repository. The
 [Zenodo release](https://doi.org/10.5281/zenodo.23530070) preserves the published
 software and derived evidence. Raw investigator transcripts, complete evaluator
 logs, and container exports are outside that archive. See the Data Availability

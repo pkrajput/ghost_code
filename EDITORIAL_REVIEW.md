@@ -1,8 +1,8 @@
 # Editorial review — updated 21 October 2026
 
 This is a manuscript-only revision. No model requests or new experiment runs
-were made. The final editorial pass reduces the paper to exactly ten pages,
-including references. Retained experimental values and denominators are unchanged.
+were made. The discussion overhaul uses ten pages of main text followed by two
+pages of references. Experimental values and denominators are unchanged.
 
 ## Requested changes
 
@@ -25,19 +25,48 @@ Checked against the [official SEIP call](https://conf.researchr.org/track/icse-2
 | Author identification | Allowed: the SEIP call does not require double-anonymous review |
 | Layout | Standard two-column IEEEtran layout; letter-size PDF; no geometry, margin, line-spacing, or font-size compression overrides |
 | References | IEEEtran bibliography style; numbered citations; `cite` sorts/compresses citation groups |
-| Reference-column balance | Standard IEEEtran reference-column break balances the final page at entry 32 |
+| Reference-column balance | Standard IEEEtran reference-column break at entry 42. Individual reference entries are kept together |
 | Fonts | PDF font inspection confirms embedded fonts, with Times-compatible Nimbus Roman for prose |
 | Build | Tectonic 0.17.0 completed; no LaTeX errors, unresolved citations/references, BibTeX warnings, or overfull boxes |
 | Visual review | All pages inspected for heading placement and float overlap, with both figures and all five tables retained. Remaining underfull-box warnings do not produce overflowing content |
-| Pagination | Exactly 10 total pages including references, which begin on page 9. Figure 1 remains on page 2. No margins, body fonts, or line spacing were reduced |
+| Pagination | 10 main-text pages, ending with Acknowledgements at the bottom of page 10, column 2. References occupy pages 11–12. Figure 1 remains on page 2. No margins, body fonts, or line spacing were reduced |
 | Overleaf | Keep `main.tex` as the main document and pdfLaTeX as the compiler; the local verification build used Tectonic |
 
 The title, author block, bibliography, and body formatting follow the required
-class. The requested ten-page total is verified locally with Tectonic. Final
-author review remains. Table II drops only the historical development baseline,
-and all retained numerical values and experimental denominators are unchanged.
+class. The requested ten-plus-two-page layout is verified locally with Tectonic.
+Final author review remains. All five numerical table sources and both figure
+assets are unchanged from the preceding revision.
 
-## Final editorial pass
+## Discussion overhaul and ten-plus-two-page layout
+
+- All manuscript source through Section IV remains byte-for-byte unchanged.
+  The extracted text and rendered pixels of pages 1–4 match the preceding PDF, including
+  the abstract, index terms, introduction, overview, background, architecture,
+  and research questions.
+- Section VIII is now **Discussion, Practical Implications, and Threats to
+  Validity**. Its discussion develops four points about localization versus
+  diagnosis, preserving development explanations, executable security memory,
+  and validation/service guardrails.
+- The discussion distinguishes primary SAST overlap from detection recall,
+  treats context dilution as a possible explanation rather than a measured
+  causal mechanism, and keeps the audit-cue and retry differences explicit.
+  It describes the maintenance gains as successful feature/check outcomes,
+  without recasting the two additional successes as prevented exploits.
+- Sections V–VII restore transitional explanations, all eight named semantic
+  failure examples, the five component repair contracts, and the separate
+  seventy-candidate recovery check. Validity and related work use fuller prose.
+- Version labels remain confined to Section VI and later. Removed unexplained
+  audit populations, task names, and internal script names stay absent.
+- All 49 bibliography entries remain cited. Publication URLs and DOI links are
+  restored, and all authors are printed for entries with up to ten authors.
+  Entries with more than ten authors use IEEEtran's *et al.* control. Full author
+  metadata remains in the BibTeX file.
+- References start at the top of page 11 and finish on page 12. The biology
+  table appears beside its study on page 8. Standard body fonts and margins
+  are unchanged, with no undefined references/citations or overfull boxes.
+- The skill repository is unchanged. Its removed manuscript PDF is not restored.
+
+## Earlier editorial pass with a ten-page total
 
 - Kept the title, author block, abstract, index terms, introduction, Section II,
   and Figure 1 source/caption byte-for-byte unchanged. Both figure assets remain
@@ -68,7 +97,7 @@ and all retained numerical values and experimental denominators are unchanged.
   unchanged. No experiment was rerun.
 
 The dated notes below document earlier revisions and their pagination, rather
-than the current ten-page build.
+than the current ten-plus-two-page build.
 
 ## 21 October narrative revision
 
