@@ -69,7 +69,9 @@ study remains researcher-run.
 
 [`EDITORIAL_REVIEW.md`](EDITORIAL_REVIEW.md) records the SEIP format check and
 provides the 49-reference citation review list. The editorial build has
-**10 pages of main text and two pages of references**, with Figure 1 on page 2.
+**10 full pages of main text and two pages of references**, with Figure 1 on page 2.
+Each research question is restated before its answer, and the bibliography
+prints the complete author lists.
 All five research questions, five tables, and both figures are retained. The
 approved prose and figure/table redesign distinguish coding generators from
 security investigators and use precise funnel labels. Section VIII presents

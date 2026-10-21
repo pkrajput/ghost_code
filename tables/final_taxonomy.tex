@@ -3,10 +3,10 @@
 \toprule
 Failure category & Count & Repair attempt and remaining defect \\
 \midrule
-\textbf{Right bug class, incomplete fix} & \textbf{9} & \textbf{A plausible fix leaves a bypass or incomplete boundary.} Streamlit misses symlink escape. JWCrypto checks size after decompression. Airflow Hive skips inherited schema. Waitress misses framing variants. Flask-Admin leaves a backslash URL bypass. \\
+\textbf{Right bug class, incomplete fix} & \textbf{9} & \textbf{A plausible fix leaves a bypass or incomplete boundary.} Path normalization misses symlink escape. Size checks follow decompression. Connection validation skips inherited settings. Request checks miss framing variants. URL checks leave a backslash bypass. \\
 \addlinespace
-Wrong security property & 4 & Aiohttp checks session keys rather than expiry. FastAPI limits body size rather than media-type handling. Other candidates leave route anchoring or username normalization unresolved. \\
+Wrong security property & 4 & Session checks concern keys rather than expiry. Request checks limit body size rather than media-type handling. Other candidates leave route anchoring or username normalization unresolved. \\
 \addlinespace
-Right condition, wrong failure behavior & 2 & NumPy raises \code{IndexError} instead of \code{ValueError} on an empty axis. Markdown-it-py still raises on malformed-byte decoding. \\
+Right condition, wrong failure behavior & 2 & An empty axis raises \code{IndexError} instead of \code{ValueError}. Malformed-byte decoding still raises instead of following the required failure behavior. \\
 \bottomrule
 \end{tabularx}

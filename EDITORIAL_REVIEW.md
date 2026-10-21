@@ -30,8 +30,13 @@ The numerical outcomes are unchanged. The skill repository is untouched.
   model-written and RFdiffusion used a locally implemented remedy.
 - Body prose contains no semicolons or em-dashes. Numeric result sequences are
   presented in tables rather than dense slash lists in prose.
-- All 49 bibliography entries are actually cited. Full metadata and links are
-  retained, with author truncation only for lists longer than ten names.
+- All 49 bibliography entries are actually cited. Full author lists print without
+  forced truncation. The title block and Zenodo citation list all four authors.
+- Each RQ is restated at the start of its answer section. Takeaways and the
+  conclusion use descriptive configuration names. The failure taxonomy and
+  diagnosis/contract examples describe mechanisms without repository names.
+- Results, failure analysis, the component study, and practical takeaways retain
+  fuller explanations. The duplicate component-study disclaimer is removed.
 
 ## Format and verification
 
@@ -40,7 +45,9 @@ body font sizes. Compact list and table formatting stays local to those elements
 The verified local build uses Tectonic 0.17.0. Overleaf should continue to use
 `main.tex` as its main document and pdfLaTeX as its compiler.
 
-The PDF has **10 pages of main text and two pages of references**. References
+The PDF has **10 full pages of main text and two pages of references**. Both
+columns of page 10 extend close to the bottom of the text area. The introduction's
+“We present TRACER” paragraph starts at the bottom of page 1. References
 start on page 11. The build has no LaTeX errors, undefined references or citations,
 BibTeX warnings, or overfull boxes. Ordinary underfull-box warnings remain.
 Table values were compared with the preceding committed version. The funnel

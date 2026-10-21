@@ -1,5 +1,6 @@
 \section{Industrial Case Study. Structural Biology Pipelines (RQ5)}
 \label{sec:practice}
+\noindent\textbf{\emph{RQ5. Can repair memory and boundary gates preserve repaired properties while subsequent feature changes succeed?}}\par
 A repaired codebase must survive later updates. Silent-fix research motivates retaining repair purpose beyond the code itself~\cite{colefunda}. RQ5 therefore evaluates \tracer{}'s persistent memory and boundary gate during feature evolution in public scientific repositories.
 
 \begin{table*}[t]
@@ -22,7 +23,9 @@ The five repairs address security and reliability contracts in scientific-data p
 \end{enumerate}
 Four repairs were model-written, while RFdiffusion used a locally implemented remedy specified by the user after two unsuccessful model attempts.
 
-We verify each repair in a pinned Python 3.11 container with network access disabled and source and checks mounted read-only. Each has an ordinary control and an independently owned boundary assertion that fails before repair and passes afterward. This is a researcher-run component study with industry input. For each accepted fix, \tracer{} saves the invariant, rationale, symbol hash, and executable check in an external JSON repair note.
+We verify each repair in a pinned Python 3.11 container with network access disabled and source and checks mounted read-only. Each has an ordinary control and an independently owned boundary assertion that fails before repair and passes afterward. For each accepted fix, \tracer{} saves the invariant, rationale, symbol hash, and executable check in an external JSON repair note.
+
+The ordinary control checks that a repair still accepts an expected scientific input. The boundary assertion checks the condition that motivated the change, such as an escaping archive path or an invalid output name. Together, they distinguish rejecting a dangerous input from disabling the component altogether. The saved symbol hash ties that evidence to the implementation that passed the checks, so a later maintainer can identify which version established the contract.
 
 \subsection{Preventing Regressions Under Silent-Fix Evolution}
 We remove comments and docstrings from the repaired targets using Python's \code{tokenize} and \code{ast} interfaces~\cite{pythontokenize,pythonast}. The executable AST is identical after excluding documentation nodes, and the cleaned starts pass ordinary and boundary checks. Both conditions receive the same starting code and feature requests. Requests extend formats, input filters, or exception handling, so the agent must change behavior rather than merely extract a helper. Feature checks are fixed before generation.
@@ -34,6 +37,8 @@ For example, DockQ must select a parser from the file extension, support fallbac
 \item \textbf{Memory + Gate.} The same model also receives the repair note. Its proposal must pass ordinary, feature, and saved boundary checks. Application or check failures provide exact feedback for one retry before fallback to the secure starting code.
 \end{itemize}
 Both use temperature zero. Fallback preserves the original code but does not count as successful feature delivery.
+
+This distinction matters for maintenance. A gate could preserve every old invariant simply by refusing all changes, but that would not deliver the requested feature. Joint success therefore requires the evolved implementation to satisfy all three checks. The retry gives the agent one opportunity to resolve a concrete failure while preserving the same acceptance conditions.
 
 No Memory achieves joint success in 3/5 cases. Memory + Gate reaches 4/5 on its first proposals and 5/5 after retry, with no fallbacks. The two additional RQ5 successes come from completing ZIP output in haddock3 and fixing a missing \code{pickle} import in RFdiffusion, rather than two demonstrated prevented vulnerability reintroductions. All first proposals pass ordinary checks. Saved boundary checks pass in four cases per condition, while an exception leaves the initial RFdiffusion boundary outcome unknown. Figure~\ref{fig:bio-memory} illustrates how the external note and executable check accompany a later feature request.
 
