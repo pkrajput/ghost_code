@@ -1,8 +1,10 @@
 \section{Structural Biology Pipelines and Persistent Security Memory}
 \label{sec:practice}
+While Sections~\ref{sec:results} and~\ref{sec:engineering} evaluate diagnosis and repair on benchmark tasks, a repaired codebase must also survive subsequent evolution. We therefore evaluate Stage~4 of \tracer{}---persistent security memory and boundary gating (RQ5)---on six public structural-biology repositories.
+
 \subsection{Change-Informed Discovery and Repair}
-We extend the investigation workflow to public software used in structural biology, molecular docking, and protein design.
-The study covers six pinned repositories selected with our Nostrum Biodiscovery collaborator in Barcelona: RFdiffusion~\cite{rfdiffusion}, ProteinMPNN~\cite{proteinmpnn}, haddock3~\cite{haddock3}, DockQ~\cite{dockq}, AutoDock-Vina~\cite{vina}, and foldseek~\cite{foldseek}.
+The pinned repositories cover structural biology, molecular docking, and protein design: RFdiffusion~\cite{rfdiffusion}, ProteinMPNN~\cite{proteinmpnn}, haddock3~\cite{haddock3}, DockQ~\cite{dockq}, AutoDock-Vina~\cite{vina}, and foldseek~\cite{foldseek}.
+They were selected with our Nostrum Biodiscovery collaborator in Barcelona, who has reviewed the manuscript and its account of the domain study. The quantitative evidence is a researcher-run component study; manuscript review does not constitute independent replication or a practitioner deployment.
 Semgrep 1.101.0 reports 420 warnings across these repositories, but none overlaps the five selected target symbols; this domain pilot uses Semgrep rather than the benchmark's combined Semgrep/CodeQL configuration.
 Bounded source review identifies component properties, and repository history provides change context for each repair.
 Each case has an ordinary-behavior control and a separately owned boundary assertion that fails on the original component and passes after repair.
@@ -43,7 +45,6 @@ Both initial RFdiffusion candidates reference an unimported \code{pickle} name i
 Thus the two additional joint successes arise from completing archive-format support and repairing exception handling, rather than two observed reintroductions of an exploitable vulnerability.
 Figure~\ref{fig:bio-memory} illustrates how the saved haddock3 invariant remains external to the silent starting code while its containment check persists through format expansion.
 All five Memory+Gate outputs are accepted feature implementations, so its 100\% joint success uses no fallback to the old version.
-The Nostrum Biodiscovery co-author has reviewed the manuscript and its account of the domain study. The quantitative evidence remains a researcher-run component study; this review does not constitute an independent replication or a deployment evaluation. Section~\ref{sec:threats} discusses its scope and the combined effects of memory, enforcement, and retry.
 
 \begin{figure}[t]
 \centering
@@ -51,3 +52,5 @@ The Nostrum Biodiscovery co-author has reviewed the manuscript and its account o
 \caption{A saved haddock3 repair and external memory, excerpted from the recorded artifacts. The containment guard is present in the silent start and the accepted ZIP/TAR continuation. The gate separately checks ordinary extraction, the new format feature, and the original boundary.}
 \label{fig:bio-memory}
 \end{figure}
+
+\rqfinding{RQ5 Finding}{Persistent repair memory with a one-retry boundary gate achieves 5/5 joint feature-and-boundary successes, compared with 3/5 for unguarded continuation, with no secure-code fallbacks. The gain concerns completed feature evolution under saved checks; it does not isolate memory from enforcement and retry.}

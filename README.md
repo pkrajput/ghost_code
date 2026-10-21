@@ -62,7 +62,8 @@ The manuscript reports the completed SusVibes study, including the shared
 345-attempt comparison across both investigators, the separate 354-attempt
 DeepSeek comparison, and the five-case computational-biology continuation
 study. The authors are Prateek Rajput, Shahzeb Khan, Jacques Klein, and
-Tegawendé F. Bissyandé, in that order. Shahzeb's email remains to be supplied.
+Tegawendé F. Bissyandé, in that order. The author block includes the affiliations
+and contact details supplied through Overleaf.
 The Nostrum Biodiscovery co-author has reviewed the manuscript; the quantitative
 study remains researcher-run.
 
