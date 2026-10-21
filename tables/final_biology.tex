@@ -15,15 +15,15 @@ DockQ & 10 & \code{load_PDB}
 haddock3 & 247 & \code{extract_files_flat}
 & Extraction escape through destination symlink
 & ZIP and TAR support, optional nested paths
-& No$^{a}$ & Yes\\
+& No & \textbf{Yes}\\
 ProteinMPNN & 43 & \code{StructureDataset}\newline\code{.__init__}
 & Unvalidated record names used in output paths
 & Minimum-length and missing-coordinate filters
 & Yes & Yes\\
 RFdiffusion & 49 & \code{Sampler.}\newline\code{load_checkpoint}
-& Unrestricted pickle loading under pinned runtime$^{b}$
+& Unrestricted pickle loading under pinned runtime
 & Legacy-checkpoint exception handling and CPU fallback
-& No$^{c}$ & Yes, retry\\
+& No & \textbf{Yes}, retry\\
 AutoDock-Vina & 60 & \code{Vina.write_poses}
 & Overwrite branch bypasses numeric validation
 & Verbose flag and consolidated validation chain
@@ -31,12 +31,5 @@ AutoDock-Vina & 60 & \code{Vina.write_poses}
 \midrule
 \multicolumn{5}{@{}l}{\textbf{Joint successes, first proposal}} & \textbf{3/5} & \textbf{4/5}\\
 \multicolumn{5}{@{}l}{\textbf{Joint successes, final accepted feature implementation}} & \textbf{3/5} & \textbf{5/5}\\
-\multicolumn{5}{@{}l}{Additional proposals / secure-code fallbacks} & 0 / 0 & 1 / 0\\
 \bottomrule
 \end{tabularx}
-\par\smallskip
-\begin{minipage}{\textwidth}\scriptsize
-$^{a}$ ZIP output is missing. The saved boundary check passes.
-$^{b}$ User-specified remedy, locally implemented after two unsuccessful model repairs.
-$^{c}$ An unimported \code{pickle} name leaves the feature and boundary outcomes unknown. The gate's retry resolves this in Memory+Gate.
-\end{minipage}

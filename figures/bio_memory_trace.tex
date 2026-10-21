@@ -1,25 +1,24 @@
-% Exact code excerpt and selected memory.json fields:
-% Source study: silent_fix_feature_v1 (archived experiment artifacts).
-% cases/haddock_extract_symlink/{starting_code.py,memory.json}
-% guard also appears in continuations/haddock_extract_symlink/memory_gate/1/candidate/candidate.py
+% Code excerpt from silent_fix_feature_v1/cases/haddock_extract_symlink/starting_code.py.
+% The repair-note fields below are paraphrased for display, not literal JSON.
 \fbox{\begin{minipage}{0.94\columnwidth}
 \footnotesize
-\textbf{Silent repair, resolved-path containment}\par\smallskip
-{\ttfamily\scriptsize
-target\_path = dest / member.name\par
-target\_resolved = target\_path.resolve()\par
-if dest not in target\_resolved.parents \textbackslash\par
-\hspace*{1em}and dest != target\_resolved:\par
-\hspace*{2em}continue\par}
-\smallskip
-\textbf{External repair-note fields (excerpt)}\par
-\code{symbol}: \code{extract_files_flat}\par
-\code{security_invariant}: ``their final extraction paths must be within the destination directory after resolving any symlinks in the destination path.''\par
-\code{fix_verified}: \code{true}\par
-\code{fix_patch_sha256}: \code{e6973008...}\par
-\code{check_qualification}: original assertion fails. Fixed version and ordinary controls pass.\par
-\smallskip
-\textbf{Feature evolution, ZIP/TAR + nested paths}\par
-No Memory. Ordinary/boundary pass. ZIP output missing.\par
-Memory+Gate. Ordinary, feature, and boundary all pass.
+\textbf{1. Silent Security Repair in Code}\par
+Comments stripped.\par\smallskip
+{\ttfamily
+ target\_path = dest / member.name\par
+ target\_resolved = target\_path.resolve()\par
+ if dest not in target\_resolved.parents \textbackslash\par
+ \hspace*{1em}and dest != target\_resolved:\par
+ \hspace*{2em}continue\par}
+\smallskip\hrule\smallskip
+\textbf{2. TRACER External Repair Note}\par
+Summary of the saved JSON note.\par
+\textbf{Target symbol.} \code{extract_files_flat}\par
+\textbf{Security rule.} Final extraction paths must stay inside the destination directory after resolving symlinks.\par
+\textbf{Linked boundary check.} Reject a symlink escape and accept safe archive members.\par
+\smallskip\hrule\smallskip
+\textbf{3. Subsequent Feature Evolution}\par
+\textbf{Request.} Add ZIP/TAR and nested-path support.\par
+\textbf{No Memory.} Fails the feature check.\par
+\textbf{Memory + Gate.} Passes ordinary behavior, the new feature check, and the saved security boundary check.
 \end{minipage}}

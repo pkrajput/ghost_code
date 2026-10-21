@@ -1,43 +1,55 @@
 # Editorial review — updated 21 October 2026
 
-This is a manuscript-only revision. No model requests or new experiment runs
-were made. The discussion overhaul uses ten pages of main text followed by two
-pages of references. Experimental values and denominators are unchanged.
+This manuscript-only revision assembles the approved RTF update with the factual
+corrections accepted in chat. No experiment or paid study request was launched.
+The numerical outcomes are unchanged. The skill repository is untouched.
 
-## Requested changes
+## Current assembly
 
-- Title: **Securing Agent-Generated Code Through Development History**.
-- TRACER is expanded in the abstract as **Trace-based Runtime Analysis for Continuous Evolution and Release**.
-- Authors, in order: **Prateek Rajput; Shahzeb Khan; Jacques Klein; Tegawendé F. Bissyandé**.
-- Shahzeb is affiliated with Nostrum Biodiscovery; the other authors with the University of Luxembourg. The latest Overleaf author block supplies all four email addresses and the city/country details; these are preserved with corrected line breaks.
-- **Industry Relevance and Code Archaeology** now opens Section II; Section VIII-A discusses the C2/C3 context-selection lesson instead of repeating this motivation.
-- Manuscript review by the Nostrum Biodiscovery co-author is recorded. This does not reclassify the researcher-run evaluation as an independent deployment or replication.
-- The bibliography contains **49 distinct, actually cited entries**, including the new Zenodo artifact citation. No `nocite` padding is used. Additions concentrate on background, method attribution, related work, the six domain repositories, and artifact availability.
+- The paper now uses the requested eleven-section hierarchy. Section VIII covers
+  industrial relevance and practitioner takeaways, Section IX covers validity,
+  and Section X groups related work into four subsections.
+- The introduction and setup distinguish seven coding generators from the two
+  fixed security investigators, DeepSeek-V3.2 and Gemini-3.8-Flash.
+- Figure 1 remains vector artwork on page 2. Its former Stage 4 label now reads
+  **Post-Repair Maintenance**. Figure 2 is a three-part repair-memory box.
+- Tables I–V use plain-language labels. Table II highlights the actual maximum
+  for each investigator in every row, including ties. Table III uses the exact
+  approved four step headers. Its former development-version panel is removed.
+- Symbol coverage, accepted assessments, reference-file edits, retained patches,
+  and independently evaluated outcomes remain distinct.
+- Functional regressions, the 345-patch evaluation-completion criterion, rescue
+  conversions versus preserved successes, and exact error labels are corrected.
+- The three methodological clarifications each occur once in the designated
+  prose location. Audit cues appear in IV-C, exposure counts in V-C alongside
+  Table II, and the two additional maintenance successes in VII-B.
+- SusVibes v1.0 is distinguished from the original 200-task statistics.
+  CoLeFunDa is credited for GumTree function-change descriptions. KNighter's
+  use of historical patches remains explicit.
+- The five component repairs are researcher-run with industry input. Four were
+  model-written and RFdiffusion used a locally implemented remedy.
+- Body prose contains no semicolons or em-dashes. Numeric result sequences are
+  presented in tables rather than dense slash lists in prose.
+- All 49 bibliography entries are actually cited. Full metadata and links are
+  retained, with author truncation only for lists longer than ten names.
 
-## ICSE 2027 SEIP formatting check
+## Format and verification
 
-Checked against the [official SEIP call](https://conf.researchr.org/track/icse-2027/icse-2027-seip).
+The document uses standard 10pt conference IEEEtran with unchanged margins and
+body font sizes. Compact list and table formatting stays local to those elements.
+The verified local build uses Tectonic 0.17.0. Overleaf should continue to use
+`main.tex` as its main document and pdfLaTeX as its compiler.
 
-| Requirement or check | Result |
-| --- | --- |
-| IEEE conference class, 10pt, without `compsoc` or `compsocconf` | Uses `\documentclass[10pt,conference]{IEEEtran}` |
-| Standard title/body type sizes | Class defaults retained: nominal 24pt title and 10pt main text |
-| Author identification | Allowed: the SEIP call does not require double-anonymous review |
-| Layout | Standard two-column IEEEtran layout; letter-size PDF; no geometry, margin, line-spacing, or font-size compression overrides |
-| References | IEEEtran bibliography style; numbered citations; `cite` sorts/compresses citation groups |
-| Reference-column balance | Standard IEEEtran reference-column break at entry 42. Individual reference entries are kept together |
-| Fonts | PDF font inspection confirms embedded fonts, with Times-compatible Nimbus Roman for prose |
-| Build | Tectonic 0.17.0 completed; no LaTeX errors, unresolved citations/references, BibTeX warnings, or overfull boxes |
-| Visual review | All pages inspected for heading placement and float overlap, with both figures and all five tables retained. Remaining underfull-box warnings do not produce overflowing content |
-| Pagination | 10 main-text pages, ending with Acknowledgements at the bottom of page 10, column 2. References occupy pages 11–12. Figure 1 remains on page 2. No margins, body fonts, or line spacing were reduced |
-| Overleaf | Keep `main.tex` as the main document and pdfLaTeX as the compiler; the local verification build used Tectonic |
+The PDF has **10 pages of main text and two pages of references**. References
+start on page 11. The build has no LaTeX errors, undefined references or citations,
+BibTeX warnings, or overfull boxes. Ordinary underfull-box warnings remain.
+Table values were compared with the preceding committed version. The funnel
+column alignment, figure labels, page breaks, and all rendered pages were checked.
 
-The title, author block, bibliography, and body formatting follow the required
-class. The requested ten-plus-two-page layout is verified locally with Tectonic.
-Final author review remains. All five numerical table sources and both figure
-assets are unchanged from the preceding revision.
+The notes below document earlier revisions and do not describe the current
+section hierarchy or which source files changed in this assembly.
 
-## Discussion overhaul and ten-plus-two-page layout
+## Earlier discussion overhaul and ten-plus-two-page layout
 
 - All manuscript source through Section IV remains byte-for-byte unchanged.
   The extracted text and rendered pixels of pages 1–4 match the preceding PDF, including

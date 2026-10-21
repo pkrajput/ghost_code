@@ -1,86 +1,2061 @@
 %PDF-1.4
-%“Œ‹ž ReportLab Generated PDF document (opensource)
+%âãÏÓ
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 5 0 R
+/Producer (ReportLab PDF Library \055 \050opensource\051)
+/Author (anonymous)
+/CreationDate (D\07220261021134846\05305\04700\047)
+/Creator (anonymous)
+/Keywords ()
+/ModDate (D\07220261021134846\05305\04700\047)
+/Subject (Overview with C0\055C3 evidence configurations and Stage 4 maintenance)
+/Title (TRACER\072 development evidence\054 security repair\054 and persistent memory)
+/Trapped (\057False)
 >>
 endobj
 2 0 obj
 <<
-/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+/Type /Pages
+/Count 1
+/Kids [ 4 0 R ]
 >>
 endobj
 3 0 obj
 <<
-/BaseFont /Times-Roman /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+/Type /Catalog
+/Pages 2 0 R
 >>
 endobj
 4 0 obj
 <<
-/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+/Contents 5 0 R
+/MediaBox [ 0 0 504 258.6316 ]
+/Resources <<
+/Font 6 0 R
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>>
+/Rotate 0
+/Trans <<
+>>
+/Type /Page
+/Parent 2 0 R
 >>
 endobj
 5 0 obj
 <<
-/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
+/Length 27435
 >>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+.265263 0 0 .265263 0 0 cm
+q
+1 0 0 1 0 0 cm
+0 0 0 RG
+1 w
+0 J
+0 j
+[] 0 d
+0 0 0 rg
+BT /F2 10 Tf 12 TL ET
+BT /F2 10 Tf 12 TL ET
+q
+1 0 0 1 0 0 cm
+q
+1 1 1 rg
+0 w
+0 J
+0 j
+[] 0 d
+n 0 0 1900 975 re f*
+Q
+q
+.960784 .960784 .960784 rg
+.670588 .670588 .670588 RG
+2.2 w
+0 J
+0 j
+[] 0 d
+n
+53 30 m
+827 30 l
+839.7144 30 850 40.2856 850 53 c
+850 922 l
+850 934.7144 839.7144 945 827 945 c
+53 945 l
+40.2856 945 30 934.7144 30 922 c
+30 53 l
+30 40.2856 40.2856 30 53 30 c
+h
+B*
+Q
+q
+.960784 .960784 .960784 rg
+.670588 .670588 .670588 RG
+2.2 w
+0 J
+0 j
+[] 0 d
+n
+903 30 m
+1257 30 l
+1269.714 30 1280 40.2856 1280 53 c
+1280 922 l
+1280 934.7144 1269.714 945 1257 945 c
+903 945 l
+890.2856 945 880 934.7144 880 922 c
+880 53 l
+880 40.2856 890.2856 30 903 30 c
+h
+B*
+Q
+q
+.960784 .960784 .960784 rg
+.670588 .670588 .670588 RG
+2.2 w
+0 J
+0 j
+[] 0 d
+n
+1333 30 m
+1847 30 l
+1859.714 30 1870 40.2856 1870 53 c
+1870 922 l
+1870 934.7144 1859.714 945 1847 945 c
+1333 945 l
+1320.286 945 1310 934.7144 1310 922 c
+1310 53 l
+1310 40.2856 1320.286 30 1333 30 c
+h
+B*
+Q
+q
+BT /F3 33 Tf 39.6 TL ET
+BT /F3 33 Tf 39.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 261.1895 895 Tm (Development evidence) Tj T* ET
+Q
+q
+BT /F3 31 Tf 37.2 TL ET
+BT /F3 31 Tf 37.2 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 938.2835 895 Tm (Investigate + repair) Tj T* ET
+Q
+q
+BT /F3 25 Tf 30 TL ET
+BT /F3 25 Tf 30 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1440.6625 908 Tm (Post-Repair Maintenance) Tj T* ET
+Q
+q
+BT /F3 29 Tf 34.8 TL ET
+BT /F3 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1399.818 871 Tm (Persistent security memory) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 850 795 m 905 795 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 905 795 m 893 789.24 l 893 800.76 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 1080 715 m 1080 635 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1080 635 m 1074.24 647 l 1085.76 647 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 1080 525 m 1080 355 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1080 355 m 1074.24 367 l 1085.76 367 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 1080 205 m 1080 165 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1080 165 m 1074.24 177 l 1085.76 177 l h
+B*
+Q
+q
+.45098 .45098 .45098 RG
+2.2 w
+0 J
+0 j
+[6 5] 0 d
+n 1080 497 m 1180 497 l 1180 477 l
+S
+Q
+q
+.45098 .45098 .45098 rg
+.45098 .45098 .45098 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1180 477 m 1175.2 487 l 1184.8 487 l h
+B*
+Q
+q
+.45098 .45098 .45098 RG
+2.2 w
+0 J
+0 j
+[6 5] 0 d
+n 1144 435 m 1100 435 l 1100 380 l 1080 380 l
+S
+Q
+q
+.45098 .45098 .45098 rg
+.45098 .45098 .45098 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1080 380 m 1090 384.8 l 1090 375.2 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 1225 122 m 1294 122 l 1294 774 l 1340 774 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1340 774 m 1328 768.24 l 1328 779.76 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 1294 569 m 1360 569 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1360 569 m 1348 563.24 l 1348 574.76 l h
+B*
+Q
+q
+.45098 .45098 .45098 RG
+2.3 w
+0 J
+0 j
+[7 5] 0 d
+n 1835 730 m 1850 730 l 1850 273 l 1810 273 l
+S
+Q
+q
+.45098 .45098 .45098 rg
+.45098 .45098 .45098 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1810 273 m 1821 278.28 l 1821 267.72 l h
+B*
+Q
+q
+BT /F1 21 Tf 25.2 TL ET
+BT /F1 21 Tf 25.2 TL ET
+.45098 .45098 .45098 rg
+BT 1 0 0 1 1723.888 648 Tm (Saved check) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 1520 570 m 1598 570 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1598 570 m 1586 564.24 l 1586 575.76 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 1710 405 m 1710 340 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1710 340 m 1704.24 352 l 1715.76 352 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 1630 205 m 1630 150 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1630 150 m 1624.24 162 l 1635.76 162 l h
+B*
+Q
+q
+BT /F1 22 Tf 26.4 TL ET
+BT /F1 22 Tf 26.4 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1670 171 Tm (Pass) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n 1450 268 m 1350 268 l 1350 375 l 1635 375 l 1635 414 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 1635 414 m 1640.28 403 l 1629.72 403 l h
+B*
+Q
+q
+BT /F1 21 Tf 25.2 TL ET
+BT /F1 21 Tf 25.2 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1425.813 351 Tm (Fail: one retry) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+72 762 m
+808 762 l
+815.7392 762 822 768.2608 822 776 c
+822 841 l
+822 848.7392 815.7392 855 808 855 c
+72 855 l
+64.2608 855 58 848.7392 58 841 c
+58 776 l
+58 768.2608 64.2608 762 72 762 c
+h
+B*
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+87 781 m
+120 781 l
+122.764 781 125 783.236 125 786 c
+125 828 l
+125 830.764 122.764 833 120 833 c
+87 833 l
+84.236 833 82 830.764 82 828 c
+82 786 l
+82 783.236 84.236 781 87 781 c
+h
+B*
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n
+98.04 826 m
+108.96 826 l
+111.1712 826 112.96 827.7888 112.96 830 c
+112.96 834 l
+112.96 836.2112 111.1712 838 108.96 838 c
+98.04 838 l
+95.8288 838 94.04 836.2112 94.04 834 c
+94.04 830 l
+94.04 827.7888 95.8288 826 98.04 826 c
+h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 91 811 m 95 807 l S
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 95 807 m 102 815 l S
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 109 811 m 117 811 l S
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 91 797 m 95 793 l S
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 95 793 m 102 801 l S
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 109 797 m 117 797 l S
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 91 783 m 95 779 l S
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 95 779 m 102 787 l S
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 109 783 m 117 783 l S
+Q
+q
+BT /F3 28 Tf 33.6 TL ET
+BT /F3 28 Tf 33.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 153 818 Tm (Task + current source + SAST) Tj T* ET
+Q
+q
+BT /F1 22 Tf 26.4 TL ET
+BT /F1 22 Tf 26.4 TL ET
+.45098 .45098 .45098 rg
+BT 1 0 0 1 153 785 Tm (Changed symbols + related callers) Tj T* ET
+Q
+q
+BT /F3 27 Tf 32.4 TL ET
+BT /F3 27 Tf 32.4 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 284.723 719 Tm (Temporal AST evolution) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 235 640 m 235 612 l S
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n
+262 665 m
+262 679.9117 249.9117 692 235 692 c
+220.0883 692 208 679.9117 208 665 c
+208 650.0883 220.0883 638 235 638 c
+249.9117 638 262 650.0883 262 665 c
+B*
+Q
+q
+BT /F4 29 Tf 34.8 TL ET
+BT /F4 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 230.969 655.72 Tm (f) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+283 589 m
+283 601.7025 261.5097 612 235 612 c
+208.4903 612 187 601.7025 187 589 c
+187 576.2975 208.4903 566 235 566 c
+261.5097 566 283 576.2975 283 589 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 215.197 581.64 Tm (Call) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 460 643 m 434 609 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 490 643 m 516 609 l S
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n
+502 665 m
+502 679.9117 489.9117 692 475 692 c
+460.0883 692 448 679.9117 448 665 c
+448 650.0883 460.0883 638 475 638 c
+489.9117 638 502 650.0883 502 665 c
+B*
+Q
+q
+BT /F4 29 Tf 34.8 TL ET
+BT /F4 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 470.969 655.72 Tm (f) Tj T* ET
+Q
+q
+.870588 .870588 .870588 rg
+.086275 .086275 .086275 RG
+3.5 w
+0 J
+0 j
+[] 0 d
+n
+472 589 m
+472 602.2548 447.8234 613 418 613 c
+388.1766 613 364 602.2548 364 589 c
+364 575.7452 388.1766 565 418 565 c
+447.8234 565 472 575.7452 472 589 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 386.0415 581.64 Tm (Guard) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+577 589 m
+577 601.7025 556.8528 612 532 612 c
+507.1472 612 487 601.7025 487 589 c
+487 576.2975 507.1472 566 532 566 c
+556.8528 566 577 576.2975 577 589 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 512.197 581.64 Tm (Call) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 700 643 m 674 609 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 730 643 m 756 609 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 765 565 m 747 525 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 779 565 m 797 525 l S
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+757 513 m
+757 519.6274 751.6274 525 745 525 c
+738.3726 525 733 519.6274 733 513 c
+733 506.3726 738.3726 501 745 501 c
+751.6274 501 757 506.3726 757 513 c
+B*
+Q
+q
+.870588 .870588 .870588 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+811 513 m
+811 519.6274 805.6274 525 799 525 c
+792.3726 525 787 519.6274 787 513 c
+787 506.3726 792.3726 501 799 501 c
+805.6274 501 811 506.3726 811 513 c
+B*
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n
+742 665 m
+742 679.9117 729.9117 692 715 692 c
+700.0883 692 688 679.9117 688 665 c
+688 650.0883 700.0883 638 715 638 c
+729.9117 638 742 650.0883 742 665 c
+B*
+Q
+q
+BT /F4 29 Tf 34.8 TL ET
+BT /F4 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 710.969 655.72 Tm (f) Tj T* ET
+Q
+q
+.870588 .870588 .870588 rg
+.086275 .086275 .086275 RG
+3.5 w
+0 J
+0 j
+[] 0 d
+n
+712 589 m
+712 602.2548 687.8234 613 658 613 c
+628.1766 613 604 602.2548 604 589 c
+604 575.7452 628.1766 565 658 565 c
+687.8234 565 712 575.7452 712 589 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 626.0415 581.64 Tm (Guard) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+817 589 m
+817 601.7025 796.8528 612 772 612 c
+747.1472 612 727 601.7025 727 589 c
+727 576.2975 747.1472 566 772 566 c
+796.8528 566 817 576.2975 817 589 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 752.197 581.64 Tm (Call) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 344 611 m 377 611 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 377 611 m 367 606.2 l 367 615.8 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.8 w
+0 J
+0 j
+[] 0 d
+n 584 611 m 617 611 l
+S
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+.5 w
+0 J
+0 j
+[] 0 d
+n 617 611 m 607 606.2 l 607 615.8 l h
+B*
+Q
+q
+BT /F4 24 Tf 28.8 TL ET
+BT /F4 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 224.992 475 Tm (t0) Tj T* ET
+Q
+q
+.45098 .45098 .45098 RG
+2 w
+0 J
+0 j
+[5 5] 0 d
+n 235 465 m 235 450 l S
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.7 w
+0 J
+0 j
+[] 0 d
+n 165 443 m 305 443 l 305 382 l 200 382 l 181 367 l 181 382 l 165 382 l 165 443 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 181 426 m 286 426 l S
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 181 412 m 271 412 l S
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 181 398 m 279 398 l S
+Q
+q
+BT /F4 24 Tf 28.8 TL ET
+BT /F4 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 464.992 475 Tm (t1) Tj T* ET
+Q
+q
+.45098 .45098 .45098 RG
+2 w
+0 J
+0 j
+[5 5] 0 d
+n 475 465 m 475 450 l S
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.7 w
+0 J
+0 j
+[] 0 d
+n 405 443 m 545 443 l 545 382 l 440 382 l 421 367 l 421 382 l 405 382 l 405 443 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 421 426 m 526 426 l S
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 421 412 m 511 412 l S
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 421 398 m 519 398 l S
+Q
+q
+BT /F4 24 Tf 28.8 TL ET
+BT /F4 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 704.992 475 Tm (t2) Tj T* ET
+Q
+q
+.45098 .45098 .45098 RG
+2 w
+0 J
+0 j
+[5 5] 0 d
+n 715 465 m 715 450 l S
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.7 w
+0 J
+0 j
+[] 0 d
+n 645 443 m 785 443 l 785 382 l 680 382 l 661 367 l 661 382 l 645 382 l 645 443 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 661 426 m 766 426 l S
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 661 412 m 751 412 l S
+Q
+q
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n 661 398 m 759 398 l S
+Q
+q
+BT /F3 25 Tf 30 TL ET
+BT /F3 25 Tf 30 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 326.775 325 Tm (Recorded rationale) Tj T* ET
+Q
+q
+.670588 .670588 .670588 RG
+1.5 w
+0 J
+0 j
+[] 0 d
+n 58 297 m 822 297 l S
+Q
+q
+BT /F3 25 Tf 30 TL ET
+BT /F3 25 Tf 30 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 60 259 Tm (Evidence configurations) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n
+70 178 m
+415 178 l
+420.528 178 425 182.472 425 188 c
+425 225 l
+425 230.528 420.528 235 415 235 c
+70 235 l
+64.472 235 60 230.528 60 225 c
+60 188 l
+60 182.472 64.472 178 70 178 c
+h
+B*
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+1 w
+0 J
+0 j
+[] 0 d
+n
+69 178 m
+114 178 l
+118.9752 178 123 182.0248 123 187 c
+123 226 l
+123 230.9752 118.9752 235 114 235 c
+69 235 l
+64.0248 235 60 230.9752 60 226 c
+60 187 l
+60 182.0248 64.0248 178 69 178 c
+h
+B*
+Q
+q
+BT /F3 28 Tf 33.6 TL ET
+BT /F3 28 Tf 33.6 TL ET
+1 1 1 rg
+BT 1 0 0 1 73.608 197 Tm (C0) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 138 198 Tm (Snapshot + SAST) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n
+455 178 m
+800 178 l
+805.528 178 810 182.472 810 188 c
+810 225 l
+810 230.528 805.528 235 800 235 c
+455 235 l
+449.472 235 445 230.528 445 225 c
+445 188 l
+445 182.472 449.472 178 455 178 c
+h
+B*
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+1 w
+0 J
+0 j
+[] 0 d
+n
+454 178 m
+499 178 l
+503.9752 178 508 182.0248 508 187 c
+508 226 l
+508 230.9752 503.9752 235 499 235 c
+454 235 l
+449.0248 235 445 230.9752 445 226 c
+445 187 l
+445 182.0248 449.0248 178 454 178 c
+h
+B*
+Q
+q
+BT /F3 28 Tf 33.6 TL ET
+BT /F3 28 Tf 33.6 TL ET
+1 1 1 rg
+BT 1 0 0 1 458.608 197 Tm (C1) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 523 198 Tm (C0 + temporal AST) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n
+70 101 m
+415 101 l
+420.528 101 425 105.472 425 111 c
+425 148 l
+425 153.528 420.528 158 415 158 c
+70 158 l
+64.472 158 60 153.528 60 148 c
+60 111 l
+60 105.472 64.472 101 70 101 c
+h
+B*
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+1 w
+0 J
+0 j
+[] 0 d
+n
+69 101 m
+114 101 l
+118.9752 101 123 105.0248 123 110 c
+123 149 l
+123 153.9752 118.9752 158 114 158 c
+69 158 l
+64.0248 158 60 153.9752 60 149 c
+60 110 l
+60 105.0248 64.0248 101 69 101 c
+h
+B*
+Q
+q
+BT /F3 28 Tf 33.6 TL ET
+BT /F3 28 Tf 33.6 TL ET
+1 1 1 rg
+BT 1 0 0 1 73.608 120 Tm (C2) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 138 121 Tm (C0 + rationale) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n
+455 101 m
+800 101 l
+805.528 101 810 105.472 810 111 c
+810 148 l
+810 153.528 805.528 158 800 158 c
+455 158 l
+449.472 158 445 153.528 445 148 c
+445 111 l
+445 105.472 449.472 101 455 101 c
+h
+B*
+Q
+q
+.086275 .086275 .086275 rg
+.086275 .086275 .086275 RG
+1 w
+0 J
+0 j
+[] 0 d
+n
+454 101 m
+499 101 l
+503.9752 101 508 105.0248 508 110 c
+508 149 l
+508 153.9752 503.9752 158 499 158 c
+454 158 l
+449.0248 158 445 153.9752 445 149 c
+445 110 l
+445 105.0248 449.0248 101 454 101 c
+h
+B*
+Q
+q
+BT /F3 28 Tf 33.6 TL ET
+BT /F3 28 Tf 33.6 TL ET
+1 1 1 rg
+BT 1 0 0 1 458.608 120 Tm (C3) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 523 121 Tm (C0 + both) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+919 715 m
+1241 715 l
+1248.739 715 1255 721.2608 1255 729 c
+1255 836 l
+1255 843.7392 1248.739 850 1241 850 c
+919 850 l
+911.2608 850 905 843.7392 905 836 c
+905 729 l
+905 721.2608 911.2608 715 919 715 c
+h
+B*
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 926 825 m 959.75 825 l 971 813.75 l 971 760 l 926 760 l 926 825 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.1 w
+0 J
+0 j
+[] 0 d
+n 959.75 825 m 959.75 813.75 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.1 w
+0 J
+0 j
+[] 0 d
+n 959.75 813.75 m 971 813.75 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n 935 797.7 m 961.55 797.7 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n 935 786.65 m 957.05 786.65 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n 935 775.6 m 961.55 775.6 l S
+Q
+q
+BT /F3 29 Tf 34.8 TL ET
+BT /F3 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 995 810 Tm (Decision ledger) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 995 774 Tm (Hypothesis +) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 995 744.72 Tm (source evidence) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+934 525 m
+1226 525 l
+1233.739 525 1240 531.2608 1240 539 c
+1240 621 l
+1240 628.7392 1233.739 635 1226 635 c
+934 635 l
+926.2608 635 920 628.7392 920 621 c
+920 539 l
+920 531.2608 926.2608 525 934 525 c
+h
+B*
+Q
+q
+BT /F3 28 Tf 33.6 TL ET
+BT /F3 28 Tf 33.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 978.878 590 Tm (Current-source) Tj T* ET
+Q
+q
+BT /F3 28 Tf 33.6 TL ET
+BT /F3 28 Tf 33.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 999.85 557 Tm (assessment) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.3 w
+0 J
+0 j
+[] 0 d
+n
+1149 427 m
+1211 427 l
+1213.764 427 1216 429.236 1216 432 c
+1216 471 l
+1216 473.764 1213.764 476 1211 476 c
+1149 476 l
+1146.236 476 1144 473.764 1144 471 c
+1144 432 l
+1144 429.236 1146.236 427 1149 427 c
+h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2 w
+0 J
+0 j
+[] 0 d
+n 1144 464 m 1216 464 l S
+Q
+q
+.086275 .086275 .086275 rg
+1 w
+0 J
+0 j
+[] 0 d
+n
+1153.3 470 m
+1153.3 470.718 1152.718 471.3 1152 471.3 c
+1151.282 471.3 1150.7 470.718 1150.7 470 c
+1150.7 469.282 1151.282 468.7 1152 468.7 c
+1152.718 468.7 1153.3 469.282 1153.3 470 c
+f*
+Q
+q
+.086275 .086275 .086275 rg
+1 w
+0 J
+0 j
+[] 0 d
+n
+1161.3 470 m
+1161.3 470.718 1160.718 471.3 1160 471.3 c
+1159.282 471.3 1158.7 470.718 1158.7 470 c
+1158.7 469.282 1159.282 468.7 1160 468.7 c
+1160.718 468.7 1161.3 469.282 1161.3 470 c
+f*
+Q
+q
+.086275 .086275 .086275 rg
+1 w
+0 J
+0 j
+[] 0 d
+n
+1169.3 470 m
+1169.3 470.718 1168.718 471.3 1168 471.3 c
+1167.282 471.3 1166.7 470.718 1166.7 470 c
+1166.7 469.282 1167.282 468.7 1168 468.7 c
+1168.718 468.7 1169.3 469.282 1169.3 470 c
+f*
+Q
+q
+BT /F3 22 Tf 26.4 TL ET
+BT /F3 22 Tf 26.4 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1155 437 Tm (>_) Tj T* ET
+Q
+q
+BT /F1 19 Tf 22.8 TL ET
+BT /F1 19 Tf 22.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1145.686 405 Tm (Check if) Tj T* ET
+Q
+q
+BT /F1 19 Tf 22.8 TL ET
+BT /F1 19 Tf 22.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1148.308 383 Tm (needed) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+919 205 m
+1241 205 l
+1248.739 205 1255 211.2608 1255 219 c
+1255 341 l
+1255 348.7392 1248.739 355 1241 355 c
+919 355 l
+911.2608 355 905 348.7392 905 341 c
+905 219 l
+905 211.2608 911.2608 205 919 205 c
+h
+B*
+Q
+q
+BT /F3 29 Tf 34.8 TL ET
+BT /F3 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1001.033 316 Tm (Repair gate) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1001.952 270 Tm (Supported edit) Tj T* ET
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 975.1775 236 Tm (Functional validation) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+948 80 m
+1212 80 l
+1219.186 80 1225 85.8136 1225 93 c
+1225 152 l
+1225 159.1864 1219.186 165 1212 165 c
+948 165 l
+940.8136 165 935 159.1864 935 152 c
+935 93 l
+935 85.8136 940.8136 80 948 80 c
+h
+B*
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 954 149 m 983.25 149 l 993 139.25 l 993 98 l 954 98 l 954 149 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.1 w
+0 J
+0 j
+[] 0 d
+n 983.25 149 m 983.25 139.25 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.1 w
+0 J
+0 j
+[] 0 d
+n 983.25 139.25 m 993 139.25 l S
+Q
+q
+BT /F3 13.65 Tf 16.38 TL ET
+BT /F3 13.65 Tf 16.38 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 963.631 115.34 Tm (</>) Tj T* ET
+Q
+q
+BT /F1 26 Tf 31.2 TL ET
+BT /F1 26 Tf 31.2 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1055.803 129 Tm (Validated) Tj T* ET
+Q
+q
+BT /F1 26 Tf 31.2 TL ET
+BT /F1 26 Tf 31.2 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1076.772 100 Tm (repair) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+1354 690 m
+1821 690 l
+1828.739 690 1835 696.2608 1835 704 c
+1835 821 l
+1835 828.7392 1828.739 835 1821 835 c
+1354 835 l
+1346.261 835 1340 828.7392 1340 821 c
+1340 704 l
+1340 696.2608 1346.261 690 1354 690 c
+h
+B*
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 1360 798 m 1392.25 798 l 1403 787.25 l 1403 735 l 1360 735 l 1360 798 l h
+B*
+Q
+q
+.086275 .086275 .086275 RG
+2.1 w
+0 J
+0 j
+[] 0 d
+n 1392.25 798 m 1392.25 787.25 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.1 w
+0 J
+0 j
+[] 0 d
+n 1392.25 787.25 m 1403 787.25 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n 1368.6 771.54 m 1393.97 771.54 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n 1368.6 760.83 m 1389.67 760.83 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n 1368.6 750.12 m 1393.97 750.12 l S
+Q
+q
+BT /F3 27 Tf 32.4 TL ET
+BT /F3 27 Tf 32.4 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1423 800 Tm (External repair note) Tj T* ET
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1423 764 Tm (Invariant + rationale) Tj T* ET
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1423 736 Tm (Symbol / source identity) Tj T* ET
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1423 708 Tm (Saved boundary check) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 1420 599 m 1398 565 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 1450 599 m 1472 565 l S
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n
+1462 621 m
+1462 635.9117 1449.912 648 1435 648 c
+1420.088 648 1408 635.9117 1408 621 c
+1408 606.0883 1420.088 594 1435 594 c
+1449.912 594 1462 606.0883 1462 621 c
+B*
+Q
+q
+BT /F4 29 Tf 34.8 TL ET
+BT /F4 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1430.969 611.72 Tm (f) Tj T* ET
+Q
+q
+.870588 .870588 .870588 rg
+.086275 .086275 .086275 RG
+3.5 w
+0 J
+0 j
+[] 0 d
+n
+1436 545 m
+1436 558.2548 1411.823 569 1382 569 c
+1352.177 569 1328 558.2548 1328 545 c
+1328 531.7452 1352.177 521 1382 521 c
+1411.823 521 1436 531.7452 1436 545 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1350.042 537.64 Tm (Guard) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+1533 545 m
+1533 557.7025 1512.853 568 1488 568 c
+1463.147 568 1443 557.7025 1443 545 c
+1443 532.2975 1463.147 522 1488 522 c
+1512.853 522 1533 532.2975 1533 545 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1468.197 537.64 Tm (Call) Tj T* ET
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 1685 599 m 1663 565 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 1715 599 m 1737 565 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 1746 521 m 1728 481 l S
+Q
+q
+.086275 .086275 .086275 RG
+2.6 w
+0 J
+0 j
+[] 0 d
+n 1760 521 m 1778 481 l S
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+1738 469 m
+1738 475.6274 1732.627 481 1726 481 c
+1719.373 481 1714 475.6274 1714 469 c
+1714 462.3726 1719.373 457 1726 457 c
+1732.627 457 1738 462.3726 1738 469 c
+B*
+Q
+q
+.870588 .870588 .870588 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+1792 469 m
+1792 475.6274 1786.627 481 1780 481 c
+1773.373 481 1768 475.6274 1768 469 c
+1768 462.3726 1773.373 457 1780 457 c
+1786.627 457 1792 462.3726 1792 469 c
+B*
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+3.6 w
+0 J
+0 j
+[] 0 d
+n
+1727 621 m
+1727 635.9117 1714.912 648 1700 648 c
+1685.088 648 1673 635.9117 1673 621 c
+1673 606.0883 1685.088 594 1700 594 c
+1714.912 594 1727 606.0883 1727 621 c
+B*
+Q
+q
+BT /F4 29 Tf 34.8 TL ET
+BT /F4 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1695.969 611.72 Tm (f) Tj T* ET
+Q
+q
+.870588 .870588 .870588 rg
+.086275 .086275 .086275 RG
+3.5 w
+0 J
+0 j
+[] 0 d
+n
+1701 545 m
+1701 558.2548 1676.823 569 1647 569 c
+1617.177 569 1593 558.2548 1593 545 c
+1593 531.7452 1617.177 521 1647 521 c
+1676.823 521 1701 531.7452 1701 545 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1615.042 537.64 Tm (Guard) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.5 w
+0 J
+0 j
+[] 0 d
+n
+1798 545 m
+1798 557.7025 1777.853 568 1753 568 c
+1728.147 568 1708 557.7025 1708 545 c
+1708 532.2975 1728.147 522 1753 522 c
+1777.853 522 1798 532.2975 1798 545 c
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1733.197 537.64 Tm (Call) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1387.648 435 Tm (Qualified) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1404.328 408 Tm (repair) Tj T* ET
+Q
+q
+BT /F1 24 Tf 28.8 TL ET
+BT /F1 24 Tf 28.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1609.292 423 Tm (Feature proposal) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+1464 205 m
+1796 205 l
+1803.739 205 1810 211.2608 1810 219 c
+1810 326 l
+1810 333.7392 1803.739 340 1796 340 c
+1464 340 l
+1456.261 340 1450 333.7392 1450 326 c
+1450 219 l
+1450 211.2608 1456.261 205 1464 205 c
+h
+B*
+Q
+q
+BT /F3 29 Tf 34.8 TL ET
+BT /F3 29 Tf 34.8 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1528.486 302 Tm (Boundary gate) Tj T* ET
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1480 271 Tm (Ordinary) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+1.8 w
+0 J
+0 j
+[] 0 d
+n
+1757 271 m
+1771 271 l
+1772.106 271 1773 271.8944 1773 273 c
+1773 287 l
+1773 288.1056 1772.106 289 1771 289 c
+1757 289 l
+1755.894 289 1755 288.1056 1755 287 c
+1755 273 l
+1755 271.8944 1755.894 271 1757 271 c
+h
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1480 245 Tm (Feature) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+1.8 w
+0 J
+0 j
+[] 0 d
+n
+1757 245 m
+1771 245 l
+1772.106 245 1773 245.8944 1773 247 c
+1773 261 l
+1773 262.1056 1772.106 263 1771 263 c
+1757 263 l
+1755.894 263 1755 262.1056 1755 261 c
+1755 247 l
+1755 245.8944 1755.894 245 1757 245 c
+h
+B*
+Q
+q
+BT /F1 23 Tf 27.6 TL ET
+BT /F1 23 Tf 27.6 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1480 219 Tm (Saved boundary) Tj T* ET
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+1.8 w
+0 J
+0 j
+[] 0 d
+n
+1757 219 m
+1771 219 l
+1772.106 219 1773 219.8944 1773 221 c
+1773 235 l
+1773 236.1056 1772.106 237 1771 237 c
+1757 237 l
+1755.894 237 1755 236.1056 1755 235 c
+1755 221 l
+1755 219.8944 1755.894 219 1757 219 c
+h
+B*
+Q
+q
+1 1 1 rg
+.086275 .086275 .086275 RG
+2.4 w
+0 J
+0 j
+[] 0 d
+n
+1502 80 m
+1758 80 l
+1764.634 80 1770 85.3664 1770 92 c
+1770 138 l
+1770 144.6336 1764.634 150 1758 150 c
+1502 150 l
+1495.366 150 1490 144.6336 1490 138 c
+1490 92 l
+1490 85.3664 1495.366 80 1502 80 c
+h
+B*
+Q
+q
+BT /F1 27 Tf 32.4 TL ET
+BT /F1 27 Tf 32.4 TL ET
+.086275 .086275 .086275 rg
+BT 1 0 0 1 1528.682 106 Tm (Accepted update) Tj T* ET
+Q
+Q
+Q
+ 
+
+endstream
 endobj
 6 0 obj
 <<
-/Contents 10 0 R /MediaBox [ 0 0 504 258.6316 ] /Parent 9 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/F1 7 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
 >>
 endobj
 7 0 obj
 <<
-/PageMode /UseNone /Pages 9 0 R /Type /Catalog
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding
+/Name /F1
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 8 0 obj
 <<
-/Author (anonymous) /CreationDate (D:20261021134846+05'00') /Creator (anonymous) /Keywords () /ModDate (D:20261021134846+05'00') /Producer (ReportLab PDF Library - \(opensource\)) 
-  /Subject (Overview with C0-C3 evidence configurations and Stage 4 maintenance) /Title (TRACER: development evidence, security repair, and persistent memory) /Trapped /False
+/BaseFont /Times-Roman
+/Encoding /WinAnsiEncoding
+/Name /F2
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 9 0 obj
 <<
-/Count 1 /Kids [ 6 0 R ] /Type /Pages
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding
+/Name /F3
+/Subtype /Type1
+/Type /Font
 >>
 endobj
 10 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 7039
+/BaseFont /Helvetica-Oblique
+/Encoding /WinAnsiEncoding
+/Name /F4
+/Subtype /Type1
+/Type /Font
 >>
-stream
-GauHQ>An"AEdm2T3020"3Bhl[%Y=l8S+UA0!Kp_!ne)(V9[U<"PVeLZPPF%5^9>-F*-0+T-'AAJAp*Fh[B$A)DDOuWO5YT?pVZLF]A`'oc!]o-mYAXRd1>^FFnikdeS&HsdIFgp]Y7bOccYSc=\T%uqF@Ob?RbnUrr(U:5Q=CADX62OIU&"t*R$o@[^%nuq[!L,i#eXKIELS95;(DAPSAkMc1&Vh<dt^WZ,A)&5OACWR5(Qfj?2f/MACBB#C*>%)r*:*YHgk&[]Ac;R#LbfjY.-m)JotHY^F)i!@ZOY;aAXok8gc$0Rt'jf:WX^]4uFaEXP"-eCH-?qHNm+DqhJp8cH>.rNuF`$<AQR21r0-g;2E4KhsN_cU+m%9+Y!".+iY,\58J:eJM\hf#VE2NkE<T\JZ[UC6?0eh@X2*l)I3-c8DY5hlN!YCmCM+<^B$R!iT:V@(/bGV,]cYX[53d(?6t0WEG0995Ko-(kT+'Te8Z!L29l`Kl,HkV:)&9MR1<6B0B'U:,uMBGl,80lW[H!d>TCgBghdkh>Qhes1J0;ffm-bh`SO[Ru_d&Rtp\!mtZ+:)rCMt<0rabE_N7aP@VH-1eESJU:m$Bq:!7%c1B-7O#J_]i@Ba,mr.Wc%SL753DR2,m+%[SKaBr%_+EBVR8SG,EqA='n4+<3ZLDA\A%c6!,'-i.Qq\WB11^CQS#>G]k81MEo4Is[l0dZ"iI5kJq"2b$4NHZlGN;--)8Rt_V=-k%5\Re+m^':I$'2D1_]^Xlp:[i5)cA;`ou!)L4AB=C;ODh2X-GB&KU-.6T3ucm;54d0TB)\6PlAG:*s/grd^beLgGO!0MOK(jXGMj.9sf#F-?e[CR!;%o5^_/$UnoDARPjVD.Zu`6IQl!tE<nWGHqE7(._)T'BK)at&V`bF(`lPPOTi'*6n"ZX4+n1tS>-LUOB35V1+!+5<R;'8D=n<fQdr.!75G[/:hNu?<:i:sZPI$b$i7;VJm/CW6EDoe:C:FG#oiD]V!gFAQo2`p.@'Kl*&Iu,O@,ND?:U2O*.3,Lco"NoOq+pua\`Rj9CcfUJOo4Nd1_mq*8M*t9obmGi+5'UOTf)B6_8s^#5Or,e!P<+YYMn`LG:^R%W;j,+-U`5fTUGfQI0I>F]<APEH=4CJ(guR5!+st@&;rtm2ASDGSLa'`5+ruW?M-'+Y9I/^98moLDcieU2sU/P=?O>-;B)C@7/$I9S26YW"`N5JcJNTOsZ/JpfL7BOda@)Kh3s>oPH33f[puUNn'a]DO%aLCo:doS*/tdpp<8aQUb#2RF.sb>6Q<c<;i,U2cg@UNAq?jR@6)`K2o8^JO<(K%j%VdfF(;01:IU*jDSu)[f8<L5&=b9o^^+?TJ+L$g@-W?.#H.&YO[naan-U%_A3#:[T8SsPeXOI:*t%1J[.60RS[%DNgaOt$&\L`K1Y5#((hhClB#X@_?S1:R1-M,)V]uMH)eN8H1Diqb8;a@_e#'h&/Ia:F<f+pOc`,UOqq?)E9&JUer);u(!',I^>WXkQ\-3*f3eSDXQ2qVKkrg`5bS=%P5&&Yj]GA&8<reS8fq:ub2WWE&R%tU/<L*5`gBW7Zt7W%X+-7:M)<f+>bU?b:UF;]UD8$@agaGi"qE[pc46-jin[Z!U/\eV<s#MfJPoppdL%pi3X(XhenM\%oK'ku7EfQVVT812%)+qJ>`R60FGt\%+5T[^#0^'kR3)udZUdRJj@N?E`LWbBd&Up1gBE1DWQqg_TlX2VY,[f1=fS;r<D3/T!`:gI7+LjEmC#uY\Q%Y`fCM2*5;?(>M'tguRI>$bIic<BefUKT\:XAJiG":J[-rJ<h7H&?=g&\ZS1s(7=Ra_7]\ia2oC/L`Gb9Jrs8I$8biQM)bmT9A2r!`^Bn*qFCli<4].;0XqU97j-%sE+Hq:-5I5^ig+.mGZK@j\dI!j^uGe&0KGg4ke*bo^G,DO:U,p?cFPFiJah*Ibc.nM@&YsT\&=;El\obE:G29E!D)-T*.8T?Xh,@u$$'I&\oThrLn&L7FA%V,-)*n=ZR&ZRtZSUlhdZ6FUfrkp.IbZJCR)FM;J$a'-?Rg(s0#'VRJMM,5B<2`!K0hmhKYpM(5S_/+f%;E&oA'Y3F,;Gl:TE%%.4HPtmUb6J/FbC;Nl/5Y,2"I`&#T]V]ZeccuEc#/]?/4b3qt2<T<CUO(r3I8PeA2VEh=,7$pMghd8$)<FY2aV-pcUsE1g7`6*Em)tU+iuM7&]bbT,4'>Vq-\mS[fDZ^Z\':d.n!U4u"9QD]p-EU7&Y.ag`KNH*5qZI/;Ag2!2BM[eKZ7Aj4kLI'U.a!K*']D%JdST4Elbc]F!BQQ1_:oucAI,=Lc'.(\VT";J4)&AeL$Q\fuX#VhE9W(g.2ZPk#EKI5$1]9UQ:`gnG-qpccQgcXD!/msBtWau5(p_,t6F0M'p.6(N6<g_<KfE=ZFP<4Bb!R!+u<_#Dc!Z__PSNNt%&g=))@G)ceMJE?r1pnG>e%#JeX-lR1Km55P)!Jq*b9u]bSO#o'Z'AACV0.M7VBD\1]A?VfN.N19jBrZ%)sM\HQ0H$+UJ!?_A$o!UB*8ti^Hji<qV@)QP7#a+0\`/?UDf(Q6C"JGiS3AF&T'8S;Jd/K_WN@!Zn8+g>O4]2]JNE%;A/93G6FiJ3n/="5Nu.S,;a\sYF5>28VtQuPXq`a\7?C)&K@g?&uELi.5BsR8n<KmQr(tF1P4[OdU>b<aeRQC;IYjQasf'50:NTZ!ht5b:sX)802c6f/L<lu8;V=iUdPnRi"BcBXs9U;K2/@>Yt0]cTcl7<XrOsH]m<;pVPQ[G4i=,%8;Se'PUQ'D:5R(F&St*OKNa,r#fqEC[?T=cUIYt86BgTTQ;-?)P^%0-_Ke*c<gaps(g(@\_Q%pWIF$pX;$%[`ab45CP0_m0$+[#Hc1P%L["Z[[X$Co:Kbg[N><76H_Y3:kSAeVqQ9&G?o=murNIPc"G,\6(pLc3Joc,Cl_N*0I7LJDLreZ`rYfKNGD$d`]F'5(uYe'S`%\`sO\el3Eih#-GLJo3"HRs7L3+N9XKMg:_BGhdNYXtP[BXs9tWt<uf,.tGGppfKHk"Ner+a"bkQZ4!029-$;2*N.*#k+8CGhX3nOOeOZo@!j_#DCWIJj%_*8;iKAbdia$L$:QP`;B[sK<=\ba0B8<%L.UO3.rpE370\*_<S?b4s5!(R%*-SfGo[.eo_4UrW8)^_Wj)tS"8_%Ud`=dC!`9.6\Xba.3*;sM]Sg>1'C9Kl`<.l?T7;kVq]J`n8s<5p7(IKl/L#/oJVJ'Z&ElYGE9!&C_s]RQe*QZJu?3cJ#J-tL\9]F%sL6e:jr%]1>]Yub7bU.CM;-R!,Yfo:*[cK.![F,gCZeOKt5]heSE@o$@nXqhsd#a:#I\eEWilY%k:iJSiRKLc=c0*i`cSN@mtqk<R)8$>!HqY"1M5N<\d$@,8fIA&WFi,N3ee[OjPsqR]LF]`%?9$BQ+b,&G?Zkd86Md.&nGD8N-bY/M+`aBo:P:O_.P]l\5RgWk=sqg-9kLYPZKum`M.L@3D/dEW5r&YK\=&7f*;\Vn'CTL4-&AeK/Vb5QCBNEd73Fbs(P_W9p(PWO=IG4dqSpi*LIbKm>Yp9\%5k<I\k1BKT,?[KQnQ>jk=0F70p9_h[O@hM:C\$J!F%n_!*+][q.H++3DFV,V5`aj&Z`huq<l[#hfAS#a"3C0oXlWGsBC,(<s_mdJCG`))rADNhH3#r+K@>/ajdl[?jdDSJD0]oLhP7$6d.^RrI'?P^8lQON;GBu(f;-g'>N)%GfhcTScW;hM^P\H[6kgeMfIOp+E/A.@r,H>l@T6)u11oXRFJ:65KUNXZ/mOXfPeJiet-i(bN@_0n'WcUF]k\=9H%GN2=*ma,W+\3j7oU`mOL)+"YSQ>")Te>aspfbD'7?0&!U?7ED=8R64`9RXn<DU%P0a$sS%`HF-m@lp0ha*+V!cQ5TD5#-nt:8ka>a2>I'BrXm#%O!K748XP8oF2nBT+dro'5DrriM"RtH*8(>[E"V3XYIlia_3YP?H3,<SIh?_:ik>.'cNFe/`IQ^l0dD%dUTmM]\6n"fOQYDdjk>8:>]Q.o6U/m@f+U>^OLY,l#LELMp0%`),2<=2Zs_goM@&r`WiM$)a1r>919ARip<TR=TNiH-Xf(tY"=^+J2MU`*\&h_ZpV26n(Vti(0oq>?"LCF:rVXsOKD+SlD(]kVjIYb<4pLWE,.A9YT6>&cZc>76Ah0&j6IT2:JY0q51J>Q/8+sAlNnN0T-^LZmWVYkJ`spkmKH[$8fDsn'BasNnP#*+N_u';j4)7b&kuen$TVAFT5%a,6>XL&=YnTdam6QOa\fs!F8P"[i(`-f#E6N@TXqi-0>G/dBX)isHQKotEm248qig^Jk)haYkCbFb>M'3cFk`?p.n1*d-19^.H4O42C"O%P>!4900Xn8dd;aSdA0Y_/i2)c^V5)Ykr),(hJZAt8*'do=X\]C0%2H0+l-IFI-T4JX#/i'oe=<AUCB$TSji@JR$]BQ$iAg8#1SUB%kKWTSDX,!Y);HBJ0GkaRS*1;`Tsff;Ma/(AMc.?"AuYMI:iLg5J7)8f+R&)jLk_Gp]cjV_XHHmJn<)f,$#ch%A1\YshNQKuJk^oY%,mZQB,pkOlB-:>W(?Qq)EPji#7#\^"##ESGb"!)_O(adGek"(rC4h:"ef`DDpNV+S)>hPCJd<-+Vl9GQr,nDV+QiA<fZQcP\8!PZE@7nr9>-oLq_7foPK:3Fe!XINRLe_ZE%p#eMf/Sc+Eh<*IU5]le=D-^R6*j]<(2Z>F,,O?%)=I^3QDj9KW*j\>*smlDJVlhhKg+b"I0SY.eIKhm0G($V1L5rZA('EI)>0JDcuQWSd^LiH/cn-EqYX?%,\$.Sh]"'("s[mF&g_rUY!;J$.sLh"0_T-b8TbrF*%Ch7W-FbL+E809kb_!oRO.JKcHOegr0bf(@(<o;557SBlPG$Tn\\ZB"\N^e5cBkVE>U0mDik=tk)>!CkfNm8#>W>Ef%OQG2i%.aqqJ$'47?i7@iR]GiZb'q$_]Z2t%6Q<f]7'>FA5rr(jjm^d4Pn+JR1FUeYu7"7&GF@0*iFjU^1CL,g852L,EDJp"iF?.B#4k=1daFKaf3W^_)Oktma3j?>iH%@hfU$2)H>fP:VV[*of!sZ``Yn*!S4O+-hqO0tF;l(63k9_3N$^O.So%=XhgcH]dWD]]K1uH8=M8tU\K);"J`Zil7OheI^lJu"RghXmL*RG>CRI/9.BC:cBRqK>pFRF>ffpVEQi%B%#e\ol&FlJ%'44/hYi&[`udHM)+T>(<lOmWl#/'KBMXnV-WmD;0EA\qW5DY=!ap6e^nq6ej&Cmed=:a=&tVm"D0Y/Z=Q`M,#\=[Na]S`p997D@:a9:]_[b8lf0"XiphSae/]E_/Vg/]hV&YG27s&?hX5TH<bZHoYcXee3c6Hr=PHMD-WXB]p/7l#<'YbL]NfdJ!hP%bn:rQ!Q?,)Il[cf93k<6];1N:-Z13YfA?k/u30^hqF4e#i4r`o[X0hd5d7I&SoCZYMU$F0Xlr2$-U+iYKaX``gBrKq1N=b`+(W0@]e9iaL^`g;r]H:4O]K=s7`gE68$iL4ZkhJ*Lg;W>X0`94YHZ1LQ=AiG;g$cT@s1RVAOGhnf=n:%pug3a]RAF\U3"Zdc-^Y[$Ude-I;FI+!,<<Spkt`j#i)!MoWt?d:\`%*mB-2AKF$n;Q8oSo[dC33H>GEGhhGhgl!KBJmQbWSelo/h^pUT(Rq\W"Kd>nY4]A`f2,;l85=,],B%aIS:F\P5RRS+W][X0lt;P4f9L9,Lc"ccLs0#9`,uW"(jVSC^4INor=7jVJnuH7i\EKN#_6(-@RsklEUf]sYZ+sR"XjH_hXQtQXJrRAZSW_hWlG98PO$B#(\!O43-eb09NSeA@KLG3WJLq9<%i%I2IR(L1$f@)N9\kIi\\/`a*PKg@7a0e:uX\mHd"J#<a,@:CZg7pZL929Y%sLD90g-517S%_QR5GF'"#ZO(u;_7%9njX>&rkDC-L(J5n+&!nnF/J*2A69nLCrR9C3_F9Xl.(QhDnrl:!od=[6M.E7</)Pom8.)-q9jhY8B(8fAlfXEOt`S<,5&^_O`3KCtJ)UK"e,F,SHl*$)4tlRDD%"*Q'(g3<h.Wh%p3mC6Z*R(M'l7u)gdog#RXh0?/qP&up<f-RRu)Vupl9M2Oe7;8;QPNp+s7NL_fF!cmg/PoQtOA2sW`J29h$!K3M2BH%?dfQAfFmVj@9DGf\1u[q_L3\A6/Ol-spIlKRC7-oI1hY65g]E0U%J'^L>3n5iR&&9$--hpCloRh'le5bg\';(G8MMH,-3i,O@S1@[Uo=Fb6X3,uR2!R)"j5=".g13&lo<(RWMWDpJM_";ZCaudrZW[acCL%gYBE_Q9JbSl"m<XJ\Coa;E-HCUlGDodj@@6\&+f>!W%7Cu;j!Bc&Qmjeq0$iNo&4:=]RP6Ts7guJhZ2i@Lgc4Nm]N>ug[7\*gq:89_rcAk78*L<%iuD7gBIdd41`thZ&1uU!7o:dT/Mu1S1\OG'27h+CmK;O>9CcD%SHtp'FgT72BAs8`tG1"4o\"U)WAGFF6:g8Z<V]tMateQMkg=GFF3b$o;5SCc+tpKiWM#1!."?,1'G&dAO87C(,=5;0]qAC/%I]W&SFms!)NaO'KA"MkS_G<5uum%,.#MU9iu\,m&cmf#B.Uo8I%$Oq+br6]+b^F!`g?8rS^A.iPVsb?Fh_'qLR&ds0U15ksMkm&'MENWOG;Q]e,u7Di<go>=@)t,.a>Ri$Yc#N6ROMD;eE3Mckpl:'%C*?`5RA"*_@->*j+>;gOX@D!Eo9V)EqL5o*1(9lCX\HBYkKh]si)-?6"DM+]p)_G>Ec-SClVG8pnR(.HYGnGO]-J5qBJ4<82=hnZ$VGY4O^UE?9&g]L7Ws$*7*`TX^+lL8EF@JjsG4YX+Ffl6Jk1J&LVq^!>4:"oA/HMRph9Ui:iEk8>LaD7hQ(SN!b^)q4dG!_Z3*aAk5;#cEk&TJFpd`(,$Xk0':fGaeZrcUMKi1FHNs/%p.`W~>endstream
 endobj
 xref
 0 11
 0000000000 65535 f 
-0000000061 00000 n 
-0000000122 00000 n 
-0000000229 00000 n 
-0000000338 00000 n 
-0000000450 00000 n 
-0000000565 00000 n 
-0000000764 00000 n 
-0000000832 00000 n 
-0000001209 00000 n 
-0000001268 00000 n 
+0000000015 00000 n 
+0000000437 00000 n 
+0000000496 00000 n 
+0000000545 00000 n 
+0000000739 00000 n 
+0000028227 00000 n 
+0000028289 00000 n 
+0000028396 00000 n 
+0000028505 00000 n 
+0000028617 00000 n 
 trailer
 <<
-/ID 
-[<d1aa3f07b4eee5c23cbc1ff1d8e8b71b><d1aa3f07b4eee5c23cbc1ff1d8e8b71b>]
-% ReportLab generated PDF document -- digest (opensource)
-
-/Info 8 0 R
-/Root 7 0 R
 /Size 11
+/Root 3 0 R
+/Info 1 0 R
 >>
 startxref
-8399
+28733
 %%EOF

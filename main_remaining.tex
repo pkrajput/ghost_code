@@ -1,38 +1,45 @@
-\section{Iterative Engineering and Failure Taxonomy}
+\section{Repair Funnel and Failure Analysis (RQ4)}
 \label{sec:engineering}
-\subsection{Iterative Engineering Progression (v6--v12)}
-To understand how protocol design affects repair losses (RQ4), we trace seven iterative development revisions of our workflow (\texttt{v6} through \texttt{v12}, where \texttt{v12} is the final released configuration evaluated in Section~\ref{sec:results}) across a fixed ten-case diagnostic cohort (Table~\ref{tab:engineering}, Panel~A). It contains nine initially insecure outputs and one secure Wagtail control. Both configurations retain ten functional passes throughout. Final C3 preserves the control and repairs three cases, compared with one repair for C0.
+\subsection{The Four-Step Repair Funnel}
+High review coverage does not guarantee a correct diagnosis or repair. To answer RQ4, Table~\ref{tab:engineering} follows four nested steps across all 387 admitted patches for each investigator and configuration.
 
-\begin{table}[t]
-\caption{Engineering progression and nested funnel. Panel A uses ten fixed cases, with S denoting SecPass. Reject./Cite/Limit/Error give paired C0/C3 counts of rejected actions, citation rejections, turn-limit endings, and repair errors. Panel B uses 387 attempts per arm. D/G denotes DeepSeek/Gemini, with Sec/New counting security passes/conversions within S4.}
+\begin{table*}[t]
+\caption{Four-step investigation and repair funnel across 387 admitted patches per configuration. SecPass and new fixes count only candidates within Step 4. Bold highlights supported assessments and C2's new fixes.}
 \label{tab:engineering}
 \centering\footnotesize
 \input{tables/final_engineering}
-\end{table}
+\end{table*}
 
-\noindent\textbf{Evidence fidelity (v6--v8).} Current-source citation binding, structured probe observations, and symmetric scanner-negative gates make assessments auditable. Preserving GumTree parent-subtree operations and normalizing fragments restores guard descriptions that were missing from added functions. Wagtail's downstream rendering contract nevertheless remains unresolved, showing that delivering the evidence does not itself identify the correct repair boundary.
+\begin{enumerate}
+\item \textbf{Hypothesis on Target Symbol.} The investigator records a hypothesis on a symbol touched by the reference security patch. DeepSeek reaches this step in 237 to 252 cases per configuration, and Gemini in 213 to 235.
+\item \textbf{Supported Assessment.} The investigator records an accepted supported assessment on a reference symbol. Counts fall to 85 to 109 for DeepSeek and 15 to 32 for Gemini. This records the investigator's assessment, not independent confirmation of the true flaw.
+\item \textbf{Reference-File Edit.} A case with supported localization also contains an edit in a reference file. This does not require that the edit address the same symbol or hypothesis. Counts range from 74 to 98 for DeepSeek and 14 to 28 for Gemini.
+\item \textbf{Nonempty Retained Patch.} The case ends with a nonempty candidate patch, leaving 54 to 65 cases for DeepSeek and 11 to 20 for Gemini. Retention alone is not a functional or security verdict. The final column reports official security outcomes for this retained subset.
+\end{enumerate}
 
-\noindent\textbf{Boundary authorization (v9--v10).} Static invariant-gap and differential guard-bypass routes support diagnoses. The initial authorization protocol still demands consumer reads even when callers are already preloaded or the target enforces its own input contract. Recognizing these cases removes redundant requirements, after which RSA and LangChain convert in C3.
+Each step includes only cases that reached the preceding steps, so the table locates where a candidate leaves the observed workflow. Its last column counts security passes among retained candidates and identifies which are new conversions. It therefore answers a different question from Table~\ref{tab:results}, which includes the final outcomes of all evaluated patches, including unchanged outputs.
 
-\noindent\textbf{Context and lifecycle completeness (v11--v12).} Deduplicating state and reserving context headroom prevents two previously observed packing aborts. Tracking execution within class spans and supplying lifecycle cues makes the relevant review obligations actionable and supports the third C3 repair, in Wagtail Forms. All twenty final qualification cells avoid repair errors, although C3 turn-limit endings rise from two to six across the progression.
+\subsection{Drop-off 1. False Refutations During Diagnosis}
+The largest loss occurs between forming a hypothesis and recording support. Decision ledgers show premature refutations, wrong-property hypotheses, inconclusive assessments, and turn exhaustion. Some investigators inspect partial checks or helper calls and conclude that the boundary is already protected. For example, a RestrictedPython investigation treats existing underscore restrictions as sufficient despite missing restrictions on inspection attributes. Other investigations examine an unrelated property after finding the correct function. An Aiohttp session hypothesis can concern dictionary copying while the actual contract concerns expiry. Because the funnel also includes initially secure outputs, an accepted refutation is not automatically a false all-clear.
 
-\subsection{Stage-Level Investigation Funnel and Validation Scheduling}
-Table~\ref{tab:engineering}, Panel B, follows four nested stages. S1 records a hypothesis on a reference symbol. S2 requires a supported assessment on such a symbol, and S3 additionally requires an edit to its reference file within the supported group. S4 retains only candidates with a nonempty final patch. DeepSeek C3 reaches 252/97/89/60 cells across S1--S4, with ten retained SecPass outcomes including six conversions. Gemini C3 reaches 235/23/21/17, with five passes and four conversions. These retained-subset counts differ from whole-campaign totals. The largest loss is between localization and support. Diagnostic trace review finds refutations, inconclusive assessments, overgeneralized hypotheses, and turn exhaustion alongside rejected positive actions. A reference location alone does not establish a defect, including on initially secure outputs.
+\subsection{Drop-off 2. Turn Exhaustion Before Validation}
+Late edits can exhaust the turn budget before public validation finishes. Validation slots and required probe reruns can also prevent retention. A separate development recovery check evaluates seventy saved candidates discarded for protocol completion issues. Of these, 68 hit turn or validation-slot limits and two lacked a probe rerun. Offline tests find 39 functional passes, eighteen failures, and thirteen unresolved executions. Nine pass security, comprising eight preserved successes and one new conversion. These recovery results remain separate from the reported campaign scores. They motivate a reserved final validation opportunity after editing, without establishing that every discarded patch was correct or lost to scheduling.
 
-A separate development recovery check evaluates seventy saved candidates discarded for exhausted functional-validation slots (37), reaching the turn limit before validation (31), or missing a post-edit probe rerun (two). Without regenerating patches, 39 pass public functionality, eighteen fail, and thirteen remain unresolved. Nine pass security, comprising eight preserved successes and one conversion. This motivates reserving final public-validation capacity and reusing validation only for an identical patch. Recovery records remain separate from original outcomes, so these counterfactual successes do not retroactively improve the reported campaign scores.
-
-\subsection{Semantic Repair Failures and Operational Errors}
+\subsection{Drop-off 3. Incomplete Fixes and Contract Mismatches}
 \begin{table}[t]
-\caption{Semantic review of fifteen tasks outside the diagnostic cohort, with retained reference-symbol edits and verified FuncPass/SecFail. Categories describe this purposive sample.}
+\caption{Manual inspection of fifteen retained patches with reference-symbol edits, verified functional passes, and failed security tests. Categories describe this selected diagnostic sample.}
 \label{tab:taxonomy}
 \centering\footnotesize
 \input{tables/final_taxonomy}
 \end{table}
-We compare retained diffs, reference patches, and official failing assertions on fifteen tasks outside the diagnostic cohort, fourteen from DeepSeek and one from Gemini, with functional success before and after editing (Table~\ref{tab:taxonomy}). Four patches address the wrong property. An Aiohttp repair changes session-key handling while leaving expiry unresolved, and a FastAPI repair limits body size instead of enforcing media-type-dependent parsing. Nine patches identify a relevant vulnerability class but leave the fix incomplete. Streamlit normalizes lexical paths without resolving symlink escape, while Airflow Hive validates an explicit schema but omits a connection-inherited value. Waitress repairs some transfer-encoding combinations but leaves malformed content-length behavior. JWCrypto checks decompressed size only after memory has been allocated. The remaining two patches implement the wrong failure behavior, using the wrong NumPy exception for an empty axis or leaving Markdown-it-py's malformed-byte decoding contract unsatisfied. These cases show why a plausible edit to the correct function still requires the full input, lifecycle, and error contract.
+Even a retained patch that passes functional tests can leave the security contract broken. We inspect fifteen such tasks outside the diagnostic pilot by comparing candidate diffs, reference patches, and official failing assertions. Fourteen use DeepSeek and one uses Gemini.
 
-Operational errors remain separately observable. Gemini records 205 repair errors, comprising 153 \code{blockReason: OTHER} responses, 45 JSON decoding errors, six HTTP 500 errors, and one other value error. DeepSeek records 107, comprising 63 stop interruptions, 32 HTTP 429 responses, nine deadlines, two value errors, and one connection error. Provider labels are not assigned inferred causes. Bounded transport retries retain billing reservations, and completed responses are not regenerated. An errored cell can still have an officially evaluated retained candidate or no-op in the matched analysis.
+Table~\ref{tab:taxonomy} shows nine incomplete repairs of the relevant vulnerability class. Examples include lexical path normalization that misses symlinks in Streamlit, size checks after decompression in JWCrypto, and validation that omits inherited connection settings in Airflow Hive. Four patches address the wrong security property, such as session-key handling instead of expiry in Aiohttp, or body-size limits instead of media-type parsing in FastAPI. Two violate the required failure behavior. NumPy raises the wrong exception for an empty axis, while Markdown-it-py leaves malformed-byte handling incorrect. These failures require checking the full input and error contract, not merely the presence of a new guard.
 
-\rqfinding{RQ4 Finding}{Losses arise during diagnosis, validation scheduling, semantic repair, and provider execution. Linking actions, patches, and terminal test outcomes distinguishes the engineering intervention each failure needs.}
+\subsection{Operational and Provider Failures}
+Gemini records 205 repair errors. These comprise 153 \code{blockReason: OTHER} responses, 45 JSON decoding errors, six HTTP 500 errors, and one other value error. DeepSeek records 107 errors, including 63 explicit stop interruptions, 32 HTTP 429 responses, nine deadlines, two value errors, and one connection error. The recorded labels distinguish provider responses, parsing failures, and run interruptions without assigning unverified causes. Final candidate evaluations remain separate from these investigation errors.
+
+\rqfinding{RQ4 Finding}{Candidates are lost during diagnosis, validation scheduling, and semantic repair. The funnel distinguishes these losses from operational errors and from the final test outcome.}
 
 \input{section_vii_final}
 \input{sections_viii_x_final}

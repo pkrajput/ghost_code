@@ -70,9 +70,11 @@ study remains researcher-run.
 [`EDITORIAL_REVIEW.md`](EDITORIAL_REVIEW.md) records the SEIP format check and
 provides the 49-reference citation review list. The editorial build has
 **10 pages of main text and two pages of references**, with Figure 1 on page 2.
-Pages 1–4 are unchanged from the preceding revision. All five research questions,
-five tables, and both figures are retained. Section VIII now develops four
-discussion points and their practical implications.
+All five research questions, five tables, and both figures are retained. The
+approved prose and figure/table redesign distinguish coding generators from
+security investigators and use precise funnel labels. Section VIII presents
+industrial relevance and takeaways, followed by separate validity and related
+work sections. The numerical outcomes remain unchanged.
 
 The [skill repository](https://github.com/pkrajput/TRACER_skill) distributes the
 tool and compact outcome records. The manuscript is maintained separately in
