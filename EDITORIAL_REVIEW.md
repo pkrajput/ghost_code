@@ -9,7 +9,7 @@ changes to the five results tables were made.
 - TRACER is expanded in the abstract as **Trace-based Runtime Analysis for Continuous Evolution and Release**.
 - Authors, in order: **Prateek Rajput; Shahzeb Khan; Jacques Klein; Tegawendé F. Bissyandé**.
 - Shahzeb is affiliated with Nostrum Biodiscovery; the other authors with the University of Luxembourg. The latest Overleaf author block supplies all four email addresses and the city/country details; these are preserved with corrected line breaks.
-- A paragraph explicitly headed **Relevance to industry** now opens Section VIII-A.
+- **Industry Relevance and Code Archaeology** now opens Section II; Section VIII-A discusses the C2/C3 context-selection lesson instead of repeating this motivation.
 - Manuscript review by the Nostrum Biodiscovery co-author is recorded. This does not reclassify the researcher-run evaluation as an independent deployment or replication.
 - The bibliography grows from **14 to 48 distinct, actually cited entries**. No `nocite` padding is used. Additions concentrate on background, method attribution, related work, and the six domain repositories.
 
@@ -24,11 +24,11 @@ Checked against the [official SEIP call](https://conf.researchr.org/track/icse-2
 | Author identification | Allowed: the SEIP call does not require double-anonymous review |
 | Layout | Standard two-column IEEEtran layout; letter-size PDF; no geometry, margin, line-spacing, or font-size compression overrides |
 | References | IEEEtran bibliography style; numbered citations; `cite` sorts/compresses citation groups |
-| Reference-column balance | Standard IEEEtran `IEEEtriggeratref` hook balances the final reference page; revisit after future edits |
+| Reference-column balance | The obsolete manual reference break is removed; final column balancing is deferred until the text stabilizes |
 | Fonts | PDF font inspection confirms embedded fonts, with Times-compatible Nimbus Roman for prose |
 | Build | Tectonic 0.17.0 completed; no LaTeX errors, unresolved citations/references, BibTeX warnings, or overfull boxes |
 | Visual review | Title/author page, domain table/figure, and bibliography checked; remaining underfull-box warnings are normal layout warnings |
-| Pagination | 14 total pages after the narrative revision; references begin on page 12. The call allows 10 main-text pages plus 2 reference pages. Compliance with the page limits is intentionally deferred at the author's request |
+| Pagination | 13 total pages after Round 2 and removal of an obsolete manual reference break; references begin on page 12. The call allows 10 main-text pages plus 2 reference pages. Compliance with the page limits is intentionally deferred at the author's request |
 | Overleaf | Keep `main.tex` as the main document and pdfLaTeX as the compiler; the local verification build used Tectonic |
 
 The title, author block, bibliography, and body formatting follow the required
@@ -56,6 +56,41 @@ experimental denominators are unchanged.
   The RQ5 box reports joint feature-and-boundary success, without attributing
   the combined memory/gate/retry effect to memory alone. C0's change-informed
   target selection and the C1–C3 audit-cue confound remain explicit.
+
+## 21 October Round 2: background and implementation alignment
+
+The revision starts from Overleaf commit `0e767d8`. It fixes the three requested
+introduction typos and preserves the other Overleaf edits. The approved abstract,
+all five table sources, bibliography, research questions, experimental results,
+and domain-study outcomes are unchanged.
+
+Section II now separates industry review, structural-history representation,
+and task/rationale interpretation, followed by one paragraph of explicitly
+identified SusVibes cases. First mentions link to the official repositories for
+[Python-RSA](https://github.com/sybrenstuvel/python-rsa),
+[LangChain](https://github.com/langchain-ai/langchain),
+[Wagtail](https://github.com/wagtail/wagtail), and
+[Django](https://github.com/django/django). These identify the projects; the
+benchmark and recorded investigations supply the case-specific evidence.
+
+Section III now has four subsections: current-symbol/SAST review (C0), GumTree
+evolution (C1), rationale links (C2/C3), and the decision ledger/repair gate/skill.
+The implementation claims were checked against the research checkout:
+
+| Mechanism | Implementation inspected |
+| --- | --- |
+| Python `ast.parse`, custom qualified-symbol visitor, hunk/deletion-anchor mapping | `security_ground_truth/temporal_security/planner.py`: `_symbols`, `patch_lines`, `_enclosing`, `plan` |
+| Structural hashes and explicit limits of cross-version identity | `security_ground_truth/runtime/history/adapter.py`: `structural_index`, `structural_delta`; `runtime/history/query.py`: `current_fragment_anchors` |
+| Typed GumTree edits, fragment normalization, bounded summaries | `security_ground_truth/temporal_security/gumtree.py`: `summarize_pair`; `history.py`: `parseable_pair`, `_bound_records` |
+| Original prose, event/path/symbol links, exact quotations and assumptions | `security_ground_truth/temporal_security/rationale.py`: `prose_spans`, `build_rationale`, `RationaleSession.validate_refs` |
+| Persisted hypotheses/assessments and qualified maintenance records | `security_ground_truth/temporal_security/engine.py`: `edit_note.json` output; `paper/bio_study/run.py`: qualified repair-note construction |
+| Portable interface | `skills/tracer-security/SKILL.md`; `security_ground_truth/temporal_security/cli.py` |
+
+The prose names Python's standard-library AST parser, rather than inventing a
+third-party symbol extractor. It distinguishes recorded/current symbol links
+from guaranteed identity across arbitrary renames, and cited rationale from a
+complete capture of private reasoning. Context dilution is discussed in
+Section VIII-A as a possible explanation of C2/C3, not a measured causal effect.
 
 ## Citation verification notes
 
@@ -114,13 +149,13 @@ Numbers correspond to this compiled draft and will change if citations move.
 | 27 | `dockq` | [DockQ v2: improved automatic quality measure for protein multimers, nucleic acids, and small molecules](https://doi.org/10.1093/bioinformatics/btae586) | Journal article | DockQ v2 Python reimplementation and expanded format support; repository attribution. |
 | 28 | `vina` | [AutoDock Vina 1.2.0: New Docking Methods, Expanded Force Field, and Python Bindings](https://doi.org/10.1021/acs.jcim.1c00203) | Journal article | AutoDock Vina 1.2.0 and its Python bindings; repository attribution. |
 | 29 | `foldseek` | [Fast and accurate protein structure search with Foldseek](https://doi.org/10.1038/s41587-023-01773-0) | Journal article | Structure-search tool paper; inventory repository only, with no selected repair case. |
-| 30 | `pythonast` | [ast---Abstract Syntax Trees](https://docs.python.org/3.11/library/ast.html) | Documentation/software/report | Python AST nodes, location information, and docstring identification. |
+| 30 | `ssdf` | [Secure Software Development Framework (SSDF) Version 1.1: Recommendations for Mitigating the Risk of Software Vulnerabilities](https://csrc.nist.gov/pubs/sp/800/218/final) | Technical standard/report | Secure-development practices for code review, testing, and vulnerability knowledge. No certification claim. |
 | 31 | `gumtree3` | [GumTree, release 3.0.0](https://github.com/GumTreeDiff/gumtree/releases/tag/v3.0.0) | Documentation/software/report | Pinned GumTree implementation release. |
-| 32 | `bootstrap` | [An Introduction to the Bootstrap](https://doi.org/10.1201/9780429246593) | Book | General bootstrap methodology; task clustering, seed, and replicate count describe our own implementation. |
-| 33 | `pytorchserialization` | [Serialization API and Safe-Globals Context Manager](https://github.com/pytorch/pytorch/blob/v2.5.1/torch/serialization.py) | Documentation/software/report | Pinned v2.5.1 serialization source/API: weights_only and safe_globals. Does not establish universal safety of the component repair. |
-| 34 | `pythonpickle` | [pickle---Python Object Serialization](https://docs.python.org/3.11/library/pickle.html) | Documentation/software/report | Python documentation of the arbitrary-code risk of untrusted unpickling. |
-| 35 | `pythontokenize` | [tokenize---Tokenizer for Python Source](https://docs.python.org/3.11/library/tokenize.html) | Documentation/software/report | Token-level comment handling in the silent-fix preprocessing step. |
-| 36 | `ssdf` | [Secure Software Development Framework (SSDF) Version 1.1: Recommendations for Mitigating the Risk of Software Vulnerabilities](https://csrc.nist.gov/pubs/sp/800/218/final) | Technical standard/report | Secure-development practices for code review, testing, and vulnerability knowledge. No certification claim. |
+| 32 | `pythonast` | [ast---Abstract Syntax Trees](https://docs.python.org/3.11/library/ast.html) | Documentation/software/report | Python AST nodes, location information, and docstring identification. |
+| 33 | `bootstrap` | [An Introduction to the Bootstrap](https://doi.org/10.1201/9780429246593) | Book | General bootstrap methodology; task clustering, seed, and replicate count describe our own implementation. |
+| 34 | `pytorchserialization` | [Serialization API and Safe-Globals Context Manager](https://github.com/pytorch/pytorch/blob/v2.5.1/torch/serialization.py) | Documentation/software/report | Pinned v2.5.1 serialization source/API: weights_only and safe_globals. Does not establish universal safety of the component repair. |
+| 35 | `pythonpickle` | [pickle---Python Object Serialization](https://docs.python.org/3.11/library/pickle.html) | Documentation/software/report | Python documentation of the arbitrary-code risk of untrusted unpickling. |
+| 36 | `pythontokenize` | [tokenize---Tokenizer for Python Source](https://docs.python.org/3.11/library/tokenize.html) | Documentation/software/report | Token-level comment handling in the silent-fix preprocessing step. |
 | 37 | `repairsurvey` | [Automatic Software Repair: A Bibliography](https://doi.org/10.1145/3105906) | Journal article | Repair oracles and acceptance criteria; distinction between plausible/test-passing and correct repairs. |
 | 38 | `overfitting` | [Is the cure worse than the disease? overfitting in automated program repair](https://doi.org/10.1145/2786805.2786825) | Conference paper | Test-suite overfitting as a limit on automated repair evaluation. |
 | 39 | `swebench` | [SWE-bench: Can Language Models Resolve Real-World GitHub Issues?](https://proceedings.iclr.cc/paper_files/paper/2024/hash/edac78c3e300629acfe6cbe9ca88fb84-Abstract-Conference.html) | Conference paper | Functional repository-level evaluation, contrasted with security-specific tests. Not an additional dataset evaluated in this paper. |
