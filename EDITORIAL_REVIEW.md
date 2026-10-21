@@ -1,7 +1,8 @@
 # Editorial review — updated 21 October 2026
 
 This is a manuscript-only revision. No model requests or new experiment runs
-were made. Table labels and punctuation were revised, with all results unchanged.
+were made. The final editorial pass reduces the paper to exactly ten pages,
+including references. Retained experimental values and denominators are unchanged.
 
 ## Requested changes
 
@@ -24,17 +25,50 @@ Checked against the [official SEIP call](https://conf.researchr.org/track/icse-2
 | Author identification | Allowed: the SEIP call does not require double-anonymous review |
 | Layout | Standard two-column IEEEtran layout; letter-size PDF; no geometry, margin, line-spacing, or font-size compression overrides |
 | References | IEEEtran bibliography style; numbered citations; `cite` sorts/compresses citation groups |
-| Reference-column balance | The obsolete manual reference break is removed; final column balancing is deferred until the text stabilizes |
+| Reference-column balance | Standard IEEEtran reference-column break balances the final page at entry 32 |
 | Fonts | PDF font inspection confirms embedded fonts, with Times-compatible Nimbus Roman for prose |
 | Build | Tectonic 0.17.0 completed; no LaTeX errors, unresolved citations/references, BibTeX warnings, or overfull boxes |
-| Visual review | Title/author page, domain table/figure, and bibliography checked; remaining underfull-box warnings are normal layout warnings |
-| Pagination | 14 total pages after the new overview and closing sections; references begin on page 12. The call allows 10 main-text pages plus 2 reference pages. Compliance with the page limits is intentionally deferred at the author's request |
+| Visual review | All pages inspected for heading placement and float overlap, with both figures and all five tables retained. Remaining underfull-box warnings do not produce overflowing content |
+| Pagination | Exactly 10 total pages including references, which begin on page 9. Figure 1 remains on page 2. No margins, body fonts, or line spacing were reduced |
 | Overleaf | Keep `main.tex` as the main document and pdfLaTeX as the compiler; the local verification build used Tectonic |
 
 The title, author block, bibliography, and body formatting follow the required
-class. This is not a claim that the current draft is ready for submission:
-pagination and final author review remain outstanding. All numerical tables and
-experimental denominators are unchanged.
+class. The requested ten-page total is verified locally with Tectonic. Final
+author review remains. Table II drops only the historical development baseline,
+and all retained numerical values and experimental denominators are unchanged.
+
+## Final editorial pass
+
+- Kept the title, author block, abstract, index terms, introduction, Section II,
+  and Figure 1 source/caption byte-for-byte unchanged. Both figure assets remain
+  unchanged.
+- Removed the repeated explanatory `Rationale.` labels under all five RQs.
+- Consolidated Section IV into research questions, benchmark/cohort/evaluation
+  predicates, and configurations/scanner setup. Defined attempts, cells,
+  execution-complete populations, exposure strata, and scanner seeding together.
+- Kept Section V on the evaluated system. Table II omits the historical v6 row
+  and version prefixes, with all remaining rows unchanged. Revisions v6–v12 are
+  first introduced and defined in Section VI-A.
+- Condensed Section VI into engineering progression, the nested funnel and
+  validation scheduling, and semantic/operational failures. A clearly identified
+  development recovery check explains the saved-patch results without exposing
+  unrelated run inventories or unexplained task names.
+- Tightened Section VII while preserving the 3/5, 4/5, and 5/5 continuation
+  outcomes, ordinary/boundary checks, the retry difference, and zero fallbacks.
+- Reduced practical lessons and related work to three paragraphs each, and
+  validity to two paragraphs. Retained the cue confound, adaptive-development
+  limits, incomplete outcomes, task dependence, and researcher-run domain scope.
+- All 49 references remain cited. IEEEtran's bibliography control prints the
+  first author and *et al.* for more than six authors, preserving full metadata
+  in BibTeX. Redundant publication URLs were removed, with software,
+  documentation, report, preprint, and archive URLs retained. Source-review
+  links below remain available for manual checking.
+- The final PDF has ten pages, no undefined citations/references, no BibTeX
+  warnings, and no overfull boxes. Standard IEEEtran font sizes and margins are
+  unchanged. No experiment was rerun.
+
+The dated notes below document earlier revisions and their pagination, rather
+than the current ten-page build.
 
 ## 21 October narrative revision
 
