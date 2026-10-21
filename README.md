@@ -38,6 +38,7 @@ lose review comments and tracked changes](https://docs.overleaf.com/integrations
 | [`references.bib`](references.bib) | Bibliography |
 | [`tables/`](tables/) | Five manuscript tables |
 | [`figures/bio_memory_trace.tex`](figures/bio_memory_trace.tex) | Repair-memory case-study figure |
+| [`figures/tracer_security_overview.pdf`](figures/tracer_security_overview.pdf) | Author-provided overview used as Figure 1 |
 
 ## Local build
 
@@ -71,6 +72,8 @@ study remains researcher-run.
 provides the 48-reference citation review list. Page-limit editing remains
 deferred.
 
-This checkout contains the manuscript sources. The tool, raw trajectories,
-experiment environments, evaluation logs, and credentials are maintained
-separately; the public replication package is still being prepared.
+The skill artifact is prepared for [ghost_code_artifact](https://github.com/pkrajput/ghost_code_artifact),
+with the current manuscript PDF and compact outcome records. A permanent archive
+of the full study data remains to be deposited. See the Data Availability section
+and the artifact release instructions for the distinction between code, derived
+results, and raw execution evidence.

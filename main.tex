@@ -81,18 +81,12 @@ Our motivating cases come from repository tasks in SusVibes~\cite{susvibes,susvi
 
 \section{TRACER Architecture and Portable Skill}
 \label{sec:architecture}
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
-\fbox{\parbox{0.91\columnwidth}{\centering\textbf{1. Change-informed planning}\\Patch-selected symbols, SAST locations, callers}}
-\par\smallskip $\downarrow$ \smallskip\par
-\fbox{\parbox{0.91\columnwidth}{\centering\textbf{2. Separate provenance channels}\\Typed AST evolution $\vert$ recorded rationale\\Source identities, event links, bounded summaries}}
-\par\smallskip $\downarrow$ \smallskip\par
-\fbox{\parbox{0.91\columnwidth}{\centering\textbf{3. Decision ledger and repair gate}\\Current-source assessment $\rightarrow$ conditional check\\Supported edit $\rightarrow$ functional validation}}
-\par\smallskip $\downarrow$ \smallskip\par
-\fbox{\parbox{0.91\columnwidth}{\centering\textbf{4. Persistent security memory}\\Repair note + source/check identities\\Feature evolution $\rightarrow$ boundary gate + feedback}}
-\caption{\tracer{} connects historical evidence, current repair, and subsequent maintenance. Benchmark security tests are reporting-only and remain outside the investigator's feedback loop.}
+\includegraphics[width=\textwidth]{figures/tracer_security_overview.pdf}
+\caption{\tracer{} links symbol-level development evidence to guarded security repair, then preserves repair invariants and executable checks for subsequent feature evolution. C0--C3 vary the evidence available during investigation.}
 \label{fig:architecture}
-\end{figure}
+\end{figure*}
 
 \subsection{Symbol-Level Tracking and Snapshot SAST (C0)}
 The evaluated Python pipeline builds a symbol-level index using the standard-library \code{ast.parse} parser~\cite{pythonast} and a custom visitor in \code{planner.py}. For each parsed snapshot, the index records functions, asynchronous functions, methods, and classes by repository path, qualified name, and definition span. The history adapter also records structural hashes. Rather than using diff lines as the review unit, the planner maps submitted patch hunks and deletion anchors to their enclosing current symbols, excludes test and documentation paths, and records module-level or unavailable mappings when needed. It links guards, candidate in-file callers, and related changed symbols, while attributing Semgrep and CodeQL locations and flow evidence to their originating scanners~\cite{semgrep,codeql}. Local call-name matches are syntactic review hints, not resolved dataflow. This channel defines C0 as a change-informed snapshot review that scopes investigation beyond scanner locations, but still requires archaeology to explain how and why the current symbol was written.
@@ -108,7 +102,7 @@ The investigator records a hypothesis's target symbol, input boundary, and alleg
 
 For Stage~4 maintenance, a qualified repair note additionally binds the security invariant to the exact repaired-symbol hash and an independently owned executable boundary check. Subsequent feature proposals must satisfy ordinary, feature, and saved boundary checks. The continuation gate returns failure feedback for a bounded retry or retains the qualified starting code, recording acceptance and fallback separately.
 
-The portable \code{tracer-security} skill packages this symbol-tracking and ledger workflow for a host coding agent. Local helpers consume a bounded Git history or compatible recorded trajectory and produce review evidence using the available scanner and history adapters. The host supplies its editing and test interface, while a CI pipeline can run the saved checks on later changes. This separation supports adoption without depending on the SusVibes runner or its hidden evaluation tests.
+The portable \code{tracer-security} skill\footnote{\url{https://github.com/pkrajput/ghost_code_artifact}} packages this symbol-tracking and ledger workflow for a host coding agent. Local helpers consume a bounded Git history or compatible recorded trajectory and produce review evidence using the available scanner and history adapters. The host supplies its editing and test interface, while a CI pipeline can run the saved checks on later changes. This separation supports adoption without depending on the SusVibes runner or its hidden evaluation tests.
 
 \section{Experimental Design and Reproducibility}
 \label{sec:design}

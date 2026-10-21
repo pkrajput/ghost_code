@@ -28,7 +28,7 @@ Checked against the [official SEIP call](https://conf.researchr.org/track/icse-2
 | Fonts | PDF font inspection confirms embedded fonts, with Times-compatible Nimbus Roman for prose |
 | Build | Tectonic 0.17.0 completed; no LaTeX errors, unresolved citations/references, BibTeX warnings, or overfull boxes |
 | Visual review | Title/author page, domain table/figure, and bibliography checked; remaining underfull-box warnings are normal layout warnings |
-| Pagination | 13 total pages after Round 2 and removal of an obsolete manual reference break; references begin on page 12. The call allows 10 main-text pages plus 2 reference pages. Compliance with the page limits is intentionally deferred at the author's request |
+| Pagination | 14 total pages after the new overview and closing sections; references begin on page 12. The call allows 10 main-text pages plus 2 reference pages. Compliance with the page limits is intentionally deferred at the author's request |
 | Overleaf | Keep `main.tex` as the main document and pdfLaTeX as the compiler; the local verification build used Tectonic |
 
 The title, author block, bibliography, and body formatting follow the required
@@ -112,6 +112,20 @@ dependency of the evaluated Python security pipeline.
 
 The revised PDF compiles to 13 pages, with references beginning on page 12.
 The build has no errors, unresolved citations/references, or overfull boxes.
+
+## 21 October overview, acknowledgements, and artifact availability
+
+Figure 1 uses the author-provided `tracer_security_overview.pdf` as a vector
+figure across both columns, with a short caption. Section III links to the
+skill repository. A Data Availability section follows the conclusion and
+explicitly distinguishes the prepared code/result release from the still
+unpublished permanent archive. The closing acknowledgements thank Google for
+Gemini API credits and Nostrum Biodiscovery for verification assistance and
+practical feedback, without changing the study's researcher-run designation.
+
+The current PDF compiles without errors or unresolved references. The page
+limit remains intentionally deferred. The RQs, approved abstract, and all
+experimental numbers remain unchanged in this revision.
 
 ## Citation verification notes
 
