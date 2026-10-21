@@ -11,7 +11,7 @@ were made. Table labels and punctuation were revised, with all results unchanged
 - Shahzeb is affiliated with Nostrum Biodiscovery; the other authors with the University of Luxembourg. The latest Overleaf author block supplies all four email addresses and the city/country details; these are preserved with corrected line breaks.
 - **Industry Relevance and Code Archaeology** now opens Section II; Section VIII-A discusses the C2/C3 context-selection lesson instead of repeating this motivation.
 - Manuscript review by the Nostrum Biodiscovery co-author is recorded. This does not reclassify the researcher-run evaluation as an independent deployment or replication.
-- The bibliography grows from **14 to 48 distinct, actually cited entries**. No `nocite` padding is used. Additions concentrate on background, method attribution, related work, and the six domain repositories.
+- The bibliography contains **49 distinct, actually cited entries**, including the new Zenodo artifact citation. No `nocite` padding is used. Additions concentrate on background, method attribution, related work, the six domain repositories, and artifact availability.
 
 ## ICSE 2027 SEIP formatting check
 
@@ -117,15 +117,34 @@ The build has no errors, unresolved citations/references, or overfull boxes.
 
 Figure 1 uses the author-provided `tracer_security_overview.pdf` as a vector
 figure across both columns, with a short caption. Section III links to the
-skill repository. A Data Availability section follows the conclusion and
-explicitly distinguishes the prepared code/result release from the still
-unpublished permanent archive. The closing acknowledgements thank Google for
+skill repository. A Data Availability section follows the conclusion. The
+published Zenodo archive is now linked as described below. The closing acknowledgements thank Google for
 Gemini API credits and Nostrum Biodiscovery for verification assistance and
 practical feedback, without changing the study's researcher-run designation.
 
 The current PDF compiles without errors or unresolved references. The page
 limit remains intentionally deferred. The RQs, approved abstract, and all
 experimental numbers remain unchanged in this revision.
+
+## 21 October Zenodo release and early overview placement
+
+- Figure 1 is declared immediately after the keywords and renders at the top of
+  **page 2**, verified in the compiled PDF and the LaTeX label record. The original
+  vector figure and caption are unchanged.
+- The Data Availability section cites
+  [Zenodo DOI 10.5281/zenodo.23530070](https://doi.org/10.5281/zenodo.23530070)
+  and links to the renamed `pkrajput/TRACER_skill` repository. The citation uses
+  the deposit's two credited creators, Prateek Rajput and Shahzeb Khan.
+- The Zenodo API reports `tracer-security-v0.1.0.zip`, 2,943,781 bytes, with MD5
+  `c1aa21fa46e7af252cfdfcde18963936`. This matches the prepared local release.
+  Its software and derived outcome records are archived. Raw investigator
+  transcripts, complete evaluator logs, and container exports are not included.
+- The PDF has 14 pages, with references beginning on page 12. There are 49 cited
+  bibliography entries and no unresolved citations, references, or overfull
+  boxes. Tectonic uses its existing font substitutions and reports underfull
+  boxes. Page-limit editing remains deferred.
+- The abstract, research questions, table sources, and experimental results are
+  unchanged. No model calls or new evaluations were run.
 
 ## Citation verification notes
 
@@ -135,7 +154,8 @@ author papers or repositories, and official software documentation; bibliographi
 metadata was cross-checked against DOI registrations where available. The list
 below gives the precise role of each citation for manual review. A literature
 citation supports the stated background or method, not the numerical results of
-our own study.
+our own study. The additional Zenodo entry was verified against the published
+deposit's metadata and file checksum.
 
 Specific bibliographic choices worth checking:
 
@@ -203,3 +223,4 @@ Numbers correspond to this compiled draft and will change if citations move.
 | 46 | `reflexion` | [Reflexion: Language Agents with Verbal Reinforcement Learning](https://proceedings.neurips.cc/paper_files/paper/2023/hash/1b44b878bb782e6954cd888628510e90-Abstract-Conference.html) | Conference paper | Verbal feedback in episodic agent memory; distinction from independently owned checks. |
 | 47 | `selfrefine` | [Self-Refine: Iterative Refinement with Self-Feedback](https://proceedings.neurips.cc/paper_files/paper/2023/hash/91edff07232fb1b55a505a9e9f6c0ff3-Abstract-Conference.html) | Conference paper | Iterative model-generated feedback and refinement; distinct from our executable gate. |
 | 48 | `postura` | [POSTURA: Agentic Attack Surface Posture Intelligence](https://github.com/motornomad/postura) | Documentation/software/report | Software design for persistent security representations; not a peer-reviewed effectiveness result. |
+| 49 | `tracerartifact` | [Securing Agent-Generated Code Through Development History](https://doi.org/10.5281/zenodo.23530070) | Archived software and derived study evidence | Permanent identifier for the TRACER skill and compact result records. Does not imply raw transcripts, complete evaluator logs, or container exports are included. |

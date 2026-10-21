@@ -9,9 +9,8 @@ with symbol-level code evolution and separately recorded development rationale,
 validates candidate security repairs, and preserves repair evidence for later
 maintenance.
 
-This manuscript supersedes the earlier *Ghost Code in Passing Agent Solutions*
-NIER concept. The earlier paper remains available in Git history; its last
-published revision was `8d0194adaed8c2b1df7159ff1d62f4dd8f692f33`.
+The [TRACER skill](https://github.com/pkrajput/TRACER_skill) and derived study
+evidence are archived on [Zenodo](https://doi.org/10.5281/zenodo.23530070).
 
 ## Overleaf
 
@@ -69,11 +68,12 @@ The Nostrum Biodiscovery co-author has reviewed the manuscript; the quantitative
 study remains researcher-run.
 
 [`EDITORIAL_REVIEW.md`](EDITORIAL_REVIEW.md) records the SEIP format check and
-provides the 48-reference citation review list. Page-limit editing remains
+provides the 49-reference citation review list. Page-limit editing remains
 deferred.
 
-The skill artifact is prepared for [ghost_code_artifact](https://github.com/pkrajput/ghost_code_artifact),
-with the current manuscript PDF and compact outcome records. A permanent archive
-of the full study data remains to be deposited. See the Data Availability section
-and the artifact release instructions for the distinction between code, derived
-results, and raw execution evidence.
+The [skill repository](https://github.com/pkrajput/TRACER_skill) includes the
+current manuscript PDF and compact outcome records. The
+[Zenodo release](https://doi.org/10.5281/zenodo.23530070) preserves the published
+software and derived evidence. Raw investigator transcripts, complete evaluator
+logs, and container exports are outside that archive. See the Data Availability
+section and artifact documentation for its precise scope.

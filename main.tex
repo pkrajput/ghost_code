@@ -46,6 +46,13 @@ Agentic software development makes it possible to capture the process of code cr
 Agentic Software Engineering, Vulnerability Repair, Provenance and Reasoning Traces, Silent Security Fixes, Continuous Software Evolution, Static and Dynamic Analysis.
 \end{IEEEkeywords}
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/tracer_security_overview.pdf}
+\caption{\tracer{} links symbol-level development evidence to guarded security repair, then preserves repair invariants and executable checks for subsequent feature evolution. C0--C3 vary the evidence available during investigation.}
+\label{fig:architecture}
+\end{figure*}
+
 \section{Introduction}
 Autonomous coding agents can navigate repositories, edit source files, and execute test suites through interfaces such as SWE-agent~\cite{sweagent}, while agent-based repair systems extend this tool-driven workflow to debugging~\cite{repairagent}. For engineering teams adopting these systems, security remains a critical review obligation. Empirical studies of generated code and coding-assistant use document security weaknesses~\cite{asleep,perry,copilotweaknesses}. A patch can satisfy functional tests while leaving an unsafe input boundary, incomplete validation, or a violated API contract. SusVibes makes this gap explicit by evaluating functionality and security separately on repository-level tasks~\cite{susvibes,susvibesartifact}. Teams accepting working, agent-generated changes therefore need to uncover and repair omitted security conditions without breaking the requested functionality.
 
@@ -81,12 +88,6 @@ Our motivating cases come from repository tasks in SusVibes~\cite{susvibes,susvi
 
 \section{TRACER Architecture and Portable Skill}
 \label{sec:architecture}
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/tracer_security_overview.pdf}
-\caption{\tracer{} links symbol-level development evidence to guarded security repair, then preserves repair invariants and executable checks for subsequent feature evolution. C0--C3 vary the evidence available during investigation.}
-\label{fig:architecture}
-\end{figure*}
 
 \subsection{Symbol-Level Tracking and Snapshot SAST (C0)}
 The evaluated Python pipeline builds a symbol-level index using the standard-library \code{ast.parse} parser~\cite{pythonast} and a custom visitor in \code{planner.py}. For each parsed snapshot, the index records functions, asynchronous functions, methods, and classes by repository path, qualified name, and definition span. The history adapter also records structural hashes. Rather than using diff lines as the review unit, the planner maps submitted patch hunks and deletion anchors to their enclosing current symbols, excludes test and documentation paths, and records module-level or unavailable mappings when needed. It links guards, candidate in-file callers, and related changed symbols, while attributing Semgrep and CodeQL locations and flow evidence to their originating scanners~\cite{semgrep,codeql}. Local call-name matches are syntactic review hints, not resolved dataflow. This channel defines C0 as a change-informed snapshot review that scopes investigation beyond scanner locations, but still requires archaeology to explain how and why the current symbol was written.
@@ -102,7 +103,7 @@ The investigator records a hypothesis's target symbol, input boundary, and alleg
 
 For Stage~4 maintenance, a qualified repair note additionally binds the security invariant to the exact repaired-symbol hash and an independently owned executable boundary check. Subsequent feature proposals must satisfy ordinary, feature, and saved boundary checks. The continuation gate returns failure feedback for a bounded retry or retains the qualified starting code, recording acceptance and fallback separately.
 
-The portable \code{tracer-security} skill\footnote{\url{https://github.com/pkrajput/ghost_code_artifact}} packages this symbol-tracking and ledger workflow for a host coding agent. Local helpers consume a bounded Git history or compatible recorded trajectory and produce review evidence using the available scanner and history adapters. The host supplies its editing and test interface, while a CI pipeline can run the saved checks on later changes. This separation supports adoption without depending on the SusVibes runner or its hidden evaluation tests.
+The portable \code{tracer-security} skill\footnote{\url{https://github.com/pkrajput/TRACER_skill}} packages this symbol-tracking and ledger workflow for a host coding agent. Local helpers consume a bounded Git history or compatible recorded trajectory and produce review evidence using the available scanner and history adapters. The host supplies its editing and test interface, while a CI pipeline can run the saved checks on later changes. This separation supports adoption without depending on the SusVibes runner or its hidden evaluation tests.
 
 \section{Experimental Design and Reproducibility}
 \label{sec:design}
