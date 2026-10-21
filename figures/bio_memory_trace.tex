@@ -4,7 +4,7 @@
 % guard also appears in continuations/haddock_extract_symlink/memory_gate/1/candidate/candidate.py
 \fbox{\begin{minipage}{0.94\columnwidth}
 \footnotesize
-\textbf{Silent repair: resolved-path containment}\par\smallskip
+\textbf{Silent repair, resolved-path containment}\par\smallskip
 {\ttfamily\scriptsize
 target\_path = dest / member.name\par
 target\_resolved = target\_path.resolve()\par
@@ -17,9 +17,9 @@ if dest not in target\_resolved.parents \textbackslash\par
 \code{security_invariant}: ``their final extraction paths must be within the destination directory after resolving any symlinks in the destination path.''\par
 \code{fix_verified}: \code{true}\par
 \code{fix_patch_sha256}: \code{e6973008...}\par
-\code{check_qualification}: original assertion fails; fixed version and ordinary controls pass.\par
+\code{check_qualification}: original assertion fails. Fixed version and ordinary controls pass.\par
 \smallskip
-\textbf{Feature evolution: ZIP/TAR + nested paths}\par
-No Memory: ordinary/boundary pass; ZIP output missing.\par
-Memory+Gate: ordinary, feature, and boundary all pass.
+\textbf{Feature evolution, ZIP/TAR + nested paths}\par
+No Memory. Ordinary/boundary pass. ZIP output missing.\par
+Memory+Gate. Ordinary, feature, and boundary all pass.
 \end{minipage}}

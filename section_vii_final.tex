@@ -3,9 +3,9 @@
 While Sections~\ref{sec:results} and~\ref{sec:engineering} evaluate diagnosis and repair on benchmark tasks, a repaired codebase must also survive subsequent evolution. We therefore evaluate Stage~4 of \tracer{}---persistent security memory and boundary gating (RQ5)---on six public structural-biology repositories.
 
 \subsection{Change-Informed Discovery and Repair}
-The pinned repositories cover structural biology, molecular docking, and protein design: RFdiffusion~\cite{rfdiffusion}, ProteinMPNN~\cite{proteinmpnn}, haddock3~\cite{haddock3}, DockQ~\cite{dockq}, AutoDock-Vina~\cite{vina}, and foldseek~\cite{foldseek}.
-They were selected with our Nostrum Biodiscovery collaborator in Barcelona, who has reviewed the manuscript and its account of the domain study. The quantitative evidence is a researcher-run component study; manuscript review does not constitute independent replication or a practitioner deployment.
-Semgrep 1.101.0 reports 420 warnings across these repositories, but none overlaps the five selected target symbols; this domain pilot uses Semgrep rather than the benchmark's combined Semgrep/CodeQL configuration.
+The pinned repositories cover structural biology, molecular docking, and protein design. They are RFdiffusion~\cite{rfdiffusion}, ProteinMPNN~\cite{proteinmpnn}, haddock3~\cite{haddock3}, DockQ~\cite{dockq}, AutoDock-Vina~\cite{vina}, and foldseek~\cite{foldseek}.
+They were selected with our Nostrum Biodiscovery collaborator in Barcelona, who has reviewed the manuscript and its account of the domain study. The quantitative evidence is a researcher-run component study. Manuscript review does not constitute independent replication or a practitioner deployment.
+Semgrep 1.101.0 reports 420 warnings across these repositories, but none overlaps the five selected target symbols. This domain pilot uses Semgrep rather than the benchmark's combined Semgrep/CodeQL configuration.
 Bounded source review identifies component properties, and repository history provides change context for each repair.
 Each case has an ordinary-behavior control and a separately owned boundary assertion that fails on the original component and passes after repair.
 All five repairs are qualified in a pinned Python 3.11 container with read-only source/check mounts and network access disabled.
@@ -13,16 +13,16 @@ The sixth repository, foldseek, contributes 11 scanner warnings to the inventory
 Table~\ref{tab:bio} connects each selected defect to its later maintenance request and observed outcome.
 
 The five cases exercise distinct contracts along scientific data-processing paths.
-DockQ's \code{load_PDB} can leave an open file handle when parsing raises before closure and a fallback parser opens another handle; the repair closes ordinary and compressed handles on both success and failure.
-haddock3's \code{extract_files_flat} flattens archive names but can still follow a pre-existing destination symlink outside the extraction directory; its repair checks resolved-path containment and skips non-regular members.
+DockQ's \code{load_PDB} can leave an open file handle when parsing raises before closure and a fallback parser opens another handle. The repair closes ordinary and compressed handles on both success and failure.
+haddock3's \code{extract_files_flat} flattens archive names but can still follow a pre-existing destination symlink outside the extraction directory. Its repair checks resolved-path containment and skips non-regular members.
 ProteinMPNN's \code{StructureDataset.__init__} admits JSONL record names later used in output paths, so the repair restricts names to nonempty simple filenames while preserving ordinary identifiers and sequence filtering.
-RFdiffusion's \code{Sampler.load_checkpoint} is hardened for the pinned PyTorch 2.5.1 behavior using \code{weights_only=True} and a scoped \code{safe_globals([slice])} allowance that preserves supported tensor/configuration checkpoints~\cite{pytorchserialization}. Python documents the arbitrary-code execution risk of untrusted pickle data~\cite{pythonpickle}; our qualified check covers the pinned component and accepted checkpoint forms.
+RFdiffusion's \code{Sampler.load_checkpoint} is hardened for the pinned PyTorch 2.5.1 behavior using \code{weights_only=True} and a scoped \code{safe_globals([slice])} allowance that preserves supported tensor/configuration checkpoints~\cite{pytorchserialization}. Python documents the arbitrary-code execution risk of untrusted pickle data~\cite{pythonpickle}. Our qualified check covers the pinned component and accepted checkpoint forms.
 AutoDock-Vina's \code{Vina.write_poses} skips numeric validation through an \code{elif not overwrite} branch, and its repair validates pose counts and energy ranges independently of overwrite permission.
-Four repairs are model-written; RFdiffusion uses a user-specified remedy implemented locally after two recorded model candidates fail ordinary validation.
+Four repairs are model-written. RFdiffusion uses a user-specified remedy implemented locally after two recorded model candidates fail ordinary validation.
 For every accepted repair, the external \code{edit_note.json} records the invariant, rationale origin, source and patch identities, Git/GumTree evidence, and the immutable qualified check, making the boundary available to a later maintainer.
 
 \begin{table*}[t]
-\caption{Structural biology and protein-design case study. Joint success requires ordinary behavior, the requested feature, and the saved boundary assertion. These five repositories contribute 409 warnings; foldseek contributes the remaining 11 of 420 and no repair case. No stock warning overlaps any selected target symbol.}
+\caption{Structural biology and protein-design case study. Joint success requires ordinary behavior, the requested feature, and the saved boundary assertion. These five repositories contribute 409 warnings. Foldseek contributes the remaining 11 of 420 and no repair case. No stock warning overlaps any selected target symbol.}
 \label{tab:bio}
 \centering\footnotesize
 \input{tables/final_biology}
@@ -32,16 +32,16 @@ For every accepted repair, the external \code{edit_note.json} records the invari
 Security fixes can lack an explicit explanation in their surrounding code, motivating the silent-fix setting studied by CoLeFunDa~\cite{colefunda}.
 We construct that condition by removing Python comment tokens and AST-identified docstrings from the repaired source supplied to both continuation arms, using Python's \code{tokenize} and \code{ast} interfaces~\cite{pythontokenize,pythonast}.
 The executable AST is identical after excluding documentation, and each cleaned start passes its ordinary and saved boundary checks again.
-Both arms receive the same cleaned code and feature request; the additional input to Memory+Gate is the external repair note.
-The requests change control flow or supported inputs: checkpoint compatibility and CPU fallback, ZIP/TAR extraction with optional nested paths, extension-first CIF/PDB parsing, record-length and missing-coordinate filters, and verbose pose writing with consolidated validation.
+Both arms receive the same cleaned code and feature request. The additional input to Memory+Gate is the external repair note.
+The requests change control flow or supported inputs. They cover checkpoint compatibility and CPU fallback, ZIP/TAR extraction with optional nested paths, extension-first CIF/PDB parsing, record-length and missing-coordinate filters, and verbose pose writing with consolidated validation.
 Each request has an automated feature check frozen before generation, alongside the original boundary check.
 Using DeepSeek V3.2 at temperature zero, No Memory makes one proposal, while Memory+Gate may use one additional proposal after exact application, ordinary, feature, or boundary-check feedback.
-A failed second proposal retains the qualified starting version; we count this separately from implementing the requested feature.
+A failed second proposal retains the qualified starting version. We count this separately from implementing the requested feature.
 
 No Memory completes the requested feature while preserving ordinary behavior and the tested boundary in 3/5 cases, compared with 4/5 for Memory+Gate's first proposals and 5/5 after its single retry.
 All five ordinary checks pass on the first proposals in both conditions, while boundary preservation is 4/5 in each, with RFdiffusion unknown because execution raises an exception.
 The no-memory haddock3 candidate preserves the saved boundary but fails to produce the expected flattened ZIP output, raising \code{FileNotFoundError} in the feature check.
-Both initial RFdiffusion candidates reference an unimported \code{pickle} name in exception handling; feedback enables the memory condition to add the import and pass the compatibility, ordinary, and boundary checks.
+Both initial RFdiffusion candidates reference an unimported \code{pickle} name in exception handling. Feedback enables the memory condition to add the import and pass the compatibility, ordinary, and boundary checks.
 Thus the two additional joint successes arise from completing archive-format support and repairing exception handling, rather than two observed reintroductions of an exploitable vulnerability.
 Figure~\ref{fig:bio-memory} illustrates how the saved haddock3 invariant remains external to the silent starting code while its containment check persists through format expansion.
 All five Memory+Gate outputs are accepted feature implementations, so its 100\% joint success uses no fallback to the old version.
@@ -53,4 +53,4 @@ All five Memory+Gate outputs are accepted feature implementations, so its 100\% 
 \label{fig:bio-memory}
 \end{figure}
 
-\rqfinding{RQ5 Finding}{Persistent repair memory with a one-retry boundary gate achieves 5/5 joint feature-and-boundary successes, compared with 3/5 for unguarded continuation, with no secure-code fallbacks. The gain concerns completed feature evolution under saved checks; it does not isolate memory from enforcement and retry.}
+\rqfinding{RQ5 Finding}{Persistent repair memory with a one-retry boundary gate achieves 5/5 joint feature-and-boundary successes, compared with 3/5 for unguarded continuation, with no secure-code fallbacks. The gain concerns completed feature evolution under saved checks. It does not isolate memory from enforcement and retry.}

@@ -1,7 +1,7 @@
 # Editorial review — updated 21 October 2026
 
-This is a manuscript-only revision. No model requests, new experiment runs, or
-changes to the five results tables were made.
+This is a manuscript-only revision. No model requests or new experiment runs
+were made. Table labels and punctuation were revised, with all results unchanged.
 
 ## Requested changes
 
@@ -91,6 +91,27 @@ third-party symbol extractor. It distinguishes recorded/current symbol links
 from guaranteed identity across arbitrary renames, and cited rationale from a
 complete capture of private reasoning. Context dilution is discussed in
 Section VIII-A as a possible explanation of C2/C3, not a measured causal effect.
+
+## 21 October punctuation and symbol-index clarification
+
+Unnecessary semicolons and colons were replaced with periods, commas, or revised
+sentences throughout the prose, headings, captions, and table descriptions.
+Technical syntax, record-field delimiters, URLs, and canonical reference titles
+retain their punctuation. The approved abstract is byte-for-byte unchanged.
+All numerical values and citation sequences are unchanged across the ten edited
+LaTeX inputs, and all 48 references remain cited.
+
+Section III-A now explicitly describes the evaluated Python pipeline as building
+a symbol-level index with `ast.parse` and a custom visitor. It records repository
+paths, qualified names, and definition spans for each parsed snapshot. Patch
+hunks, scanner positions, and historical evidence are linked to these symbols.
+This is implemented indexing, not only an architectural proposal, and it does
+not imply perfect cross-version identity through renames or moves. The separate
+original recorder's `codebase-memory-mcp` integration is not claimed as a
+dependency of the evaluated Python security pipeline.
+
+The revised PDF compiles to 13 pages, with references beginning on page 12.
+The build has no errors, unresolved citations/references, or overfull boxes.
 
 ## Citation verification notes
 

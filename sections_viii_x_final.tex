@@ -1,7 +1,7 @@
 \section{Lessons for SE Teams and Threats to Validity}
 \label{sec:threats}
 \subsection{Practical Lessons}
-\noindent\textbf{Context dilution: interpreting C2's advantage over C3.} RQ3 shows that recorded rationale paired with current source (C2) achieves more verified security passes than the combined temporal/rationale bundle (C3) with both investigators. One plausible explanation is context dilution: structural edits, historical statements, and current-source evidence compete within a bounded review context, while a relevant rationale excerpt can provide a direct path from a stated assumption to a verifiable code obligation. This is an engineering hypothesis, not an isolated causal finding; the comparison does not control context length or measure how attention is allocated. The practical lesson is to prioritize evidence tied to the current hypothesis and retrieve additional history when it addresses a concrete unresolved question.
+\noindent\textbf{Context dilution and C2's advantage over C3.} RQ3 shows that recorded rationale paired with current source (C2) achieves more verified security passes than the combined temporal/rationale bundle (C3) with both investigators. One plausible explanation is context dilution. Structural edits, historical statements, and current-source evidence compete within a bounded review context, while a relevant rationale excerpt can provide a direct path from a stated assumption to a verifiable code obligation. This is an engineering hypothesis, not an isolated causal finding. The comparison does not control context length or measure how attention is allocated. The practical lesson is to prioritize evidence tied to the current hypothesis and retrieve additional history when it addresses a concrete unresolved question.
 
 Security review benefits from making the path from available evidence to an accepted repair explicit.
 Scanner findings provide reproducible entry points, while change-informed planning exposes recently modified symbols that warrant investigation.
@@ -33,7 +33,7 @@ The seven engineering revisions were developed through repeated inspection of se
 Several protocol mechanisms change together across revisions, so the development trajectory measures the implemented system rather than isolated intervention effects.
 C0 already receives targets selected from the coding agent's patch, making it a change-informed snapshot comparator rather than stock SAST alone.
 C1--C3 additionally receive deterministic audit cues, which prevents attributing their differences from C0 exclusively to temporal history or recorded rationale.
-The benchmark withholds upstream Git ancestry to avoid exposing implementations masked by the task; its temporal evidence consists of post-reference agent evolution.
+The benchmark withholds upstream Git ancestry to avoid exposing implementations masked by the task. Its temporal evidence consists of post-reference agent evolution.
 Previously completed cells retain their recorded execution revisions, and local recovery uses paired baseline evaluations when the execution environment changes.
 The previously protected stratum remains separately reported, but it is not an untouched prospective replication of the adaptively developed workflow.
 
@@ -48,11 +48,11 @@ The protected-stratum results and conversion identities accordingly accompany th
 
 \emph{Domain study and artifact validity.}
 The structural-biology study examines five selected component repairs in six public repositories and measures executable ordinary, feature, and boundary checks.
-The researcher-run repairs and continuations were prepared with the Nostrum Biodiscovery collaborator in Barcelona, whose manuscript review provides domain feedback; they are not five independently confirmed CVEs or an independent practitioner deployment.
+The researcher-run repairs and continuations were prepared with the Nostrum Biodiscovery collaborator in Barcelona, whose manuscript review provides domain feedback. These are not five independently confirmed CVEs or an independent practitioner deployment.
 Memory plus Gate receives one feedback retry that No Memory does not, so the 3/5 versus 5/5 result compares complete workflows rather than memory alone.
 The separate archived SusVibes continuation cohort has 6/11 versus 2/11 joint successes and nine guarded fallbacks, reinforcing the need to distinguish preservation from successful feature delivery.
 Section~\ref{sec:practice} therefore concentrates on the domain workflow while the artifact retains both cohorts and their complete outcomes.
-The 15 semantic failure reviews are purposive, retrospective, and single-reviewer; their proportions and the domain-study gains require broader independent validation.
+The 15 semantic failure reviews are purposive, retrospective, and single-reviewer. Their proportions and the domain-study gains require broader independent validation.
 Source and check hashes establish traceability rather than semantic correctness, and the release must document missing raw-history paths and input permissions. A structured practitioner evaluation remains future work.
 
 \section{Related Work}
@@ -65,7 +65,7 @@ ReAct provides the interleaved rationale/action format from which we extract the
 PAGENT combines static guidance with dynamic profiling and coverage feedback to construct vulnerability-triggering inputs~\cite{pagent}.
 \tracer{} adapts that guidance-and-feedback pattern into conditional Python checks within a source-bound investigation and repair protocol, with its own target-reachability and candidate-validation records.
 
-LLM-assisted analysis provides complementary ways to investigate current code. IRIS infers taint specifications and uses contextual analysis to filter candidate vulnerability paths~\cite{iris}; LLMDFA combines language-model reasoning with parsing and external feasibility checks~\cite{llmdfa}. RepoAudit uses an agent memory and validator to explore repository data flows on demand~\cite{repoaudit}. These approaches motivate grounding model judgments in program evidence, while our comparison asks what temporal edits and separately recorded development explanations add to a common current-source repair protocol.
+LLM-assisted analysis provides complementary ways to investigate current code. IRIS infers taint specifications and uses contextual analysis to filter candidate vulnerability paths~\cite{iris}. LLMDFA combines language-model reasoning with parsing and external feasibility checks~\cite{llmdfa}. RepoAudit uses an agent memory and validator to explore repository data flows on demand~\cite{repoaudit}. These approaches motivate grounding model judgments in program evidence, while our comparison asks what temporal edits and separately recorded development explanations add to a common current-source repair protocol.
 
 Historical information already supports several forms of security analysis, each operating on a different unit of evidence.
 ViolationTracker reconstructs histories of static-analysis violations across revisions~\cite{violationtracker}.
@@ -75,7 +75,7 @@ GumTree supplies structural edit matching, which we use through a typed Python A
 Semgrep and CodeQL supply the scanner findings and analysis interfaces that anchor the current-source investigation~\cite{semgrep,codeql}.
 Our contribution brings these complementary evidence types into a workflow that keeps code evolution and recorded rationale separate, binds assessments to current source, and exposes the losses between review coverage and verified repair.
 
-Automated repair research distinguishes the patch search procedure from the oracle used to accept its output~\cite{repairsurvey,overfitting}. InferFix couples static analysis, retrieved fixes, and generation~\cite{inferfix}; ChatRepair uses conversational test feedback~\cite{chatrepair}; and RepairAgent gives an autonomous agent tools for code inspection, editing, and testing~\cite{repairagent}. Our recorded validation-slot and finalization failures concern this end-to-end acceptance process, including the distinction between an edit produced and a repair actually retained.
+Automated repair research distinguishes the patch search procedure from the oracle used to accept its output~\cite{repairsurvey,overfitting}. InferFix couples static analysis, retrieved fixes, and generation~\cite{inferfix}. ChatRepair uses conversational test feedback~\cite{chatrepair}. RepairAgent gives an autonomous agent tools for code inspection, editing, and testing~\cite{repairagent}. Our recorded validation-slot and finalization failures concern this end-to-end acceptance process, including the distinction between an edit produced and a repair actually retained.
 
 Persistent security representations also provide useful context for the maintenance stage. Reflexion retains verbal feedback in an episodic memory, and Self-Refine iteratively improves an output using model-generated feedback~\cite{reflexion,selfrefine}. Our maintenance gate instead binds a repair invariant to independently owned executable checks and reports feedback-assisted acceptance separately from fallback preservation.
 POSTURA's released software design describes a persistent security graph with incremental commit reasoning~\cite{postura}.
@@ -89,7 +89,7 @@ This design complements history-based detection and persistent graphs with an ex
 \tracer{} connects change-informed planning, typed AST evolution, recorded development rationale, guarded investigation, and persistent repair evidence.
 The completed campaigns cover 3,096 cells from two investigators and seven coding-agent generators.
 On 345 shared execution-complete attempts, the recorded-rationale configuration C2 raises SecPass from 68 to 76 with DeepSeek and to 75 with Gemini, achieving the highest count among the four implemented configurations in both campaigns.
-The stage-level audit explains why broader review coverage yields only modest end-to-end gains: cases are lost during diagnosis, validation, patch retention, and semantic repair.
+The stage-level audit explains why broader review coverage yields only modest end-to-end gains. Cases are lost during diagnosis, validation, patch retention, and semantic repair.
 These failures motivate concrete engineering requirements for source-bound decisions, final validation capacity, execution-aware scoring, and preserved rejection artifacts.
 In the structural-biology study, persistent security memory with a one-retry gate completes all five requested feature evolutions while preserving the tested boundaries, compared with three under unguarded evolution.
 Together, the tool and recorded experiments provide an auditable workflow for improving generated code and carrying the evidence behind accepted fixes into subsequent maintenance.
