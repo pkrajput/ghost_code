@@ -1,7 +1,6 @@
 \section{Repair Funnel and Failure Analysis (RQ4)}
 \label{sec:engineering}
 \subsection{The Four-Step Repair Funnel}
-\noindent\textbf{\emph{RQ4. Where are candidates lost between symbol localization and verified repair?}}\par
 High review coverage does not guarantee a correct diagnosis or repair. To answer RQ4, Table~\ref{tab:engineering} follows four nested steps across all 387 admitted patches for each investigator and configuration.
 
 \begin{table*}[t]
@@ -43,7 +42,7 @@ A size check after decompression cannot prevent the resource use that has alread
 \subsection{Operational and Provider Failures}
 Gemini records 205 repair errors. These comprise 153 \code{blockReason: OTHER} responses, 45 JSON decoding errors, six HTTP 500 errors, and one other value error. DeepSeek records 107 errors, including 63 explicit stop interruptions, 32 HTTP 429 responses, nine deadlines, two value errors, and one connection error. The recorded labels distinguish provider responses, parsing failures, and run interruptions without assigning unverified causes. Final candidate evaluations remain separate from these investigation errors.
 
-\rqfinding{RQ4 Finding}{Candidates are lost during diagnosis, validation scheduling, and semantic repair. The funnel distinguishes these losses from operational errors and from the final test outcome.}
+\rqfinding{RQ4}{Where are candidates lost between symbol localization and verified repair?}{Candidates are lost during diagnosis, validation scheduling, and semantic repair. The funnel distinguishes these losses from operational errors and from the final test outcome.}
 
 \input{section_vii_final}
 \input{sections_viii_x_final}

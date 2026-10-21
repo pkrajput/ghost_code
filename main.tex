@@ -16,14 +16,16 @@
 \usepackage[hidelinks]{hyperref}
 \newcommand{\tracer}{\textsc{Tracer}}
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
-\newcommand{\rqfinding}[2]{%
+\newcommand{\rqfinding}[3]{%
   \begin{tcolorbox}[
     colback=rqback, colframe=rqframe,
     boxrule=0.4pt, leftrule=3.5pt, arc=1.5pt,
     left=6pt, right=6pt, top=5pt, bottom=5pt,
     fontupper=\small
   ]
-  \textbf{#1.} #2
+  \textbf{#1.} \emph{#2}\par
+  \smallskip
+  \textbf{Finding.} #3
   \end{tcolorbox}%
 }
 \emergencystretch=1em
@@ -170,17 +172,15 @@ A security conversion requires an originally failing security outcome to become 
 \section{Benchmark Repair Results (RQ1-RQ3)}
 \label{sec:results}
 \subsection{RQ1. Symbol Localization Coverage}
-\noindent\textbf{RQ1.} \emph{How effectively does symbol-level change tracking expose vulnerable symbols compared with stock SAST locations?}\par\smallskip
 Across 387 admitted patches, CodeQL and Semgrep warnings overlap a reference security file in 228 cases (58.9\%). Primary warning locations overlap a reference symbol in 52 cases (13.4\%). Including flow endpoints raises this to 63 cases (16.3\%). These are measures of reference-symbol review coverage, not vulnerability detection recall.
 
 Tracking modified symbols and their relations includes a reference symbol in 366 review scopes (94.6\%). It supplies the complete body in 329 cases. Among the 335 patches without a primary warning on the reference symbol, change tracking supplies its full body in 282 cases. The task request also names the reference target in 307 of those patches. These inputs bring relevant implementation context into scope before diagnosis begins.
 
 The file and symbol measures answer different review questions. A warning elsewhere in a large file does not necessarily direct attention to the relevant function. Providing the function body gives the investigator a concrete implementation to inspect. The next step is to connect that implementation to an input, caller, or output contract that can be checked. The task describes the intended behavior, while the changed symbol identifies its implementation. Reading both helps frame a security question without assuming that a reference-symbol match establishes the missing condition.
 
-\rqfinding{RQ1 Finding}{\tracer{} includes reference symbols in 94.6\% of review scopes, compared with 13.4\% for primary SAST locations.}
+\rqfinding{RQ1}{How effectively does symbol-level change tracking expose vulnerable symbols compared with stock SAST locations?}{\tracer{} includes reference symbols in 94.6\% of review scopes, compared with 13.4\% for primary SAST locations.}
 
 \subsection{RQ2. End-to-End Verified Security Repair}
-\noindent\textbf{RQ2.} \emph{Does guarded investigation improve verified security outcomes without degrading functionality?}\par\smallskip
 \begin{table*}[t]
 \caption{Verified repair outcomes. Panel A reports FuncPass and SecPass counts. Panel B reports SecPass for DeepSeek and Gemini on the same 345 patches. Bold marks each investigator's maximum across C0 to C3, including ties.}
 \label{tab:results}
@@ -191,10 +191,9 @@ Among the 345 shared patches, 342 initially pass functional tests and 68 pass se
 
 Functional preservation remains part of the outcome. DeepSeek retains all 342 functional passes in C1, C2, and C3, with one loss in C0. Gemini retains 341 functional passes in C0 and C2, and 340 in C1 and C3. The larger DeepSeek comparison over 354 patches preserves the same security ranking, with C2 reaching 77 passes from 69 originals. Table~\ref{tab:results} reports the corresponding functional counts. A security pass cannot compensate for breaking a working feature. An unchanged candidate can also preserve functionality without repairing the flaw. The paired outcomes distinguish these cases from successful security improvements.
 
-\rqfinding{RQ2 Finding}{C2 raises verified security passes from 68 to 76 with DeepSeek and 75 with Gemini, with zero functional regressions for DeepSeek and one for Gemini.}
+\rqfinding{RQ2}{Does guarded investigation improve verified security outcomes without degrading functionality?}{C2 raises verified security passes from 68 to 76 with DeepSeek and 75 with Gemini, with zero functional regressions for DeepSeek and one for Gemini.}
 
 \subsection{RQ3. Impact of Provenance Channels}
-\noindent\textbf{RQ3.} \emph{How do temporal AST history, recorded rationale, and their combination affect verified repair?}\par\smallskip
 Recorded rationale achieves the highest aggregate SecPass count with both investigators. Its explanations give the investigator claims about input validation, caller trust, or library behavior to check against the current implementation. DeepSeek C2 makes eight conversions across six distinct tasks, while Gemini C2 makes seven across four tasks. These count repaired generator outputs rather than independent vulnerability discoveries.
 
 Different generators can implement the same feature with different checks and assumptions. The generator breakdown shows whether the aggregate advantage is concentrated in one source of code, while paired configurations review the same archived patch.
@@ -203,7 +202,7 @@ Combining both channels yields fewer verified repairs than rationale alone. Cont
 
 Table~\ref{tab:results} separates 235 development-exposed patches from 110 previously protected patches, on which C2 adds zero security passes over C0 for DeepSeek and two for Gemini.
 
-\rqfinding{RQ3 Finding}{Recorded rationale ranks highest overall with both investigators, while combining both history channels yields fewer verified security passes.}
+\rqfinding{RQ3}{How do temporal AST history, recorded rationale, and their combination affect verified repair?}{Recorded rationale ranks highest overall with both investigators, while combining both history channels yields fewer verified security passes.}
 
 \input{main_remaining}
 \clearpage
