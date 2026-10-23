@@ -1,24 +1,19 @@
-% Code excerpt from silent_fix_feature_v1/cases/haddock_extract_symlink/starting_code.py.
-% The repair-note fields below are paraphrased for display, not literal JSON.
+% Exact weights_only argument values from final RFdiffusion A proposals.
+% Ellipses omit unchanged torch.load arguments; the retry context is retained.
 \fbox{\begin{minipage}{0.94\columnwidth}
 \footnotesize
-\textbf{1. Silent Security Repair in Code}\par
-Comments stripped.\par\smallskip
-{\ttfamily
- target\_path = dest / member.name\par
- target\_resolved = target\_path.resolve()\par
- if dest not in target\_resolved.parents \textbackslash\par
- \hspace*{1em}and dest != target\_resolved:\par
- \hspace*{2em}continue\par}
+\textbf{1. Silent repair and new requirement}\par
+The repaired loader uses \code{weights_only=True}. The feature adds compatibility for legacy \code{argparse.Namespace} configs. Both arms may retry once.\par
 \smallskip\hrule\smallskip
-\textbf{2. TRACER External Repair Note}\par
-Summary of the saved JSON note.\par
-\textbf{Target symbol.} \code{extract_files_flat}\par
-\textbf{Security rule.} Final extraction paths must stay inside the destination directory after resolving symlinks.\par
-\textbf{Linked boundary check.} Reject a symlink escape and accept safe archive members.\par
+\textbf{2. B0: Functional feedback only}\par
+The compatibility branch uses:\par
+\code{torch.load(..., weights_only=False)}\par
+even inside a \code{safe_globals} context.\par
+\textbf{Observed.} Ordinary and feature checks pass; the disallowed-global assertion fails. The functional-only gate accepts this proposal.\par
 \smallskip\hrule\smallskip
-\textbf{3. Subsequent Feature Evolution}\par
-\textbf{Request.} Add ZIP/TAR and nested-path support.\par
-\textbf{No Memory.} Fails the feature check.\par
-\textbf{Memory + Gate.} Passes ordinary behavior, the new feature check, and the saved security boundary check.
+\textbf{3. B3: Memory and boundary feedback}\par
+The compatibility branch uses:\par
+\code{safe_globals([slice, argparse.Namespace])}\par
+\code{torch.load(..., weights_only=True)}\par
+\textbf{Observed.} Ordinary, feature, saved-boundary, and extended-boundary checks all pass. The feature is accepted.
 \end{minipage}}

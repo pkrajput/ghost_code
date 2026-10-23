@@ -10,7 +10,7 @@ validates candidate security repairs, and preserves repair evidence for later
 maintenance.
 
 The [TRACER skill](https://github.com/pkrajput/TRACER_skill) and derived study
-evidence are archived on [Zenodo](https://doi.org/10.5281/zenodo.23530070).
+evidence are archived on [Zenodo](https://doi.org/10.5281/zenodo.23591518).
 
 ## Overleaf
 
@@ -60,8 +60,8 @@ Git. The prepared manuscript was compiled with Tectonic 0.17.0.
 
 The manuscript reports the completed SusVibes study, including the shared
 345-attempt comparison across both investigators, the separate 354-attempt
-DeepSeek comparison, and the five-case computational-biology continuation
-study. The authors are Prateek Kumar Rajput, Shahzeb Khan, El-Hacen Diallo, Yewei Song,
+DeepSeek comparison, and the independent biology maintenance study with ten tasks,
+five repository clusters, and four conditions under an equal one-retry limit. The authors are Prateek Kumar Rajput, Shahzeb Khan, El-Hacen Diallo, Yewei Song,
 Jacques Klein, and Tegawendé F. Bissyandé, in that order. The author block includes the affiliations
 and contact details supplied through Overleaf.
 The Nostrum Biodiscovery co-author has reviewed the manuscript; the quantitative
@@ -76,12 +76,14 @@ All five research questions, five tables, and both figures are retained. The
 approved prose and figure/table redesign distinguish coding generators from
 security investigators and use precise funnel labels. Section VIII presents
 industrial relevance and takeaways, followed by separate validity and related
-work sections. The numerical outcomes remain unchanged.
+work sections. RQ1–RQ4 outcomes remain unchanged. Revised RQ5 reports joint success of
+4/10, 8/10, 3/10, and 9/10 in B0–B3; fallback is not feature delivery.
 
 The [skill repository](https://github.com/pkrajput/TRACER_skill) distributes the
 tool and compact outcome records. The manuscript is maintained separately in
 this repository. The
-[Zenodo release](https://doi.org/10.5281/zenodo.23530070) preserves the published
-software and derived evidence. Raw investigator transcripts, complete evaluator
-logs, and container exports are outside that archive. See the Data Availability
+[Zenodo release](https://doi.org/10.5281/zenodo.23591518) preserves the published
+software, benchmark derived evidence, and complete RQ5 prompts, responses,
+candidates, checks, and correction history. Raw benchmark investigator transcripts,
+complete benchmark evaluator logs, and container exports are outside that archive. See the Data Availability
 section and artifact documentation for its precise scope.
