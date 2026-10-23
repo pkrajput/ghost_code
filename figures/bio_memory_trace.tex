@@ -1,5 +1,5 @@
 % Exact weights_only argument values from final RFdiffusion A proposals.
-% Ellipses omit unchanged torch.load arguments; the retry context is retained.
+% Ellipses omit unchanged torch.load arguments. The retry context is retained.
 \fbox{\begin{minipage}{0.94\columnwidth}
 \footnotesize
 \textbf{1. Silent repair and new requirement}\par
@@ -9,7 +9,7 @@ The repaired loader uses \code{weights_only=True}. The feature adds compatibilit
 The compatibility branch uses:\par
 \code{torch.load(..., weights_only=False)}\par
 even inside a \code{safe_globals} context.\par
-\textbf{Observed.} Ordinary and feature checks pass; the disallowed-global assertion fails. The functional-only gate accepts this proposal.\par
+\textbf{Observed.} Ordinary and feature checks pass. The disallowed-global assertion fails. The functional-only gate accepts this proposal.\par
 \smallskip\hrule\smallskip
 \textbf{3. B3: Memory and boundary feedback}\par
 The compatibility branch uses:\par

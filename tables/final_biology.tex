@@ -3,19 +3,19 @@
 \renewcommand{\arraystretch}{1.12}
 \begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X c c c c@{}}
 \toprule
-Repository & Two feature tasks & B0 & B1 & B2 & B3\\
- & & Functional & Memory & Boundary & Both\\
+Repository & Two feature tasks & B0 & B1 & B2 & \textbf{B3}\\
+ & & Functional & Memory & Boundary & \textbf{Both}\\
 \midrule
-DockQ & Lazy model iteration; parsed-model cache & 1/1/1 & 2/2/2 & 1/2/1 & 2/2/2\\
-haddock3 & Internal TAR aliases; selected nested extraction & 1/2/1 & 1/2/1 & 0/2/0 & 2/2/2\\
-ProteinMPNN & Hierarchical names and metadata; name mapping & 2/0/0 & 2/1/1 & 2/0/0 & 2/1/1\\
-RFdiffusion & Legacy config retry; checkpoint bytes cache & 1/1/0 & 2/2/2 & 1/1/0 & 2/2/2\\
-AutoDock-Vina & Dry-run preview; pose text in memory & 2/2/2 & 2/2/2 & 2/2/2 & 2/2/2\\
+DockQ & Lazy model iteration, parsed-model cache & 1/1/1 & 2/2/2 & 1/2/1 & \textbf{2/2/2}\\
+haddock3 & Internal TAR aliases, selected nested extraction & 1/2/1 & 1/2/1 & 0/2/0 & \textbf{2/2/2}\\
+ProteinMPNN & Hierarchical names and metadata, name mapping & 2/0/0 & 2/1/1 & 2/0/0 & \textbf{2/1/1}\\
+RFdiffusion & Legacy config retry, checkpoint bytes cache & 1/1/0 & 2/2/2 & 1/1/0 & \textbf{2/2/2}\\
+AutoDock-Vina & Dry-run preview, pose text in memory & 2/2/2 & 2/2/2 & 2/2/2 & \textbf{2/2/2}\\
 \midrule
-\multicolumn{2}{@{}l}{\textbf{First proposal, total (out of 10)}} & \textbf{5/6/4} & \textbf{6/6/5} & \textbf{4/7/3} & \textbf{6/6/5}\\
-\multicolumn{2}{@{}l}{\textbf{Final proposal, total (out of 10)}} & \textbf{7/6/4} & \textbf{9/9/8} & \textbf{6/7/3} & \textbf{10/9/9}\\
-\multicolumn{2}{@{}l}{Final boundary assertion violations / unknowns} & 3/1 & 1/0 & 3/0 & 1/0\\
-\multicolumn{2}{@{}l}{Accepted proposals with observed boundary violation} & 3 & 1 & 0 & 0\\
-\multicolumn{2}{@{}l}{Fallbacks (not feature successes)} & 3 & 1 & 7 & 1\\
+\multicolumn{2}{@{}l}{\textbf{First proposal, total (out of 10)}} & 5/6/4 & 6/6/5 & 4/7/3 & \textbf{6/6/5}\\
+\multicolumn{2}{@{}l}{\textbf{Final proposal, total (out of 10)}} & 7/6/4 & 9/9/8 & 6/7/3 & \textbf{10/9/9}\\
+\multicolumn{2}{@{}l}{Final boundary assertion violations / unknowns} & 3/1 & 1/0 & 3/0 & \textbf{1/0}\\
+\multicolumn{2}{@{}l}{Accepted proposals with observed boundary violation} & 3 & 1 & 0 & \textbf{0}\\
+\multicolumn{2}{@{}l}{Fallbacks (not feature successes)} & 3 & 1 & 7 & \textbf{1}\\
 \bottomrule
 \end{tabularx}

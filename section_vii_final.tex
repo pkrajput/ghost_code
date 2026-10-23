@@ -1,9 +1,9 @@
 \section{Industrial Case Study. Structural Biology Pipelines (RQ5)}
 \label{sec:practice}
-Silent-fix research motivates retaining repair purpose beyond code~\cite{colefunda}. We evaluate maintenance independently of SusVibes through ten feature tasks in five scientific repositories, separating repair memory from boundary feedback.
+Building on silent-fix research~\cite{colefunda}, we evaluate repair memory and boundary feedback independently of SusVibes in ten feature tasks across five scientific repositories.
 
 \begin{table*}[t]
-\caption{Independent biology maintenance study: two tasks per repository. Repository rows report final FuncPass/SecPass/JointPass after at most one retry; aggregate first and final outcomes follow. FuncPass requires ordinary and feature checks; SecPass requires saved and extended boundary checks, including reliability contracts for DockQ and AutoDock-Vina. Totals have denominator ten.}
+\caption{Independent biology maintenance: two tasks per repository. Rows report final FuncPass/SecPass/JointPass after at most one retry. FuncPass combines ordinary and feature checks. SecPass combines saved and extended checks, including DockQ and AutoDock-Vina reliability contracts. Aggregate counts are out of ten. Bold highlights B3 (Both).}
 \label{tab:bio}
 \centering\footnotesize
 \input{tables/final_biology}
@@ -12,37 +12,42 @@ Silent-fix research motivates retaining repair purpose beyond code~\cite{colefun
 \subsection{Repair Contracts and Independent Scope}
 With input from our Nostrum Biodiscovery collaborator, we selected RFdiffusion~\cite{rfdiffusion}, ProteinMPNN~\cite{proteinmpnn}, haddock3~\cite{haddock3}, DockQ~\cite{dockq}, AutoDock-Vina~\cite{vina}, and foldseek~\cite{foldseek}. Semgrep 1.101.0 reports 420 warnings. Source and history review identify five Python repair targets outside those warning locations. Foldseek contributes eleven warnings but no suitable project-owned Python case.
 
-RFdiffusion restricts checkpoint loading with \code{weights_only=True} and \code{safe_globals([slice])} under PyTorch 2.5.1~\cite{pytorchserialization,pythonpickle}. Haddock3 checks resolved extraction destinations; ProteinMPNN restricts record names used in output paths. DockQ closes handles on parser failure, and AutoDock-Vina validates numeric arguments across overwrite branches. These last two are reliability contracts. Four repairs were model-written; RFdiffusion used a developer-specified remedy after two unsuccessful model attempts.
+The five verified component contracts are:
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{DockQ (\code{load_PDB}).} A parser failure can leave a file handle open before a fallback parser opens another. The repair closes ordinary and compressed handles on success and failure.
+\item \textbf{haddock3 (\code{extract_files_flat}).} Flattened archive names can follow a pre-existing destination symlink outside the extraction directory. The repair resolves paths, checks containment, and excludes non-regular archive members.
+\item \textbf{ProteinMPNN.} \code{StructureDataset.__init__} accepts unvalidated JSONL record names that later enter output paths. The repair permits only nonempty simple filenames while preserving ordinary identifiers and filtering.
+\item \textbf{RFdiffusion (\code{Sampler.load_checkpoint}).} Unrestricted pickle loading under PyTorch 2.5.1 permits code execution from untrusted checkpoints~\cite{pytorchserialization,pythonpickle}. The repair sets \code{weights_only=True} with a scoped \code{safe_globals([slice])} allowlist for the accepted checkpoint forms.
+\item \textbf{AutoDock-Vina (\code{Vina.write_poses}).} Numeric checks can be skipped when entering an \code{elif not overwrite} branch. The repair validates pose counts and energy ranges regardless of overwrite permission.
+\end{enumerate}
+DockQ and AutoDock-Vina concern reliability contracts. Four repairs were model-written. RFdiffusion used a developer-specified remedy after two unsuccessful model attempts.
 
-Each original boundary assertion fails before repair and passes afterward with an ordinary-input control. External JSON notes record invariants, rationale, source identity, and checks. We strip comments and docstrings with \code{tokenize} and \code{ast}, preserve the executable AST excluding documentation nodes, and reverify the cleaned starts~\cite{pythontokenize,pythonast}.
+All five boundary assertions fail before repair and pass afterward, alongside ordinary-input controls. External notes record invariants, rationale, source identity, and checks. We remove comments and docstrings with \code{tokenize} and \code{ast}, preserve the executable AST, and reverify cleaned starts~\cite{pythontokenize,pythonast}.
 
 \subsection{Equal-Budget Feature Evolution}
-The tasks extend behavior near these contracts (Table~\ref{tab:bio}), including legacy checkpoint compatibility, archive aliases, hierarchical names, in-memory pose output, and lazy parsing. This purposive stress sample has ten tasks but five repository clusters. No SusVibes continuation enters the evaluation.
+The ten tasks extend checkpoint compatibility, archive aliases, hierarchical names, in-memory pose output, and lazy parsing (Table~\ref{tab:bio}). This purposive stress sample spans five repository clusters and is independent of SusVibes.
 
-We retain each default-mode check and add a check for the new mode: an approved hierarchy or Namespace must not fail merely because the old contract excluded it. Before generation, each repaired start passes its old checks; an evaluator-written reference passes all checks; and a weakened reference retains the feature but triggers a boundary assertion. Reference code is withheld from the model.
+Checks cover default and new modes. Each repaired start passes its old checks. An evaluator-written reference passes all checks, while a weakened reference delivers the feature but violates a boundary. Reference code is withheld from the model.
 
-An oracle audit removed undocumented requirements to retain Namespace representation and avoid consuming model numbers before parsing. All four conditions of the three affected tasks were rerun. An adapter audit allowed the supplied \code{FilePath = Path} alias without changing generated code and replayed all four archive-alias conditions. The comparison retains 24 unchanged cells, twelve reruns, and four replays. Original runs are archived; prompts, security assertions, and retry budgets were unchanged.
+DeepSeek-V3.2 (temperature zero) receives cleaned source and feature requests. The $2\times2$ factorial varies repair memory and boundary feedback. Memory supplies the repair note and a prospective contract clarification. All conditions receive functional feedback, the same token budget, and at most one retry. Boundary feedback adds saved and extended checks. B0/B1 boundary checks run after generation, without affecting retries. All 40 cells are retained. Pinned offline containers run checks. The archive preserves the protocol and correction history.
 
-DeepSeek-V3.2 at temperature zero receives the cleaned source and feature request in all four conditions:
-\begin{itemize}
-\item \textbf{B0: Functional gate.} Application, ordinary, and feature failures can trigger one retry.
-\item \textbf{B1: Memory.} B0 plus the repair note and a prospective clarification of the extended contract.
-\item \textbf{B2: Boundary gate.} B0 plus saved and extended boundary checks in retry feedback.
-\item \textbf{B3: Both.} Memory and boundary feedback.
-\end{itemize}
-All cells have the same token budget and maximum of two proposals. B0/B1 boundary checks execute only after generation ends; their outcomes cannot affect retries. Checks use pinned offline containers with read-only source and evaluator mounts. All 40 cells are retained, without outcome-dependent stopping. The earlier unequal-budget comparison remains separate archival evidence.
+FuncPass requires ordinary and feature checks. SecPass requires saved and extended boundary checks. JointPass requires both. Table~\ref{tab:bio} separates first and final proposals. Execution errors are unknown boundary outcomes, not violations. Fallback retains the repaired start and is not feature delivery.
 
-FuncPass requires ordinary and feature checks; SecPass requires saved and extended boundary checks; JointPass requires both. We report first and final proposals separately. Execution errors are unknown boundary outcomes, not violations. A rejected final proposal leaves the repaired start in place; this fallback is not feature delivery.
+\noindent\textbf{Functional feedback alone (B0).} B0 reaches 4/10 joint successes and accepts three contract-violating proposals. RFdiffusion enables unrestricted checkpoint loading with \code{weights_only=False}. Two ProteinMPNN proposals admit backslashes forbidden by the portable naming contract, without demonstrating Linux path traversal. Functional checks accept these proposals because their features work despite the boundary failures.
 
-Table~\ref{tab:bio} separates first and final outcomes. B0 accepts three violating proposals: one unrestricted checkpoint load and two portable backslash-name violations. The latter are contract failures, not demonstrated Linux path escapes. B1 accepts one proposal that relaxes the default simple-name restriction. B2 and B3 accept no observed violation, with seven and one fallbacks, respectively. B0 has one unknown outcome.
+\noindent\textbf{Boundary gate alone (B2).} B2 accepts zero observed violations but reaches only 3/10 joint successes, with seven fallbacks. Without the repair note, the agent receives check failures but lacks the recorded guidance on reconciling the feature with the repaired contract. Rejection protects the boundary, but that feedback does not consistently produce a proposal satisfying both obligations.
 
-The five additional joint successes of B3 over B0 comprise one restricted-loading success, one portable-naming success, and three feature or execution fixes. Figure~\ref{fig:bio-memory} shows the deserialization contrast. The combined condition has the highest joint count in this cohort; five selected repository clusters do not establish a population effect.
+\noindent\textbf{Memory alone (B1).} The note guides feature implementation within the repaired contract, yielding 8/10 joint successes. One accepted proposal still relaxes ProteinMPNN's default simple-name restriction. Functional checks alone cannot reject this naming violation, even when the note describes the intended contract.
+
+\noindent\textbf{Memory and boundary feedback (B3).} Combining guidance with enforcement yields 9/10 joint successes and zero accepted contract violations. The gate rejects the remaining naming violation and safely retains the repaired starting code. Memory explains how to preserve the boundary, while executable feedback checks whether the proposal does so.
+
+The five additional joint successes of B3 over B0 comprise one restricted-loading success, one portable-naming success, and three feature or execution fixes. Figure~\ref{fig:bio-memory} shows the deserialization contrast. B3 leads this cohort, but five selected repository clusters do not establish a population effect.
 
 \begin{figure}[t]
 \centering
 \input{figures/bio_memory_trace}
-\caption{An observed RFdiffusion regression under equal retry budgets. Both final proposals pass ordinary and legacy-feature checks; B0 enables unrestricted deserialization, while B3 retains restricted loading and passes both boundary checks.}
+\caption{An observed RFdiffusion regression under equal retry budgets. Both final proposals pass ordinary and legacy-feature checks. B0 enables unrestricted deserialization, while B3 retains restricted loading and passes both boundary checks.}
 \label{fig:bio-memory}
 \end{figure}
 
-\rqfinding{RQ5}{Can repair memory and boundary gates preserve repaired properties while subsequent feature changes succeed?}{With the same one-retry limit, joint success is 4/10 with functional feedback alone, 8/10 with memory, 3/10 with a boundary gate, and 9/10 with both. B3 rejects its remaining contract-violating proposal; fallback is not feature success.}
+\rqfinding{RQ5}{Can repair memory and boundary gates preserve repaired properties while subsequent feature changes succeed?}{With the same one-retry limit, joint success is 4/10 with functional feedback alone, 8/10 with memory, 3/10 with a boundary gate, and 9/10 with both. B3 rejects its remaining contract-violating proposal. Fallback is not feature success.}
